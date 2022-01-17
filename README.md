@@ -1,2 +1,9 @@
 # simple-LSTM-networks-for-univariateTS
-A web app made with R for the implementation of vanilla LSTM networks for univariate time series forecasting. 
+A web app made with R for the implementation of vanilla LSTM networks for univariate time series forecasting.
+
+**Packages:** The application use the following packages: <code><a href = 'https://cran.r-project.org/package=shiny'>shiny</a></code>, <code><a href = 'https://cran.r-project.org/package=shinyalert'>shinyalert</a></code>, <code><a href = 'https://cran.r-project.org/web/packages/shinybusy/index.html'>shinybusy</a></code>, <code><a href = 'https://cran.r-project.org/package=shinyjs'>shinyjs</a></code>, <code><a href = 'https://cran.r-project.org/web/packages/shinythemes/index.html'>shinythemes</a></code>, <code><a href = 'https://cran.r-project.org/package=shinyWidgets'>shinyWidgets</a></code>, <code><a href = 'https://cran.r-project.org/package=DT'>DT</a></code>, <code><a href = 'https://cran.r-project.org/package=ggplot2'>ggplot2</a></code>, <code><a href = 'https://cran.r-project.org/package=jsonlite'>jsonlite</a></code>, <code><a href = 'https://cran.r-project.org/package=keras'>keras</a></code>, <code><a href = 'https://cran.r-project.org/package=Metrics'>Metrics</a></code>, <code><a href = 'https://cran.r-project.org/package=readr'>readr</a></code>, <code><a href = 'https://cran.r-project.org/package=readxl'>readxl</a></code>, <code><a href = 'https://cran.r-project.org/package=rmarkdown'>rmarkdown</a></code>, <code><a href = 'https://cran.r-project.org/package=scales'>scales</a></code>, <code><a href = 'https://cran.r-project.org/package=tensorflow'>tensorflow</a></code>, <code><a>tools</a></code>, <code><a href = 'https://cran.r-project.org/package=tseries'>tseries</a></code>, <code><a href = 'https://cran.r-project.org/web/packages/xlsx/index.html'>xlsx</a></code> and <code><a href = 'https://cran.r-project.org/package=zip'>zip</a></code>. Must have packages installed to run the application.
+
+Launch application:
+```r
+shiny::runGitHub(repo = "davidrsch/simple-LSTM-networks-for-univariateTS", ref = "main")
+```
