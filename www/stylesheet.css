@@ -1,0 +1,135 @@
+/*Style for the div that contain the boxes */
+.divcontainingbox{
+	position: relative;
+	background-color: white;
+	padding: 0.5em;
+    margin:0 1em 1em 1em;
+	border-top: medium solid rgb(0,96,202);
+	border-bottom: thin solid rgb(0,96,202);
+    border-radius: 0.3em 0.3em 0.3em 0.3em
+}
+
+/*Style of the header of the boxes */
+.headerofthedivcontainingbox{
+	width: 100%;
+	height:1.8em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0
+}
+
+/*Style of the title of the header of the boxes */
+.titleofheader{
+	float: left;
+	margin:0.2em 0 0.2em 0
+}
+
+/*Style of the button of the header when the content of
+ the boxes are minimized */
+.buttonofheadermaximize{
+	width:2em;
+	height:1.8em;
+	position:absolute;
+	right:0.5em;
+    border-color: white;
+	background: url('icons/plus.png');
+	background-position: center;
+    background-repeat:no-repeat;
+    background-size:1em 1em
+}
+
+/*Style of the button of the header when the content of
+ the boxes are maximized */
+.buttonofheaderminimize{
+	width:2em;
+	height:1.8em;
+	position:absolute;
+	right:0.5em;
+    border-color: white;
+	background: url('icons/minus.png');
+	background-position: center;
+    background-repeat:no-repeat;
+    background-size:1em 1em
+}
+
+/*Style of the button of Input File*/
+.btn-file{
+	background-color: rgb(27,137,255);
+	color: white
+}
+
+/*Style of the button of Input File on mouse hover*/
+.btn-file:hover{
+	background-color: white;
+	border-color: rgb(27,137,255)
+}
+
+/*Style of the text camp of the File Input*/
+#file_text{
+	background-color: rgb(51,123,182);
+	color:white
+}
+
+/*Style of the placeholder of the text camp of the File Input*/
+#file_text::placeholder{
+	color:white
+}
+
+/*Style of the header of the first sidebar layout*/
+ .styleofheaderFSBL{
+	 width:100%;
+	 height:2.5em;
+	 background-color: rgb(27, 137, 255);
+	 clear: both; 
+ }
+ 
+ /*Style of the header of the first sidebar layout when
+ when the box is minimized */
+ .styleofheaderFSBLtomaximize{
+	 position:relative;
+         top: 0
+ }
+ 
+ /*Style of the header of the first sidebar layout when
+ when the box is maximized */
+ .styleofheaderFSBLtominimize{
+	 position:absolute;
+	 bottom: 0;
+	 margin-top: auto
+ }
+ 
+ /*Style of the button of the header of the first sidebar layout*/
+ .styleofSBLtogglebtt{
+	 width:2.1em;
+	 height:2.1em;
+	 margin: .2em 0 0 .4em;
+	 background: url('icons/sliders.png');
+	 background-color:white;
+	 background-position: center;
+	 background-repeat:no-repeat;
+	 background-size:2em 2em;
+	 position: absolute
+ }
+ 
+ /*Style of the button of the header of the first sidebar layout
+ when the box is minimized */
+ .styleofSBLtogglebtttomaximize{
+	 left: .2em
+ }
+ 
+ /*Style of the button of the header of the first sidebar layout
+ when the box is maximized */
+ .styleofSBLtogglebtttominimize{
+	 right: .2em
+ }
+ 
+ /*Style of the right broder of the FSBL when header is 
+ hidden*/
+ .borderofFSBLonhidden{
+	 border-right: 3em solid rgb(183,217,255)
+ }
+
+/*Style of the right broder of the FSBL when header is 
+ show*/
+ .borderofFSBLonshow{
+	 border-right: 3em solid rgb(27, 137, 255)
+ }

@@ -1,0 +1,12 @@
+<p>What is the temporal horizon?</p>
+<p>The temporal horizon is determined by the user needs. It is equal to the amount of future observations to forecast. The selected amount will be essential in the conformation of the training vectors, stablishing the number of output and the number of neurons on the output layer.</p>
+<p>How many observations will be needed in the training vectors to obtain the selected output amount?</p>
+<p>Knowing the temporal horizon in this proposal were stablished three possible options to the input amount in the training vectors:</p>
+<ol>
+<li>The same amount of observation selected for the temporal horizon.</li></br>
+<li>The double amount of observation selected for the temporal horizon.</li></br>
+<li>The triple amount of observation selected for the temporal horizon.</li>
+</ol>
+<p><i>Note:</i> The user is able to add more options.</p>
+<p>With the defined time horizon and the quantities of selected inputs, different training vectors will be built using the strategy called rolling windows as exposed in <a href = "https://www.mathworks.com/help/econ/rolling-windows-estimation-of-state-space-models.html">Rolling-Windows Analysis of Time-Series Models</a></p>
+<p>The goal of this is to know how much does the obtained results of the models varies in dependency of the training vectors' structure.</p>
