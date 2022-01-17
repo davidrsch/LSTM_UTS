@@ -7,3 +7,4 @@ Launch application:
 ```r
 shiny::runGitHub(repo = "davidrsch/simple-LSTM-networks-for-univariateTS", ref = "main")
 ```
+![Wellcome page of app](https://drive.google.com/uc?export=view&id=1Lf4raus5HMR6zxxB9eVvmq0sMuKYEK9U)
