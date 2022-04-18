@@ -7,6 +7,8 @@ Launch application:
 ```r
 shiny::runGitHub(repo = "davidrsch/simple-LSTM-networks-for-univariateTS", ref = "main")
 ```
+or try it at [shinyapps.io](https://daviddrsch.shinyapps.io/Simple_LSTM_for_univariate_TS_forecasting/).
+
 ![Wellcome page of app](https://drive.google.com/uc?export=view&id=1Lf4raus5HMR6zxxB9eVvmq0sMuKYEK9U)
 
 <p align = 'center'><b>Support:</b></p>
