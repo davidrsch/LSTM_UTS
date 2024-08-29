@@ -13,49 +13,49 @@
 server <- function(input,output, session){
   
   #To create a pop up alert at app start:
-  observe({
-    shinyalert(
-      html = T,
-      text = tagList(
-        tags$p(
-          strong(
-            "Simple implementation of LSTM networks for univariate time series forecasting"),
-          style = "font-size: 1.9em; color:black"
-          ),
-        tags$br(),
-        tags$p("Power by",
-           style = "font-size: 1.5em; color:black; margin: .5em 0 .3em 0"),
-        tags$img(src = "logos/R_logo.png", style = "width: 4em; height: 4em;
-                 margin-right:1em"),
-        tags$img(src = "logos/Keras_logo.png", style = "width: 4em; height: 4em;
-                 margin-left:1em"),
-        tags$br(),
-        tags$br(),
-        tags$br(),
-        tags$p("Created by",
-           style = "font-size: 1.5em; color:black; margin: .5em 0 .3em 0"),
-        tags$p("David Díaz Rodríguez",
-           style = "font-size: 1.7em; color:black; margin:0"),
-        tags$a(href = "https://orcid.org/0000-0002-0927-9795", "0000 0002 0927 9795",
-               style = "font-size: 1.5em; margin: .5em 0 0 0"),
-        tags$br(),
-        tags$a(href = "mailto:daviddrsch@gmail.com",
-               tags$img(src = "logos/Gmail_logo.png",
-                        style = "width: 2em; height: 2em"),
-               style = "margin-right: .5em"),
-        tags$a(href = "https://github.com/davidrsch",
-               tags$img(src = "logos/GitHub_logo.png",
-                        style = "width: 2em; height: 2em")),
-        tags$a(href = "https://www.linkedin.com/in/david-díaz-6257951b8",
-               tags$img(src = "logos/Linkedin_logo.png",
-                        style = "width: 2.1em; height: 2em; margin-left:.4em")),
-        tags$br(),
-        tags$br()
-      ),
-      confirmButtonText = "Start",
-      confirmButtonCol = "#2158c4",
-      size = "l")
-  })
+  # observe({
+  #   shinyalert(
+  #     html = T,
+  #     text = tagList(
+  #       tags$p(
+  #         strong(
+  #           "Simple implementation of LSTM networks for univariate time series forecasting"),
+  #         style = "font-size: 1.9em; color:black"
+  #         ),
+  #       tags$br(),
+  #       tags$p("Power by",
+  #          style = "font-size: 1.5em; color:black; margin: .5em 0 .3em 0"),
+  #       tags$img(src = "logos/R_logo.png", style = "width: 4em; height: 4em;
+  #                margin-right:1em"),
+  #       tags$img(src = "logos/Keras_logo.png", style = "width: 4em; height: 4em;
+  #                margin-left:1em"),
+  #       tags$br(),
+  #       tags$br(),
+  #       tags$br(),
+  #       tags$p("Created by",
+  #          style = "font-size: 1.5em; color:black; margin: .5em 0 .3em 0"),
+  #       tags$p("David Díaz Rodríguez",
+  #          style = "font-size: 1.7em; color:black; margin:0"),
+  #       tags$a(href = "https://orcid.org/0000-0002-0927-9795", "0000 0002 0927 9795",
+  #              style = "font-size: 1.5em; margin: .5em 0 0 0"),
+  #       tags$br(),
+  #       tags$a(href = "mailto:daviddrsch@gmail.com",
+  #              tags$img(src = "logos/Gmail_logo.png",
+  #                       style = "width: 2em; height: 2em"),
+  #              style = "margin-right: .5em"),
+  #       tags$a(href = "https://github.com/davidrsch",
+  #              tags$img(src = "logos/GitHub_logo.png",
+  #                       style = "width: 2em; height: 2em")),
+  #       tags$a(href = "https://www.linkedin.com/in/david-díaz-6257951b8",
+  #              tags$img(src = "logos/Linkedin_logo.png",
+  #                       style = "width: 2.1em; height: 2em; margin-left:.4em")),
+  #       tags$br(),
+  #       tags$br()
+  #     ),
+  #     confirmButtonText = "Start",
+  #     confirmButtonCol = "#2158c4",
+  #     size = "l")
+  # })
   
   #To set hidden as default to the results div
   observe({

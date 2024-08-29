@@ -26,7 +26,7 @@ library(scales)
 library(keras)
 library(tensorflow)
 library(Metrics)
-library(xlsx)
+#library(xlsx)
 library(zip)
 library(jsonlite)
 library(rmarkdown)
@@ -34,7 +34,7 @@ library(rmarkdown)
 ui <- fluidPage(
 
   useShinyjs(),
-  useShinyalert(),
+  useShinyalert(force = T),
   
   #####################################HEAD#######################################
   tags$head(
