@@ -1,11 +1,12 @@
 box::use(
   shiny[div, moduleServer, NS, renderUI, tags, uiOutput, fileInput,
-    reactive],
+    reactive, observeEvent],
   ./logic/make_card[make_card],
-  shiny.fluent[fluentPage, Stack, Checkbox.shinyInput, 
-    TextField.shinyInput],
+  shiny.fluent[fluentPage, Stack, Checkbox.shinyInput,
+    updateCheckbox.shinyInput, TextField.shinyInput,
+    updateTextField.shinyInput],
   DT[dataTableOutput, renderDataTable],
-  readr[read_csv, read_tsv],
+  readr[read_delim, locale],
   readxl[read_excel],
   stringr[str_split_i],
   logic/constants[file_formats],
@@ -30,15 +31,18 @@ ui <- function(id) {
           Checkbox.shinyInput(
             ns("header"),
             label = "Has header?",
-            value = TRUE),
+            value = TRUE,
+            disabled = TRUE),
           TextField.shinyInput(
             ns("delimiter"),
             label = "Delimiter",
-            value = ","),
+            value = ",",
+            disabled = TRUE),
           TextField.shinyInput(
             ns("decimal_point"),
             label = "Decimal point",
-            value = ".")  
+            value = ".",
+            disabled = TRUE)  
         ),
         size = 4,
         style = "max-height: 320px;"
@@ -57,25 +61,73 @@ ui <- function(id) {
 #' @export
 server <- function(id) {
   moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
     output$data_table <- renderDataTable({
       if (!is.null(input$file)) {
         file_path <- input$file$datapath
         format <- str_split_i(file_path,"\\.",-1)
 
-        if (is.element(format, file_formats)) {
-          if (format == "csv") {
-            data <- read_csv(file_path, col_names = input$header, delim = input$delimiter, decimal = input$decimal_point)
-          } else if (format == "tsv") {
-            data <- read_tsv(file_path, col_names = input$header, delim = input$delimiter, decimal = input$decimal_point)
-          } else if (format == "xlsx") {
+        if (is.element(format, file_formats[["extention"]])) {
+          if (is.element(format, file_formats[file_formats$type == "text",][["extention"]])) {
+            data <- read_delim(
+              file_path, 
+              col_names = input$header, 
+              delim = input$delimiter, 
+              locale = locale(decimal_mark = input$decimal_point))
+          } else {
             data <- read_excel(file_path, col_names = input$header)
           }
     
           data  
-        }else{}
+        } else {}
   
       }
+    })
+
+    observeEvent(input$file, {
+      if (!is.null(input$file)) {
+        file_path <- input$file$datapath
+        format <- str_split_i(file_path,"\\.",-1)
+        
+        if (is.element(format, file_formats[["extention"]])) {
+          updateCheckbox.shinyInput(
+            inputId = "header",
+            disabled = FALSE)
+          if (is.element(format, file_formats[file_formats$type == "text",][["extention"]])) {
+            updateTextField.shinyInput(
+              inputId = "delimiter",
+              disabled = FALSE
+            )
+            updateTextField.shinyInput(
+              inputId = "decimal_point",
+              disabled = FALSE
+            )
+          } else {
+            updateTextField.shinyInput(
+              inputId = "delimiter",
+              disabled = TRUE
+            )
+            updateTextField.shinyInput(
+              inputId = "decimal_point",
+              disabled = TRUE
+            )
+          }
+
+        } else {
+          updateCheckbox.shinyInput(
+            inputId = "header",
+            disabled = TRUE)
+          updateTextField.shinyInput(
+            inputId = "delimiter",
+            disabled = TRUE
+          )
+          updateTextField.shinyInput(
+            inputId = "decimal_point",
+            disabled = TRUE
+          )
+        }
+      } 
     })
 
     no_format_modal$server(
