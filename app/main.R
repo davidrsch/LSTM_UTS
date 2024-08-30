@@ -28,16 +28,19 @@ ui <- function(id) {
           fileInput(
             ns("file"),
             "Upload a file"),
+          tags$br(),
           Checkbox.shinyInput(
             ns("header"),
             label = "Has header?",
             value = TRUE,
             disabled = TRUE),
+          tags$br(),
           TextField.shinyInput(
             ns("delimiter"),
             label = "Delimiter",
             value = ",",
             disabled = TRUE),
+          tags$br(),
           TextField.shinyInput(
             ns("decimal_point"),
             label = "Decimal point",
