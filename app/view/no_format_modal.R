@@ -7,7 +7,7 @@ box::use(
   ../logic/constants[file_formats],
   ./make_modal
 )
-
+# Error format modal ui
 #' @export
 ui <- function(id) {
   ns <- NS(id)
@@ -19,6 +19,7 @@ ui <- function(id) {
 server <- function(id, imported_path) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+    # Stablishing condition to show the modal
     modalVisible <- reactiveVal(FALSE)
     observeEvent(imported_path(),{
       file_path <- imported_path()
@@ -29,7 +30,7 @@ server <- function(id, imported_path) {
         }else{}
       }
     })
-    
+    # Creating modla using make_modal module
     make_modal$server(
       "make_modal",
       is_open = modalVisible,
@@ -45,7 +46,5 @@ server <- function(id, imported_path) {
       ),
       status = "error")
     
-    
-
   })
 }
