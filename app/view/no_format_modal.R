@@ -1,12 +1,13 @@
 box::use(
-  shiny[div, moduleServer, NS, p, reactiveVal, observeEvent,
-    tags, reactive],
-  shiny.fluent[renderReact, reactOutput, Modal, Stack, Text,
-    FontIcon, IconButton.shinyInput],
+  shiny[div, moduleServer, NS, observeEvent, p, reactiveVal, tags],
   stringr[str_split_i],
-  ../logic/constants[file_formats],
-  ./make_modal
 )
+
+box::use(
+  app/logic/constants[file_formats],
+  app/view/make_modal,
+)
+
 # Error format modal ui
 #' @export
 ui <- function(id) {
@@ -20,20 +21,20 @@ server <- function(id, imported_path) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     # Stablishing condition to show the modal
-    modalVisible <- reactiveVal(FALSE)
-    observeEvent(imported_path(),{
+    modal_visible <- reactiveVal(FALSE)
+    observeEvent(imported_path(), {
       file_path <- imported_path()
       if (!is.null(file_path)) {
-        format <- str_split_i(file_path$datapath,"\\.",-1)
+        format <- str_split_i(file_path$datapath, "\\.", -1)
         if (!is.element(format, file_formats[["extention"]])) {
-          modalVisible(TRUE)
-        }else{}
+          modal_visible(TRUE)
+        } else {}
       }
     })
     # Creating modla using make_modal module
     make_modal$server(
       "make_modal",
-      is_open = modalVisible,
+      is_open = modal_visible,
       title = "Error",
       content = div(
         p("The allowed file formats are:"),
@@ -45,6 +46,6 @@ server <- function(id, imported_path) {
         )
       ),
       status = "error")
-    
+
   })
 }
