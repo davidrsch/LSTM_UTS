@@ -1,11 +1,12 @@
 box::use(
-  shiny[NS, moduleServer, observeEvent],
-  shiny.fluent[reactOutput, renderReact, Stack, Dropdown.shinyInput,
-    updateDropdown.shinyInput],
-  ../logic/make_card[make_card],
-  tibble[tibble, is_tibble],
-  tidyr[nest],
-  dplyr[mutate, if_else]
+  dplyr[if_else, mutate],
+  shiny.fluent[Dropdown.shinyInput, reactOutput, renderReact, Stack, updateDropdown.shinyInput],
+  shiny[moduleServer, NS, observeEvent],
+  tibble[is_tibble, tibble],
+)
+
+box::use(
+  app/logic/make_card[make_card],
 )
 
 #' @export
@@ -16,7 +17,7 @@ ui <- function(id) {
 }
 
 #' @export
-server <- function(id, data) {
+server <- function(id, data, page_button_status) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     # Defining Select Variables to render only if data is imported
@@ -26,10 +27,11 @@ server <- function(id, data) {
         names <- names(data())
         options <- tibble(
           key = names,
-          text = names) |> 
-          split(seq_along(names)) |> 
-          unname() |> 
-          lapply(function(x){as.list(x)})
+          text = names) |>
+          split(seq_along(names)) |>
+          unname() |>
+          lapply(function(x) {
+            as.list(x)})
 
         make_card(
           "Select variables",
@@ -50,22 +52,23 @@ server <- function(id, data) {
           is_contained = TRUE
         )
       }
-      
+
     })
 
     # Disbling options in forecast variable depending in
     # sequence variable selected
-    observeEvent(input$sequence_variable,{
+    observeEvent(input$sequence_variable, {
       names <- names(data())
       options <- tibble(
         key = names,
-        text = names) |> 
+        text = names) |>
         mutate(
-          disabled = if_else(key==input$sequence_variable,T,F)
-        ) |> 
-        split(seq_along(names)) |> 
-        unname() |> 
-        lapply(function(x){as.list(x)})
+          disabled = if_else(key == input$sequence_variable, TRUE, FALSE)
+        ) |>
+        split(seq_along(names)) |>
+        unname() |>
+        lapply(function(x) {
+          as.list(x)})
       updateDropdown.shinyInput(
         inputId = "forecast_variable",
         options = options,
@@ -73,6 +76,23 @@ server <- function(id, data) {
       )
     })
 
+    # Showing or not page buttons deppending on if forecast variable is selected
+    # or not
+    observeEvent(input$forecast_variable, {
+      if (is.null(input$forecast_variable) | is.na(input$forecast_variable)) {
+        page_button_status("hide")
+      } else if (input$forecast_variable == "") {
+        page_button_status("hide")
+      } else {
+        page_button_status("show")
+      }
+    })
+
+    observeEvent(data(), {
+      if (!is_tibble(data()) | is.null(data())) {
+        page_button_status("hide")
+      }
+    })
+
   })
 }
-
