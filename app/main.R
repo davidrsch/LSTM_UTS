@@ -1,81 +1,49 @@
 box::use(
-  shiny[div, moduleServer, NS, renderUI, tags, uiOutput, fileInput,
-    reactive, observeEvent, reactiveVal],
-  ./logic/make_card[make_card],
-  shiny.fluent[fluentPage, Stack, Checkbox.shinyInput,
-    updateCheckbox.shinyInput, TextField.shinyInput,
-    updateTextField.shinyInput, Text],
-  DT[dataTableOutput, renderDataTable],
-  readr[read_delim, locale],
-  readxl[read_excel],
-  stringr[str_split_i],
-  logic/constants[file_formats],
+  shiny.fluent[DefaultButton.shinyInput, fluentPage, reactOutput, renderReact, Stack],
+  shiny[div, moduleServer, NS, observeEvent, reactive, reactiveVal, tags],
+  shinyjs[hidden, hide, show, useShinyjs],
+)
+
+box::use(
+  app/view/import_file,
   app/view/no_format_modal,
-  app/view/import_variables
+  app/view/select_variables,
+  app/view/table_output,
 )
 
 #' @export
 ui <- function(id) {
   ns <- NS(id)
+
   fluentPage(
     # Defining style
     tags$style(".card { padding: 28px; margin-bottom: 14px; }"),
+    useShinyjs(),
     # Definin horizontal layout
     Stack(
-      horizontal = T,
+      horizontal = TRUE,
       tokens = list(childrenGap = 10),
       # Defining left side of the layout (size: 4)
       div(
         # Defining import file inputs card
-        make_card(
-          "Import file",
-          Stack(
-            tokens = list(childrenGap = 10),
-            fileInput(
-              ns("file"),
-              "Upload a file"),
-            Checkbox.shinyInput(
-              ns("header"),
-              label = "Has header?",
-              value = TRUE,
-              disabled = TRUE),
-            Stack(
-              horizontal = TRUE,
-              tokens = list(childrenGap = 10),
-              TextField.shinyInput(
-                ns("delimiter"),
-                label = "Delimiter",
-                value = ",",
-                disabled = TRUE),
-              TextField.shinyInput(
-                ns("decimal_point"),
-                label = "Decimal point",
-                value = ".",
-                disabled = TRUE)
-            )              
-          ),
-          style = "max-height: 320px;",
-          is_contained = TRUE
-        ),
+        import_file$ui(ns("import_file")),
         # Defining selected variables card ui
-        import_variables$ui(ns("import_variables")),
+        select_variables$ui(ns("select_variables")),
         class = "ms-sm-4 ms-xl-4"
       ),
       # Defining right side of the layout (size: 8)
       # Table output card
-      make_card(
-        "",
-        dataTableOutput(ns("data_table")),
-        size = 8
-      )
+      table_output$ui(ns("table_output"))
     ),
+    # Defining prev and next buttons
+    hidden(reactOutput(ns("page_buttons"))),
     # Defining modals
     # Error format modal ui
     no_format_modal$ui(ns("no_format_modal")),
-    
+
     # Defining fluent page style
     style = "background-color:white"
-  )  
+  )
 }
 
 #' @export
@@ -83,89 +51,62 @@ server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    data_imported <- reactiveVal(array(1:2,2))
-    # Creating table output when importing file with proper format
-    output$data_table <- renderDataTable({
-      if (!is.null(input$file)) {
-        file_path <- input$file$datapath
-        format <- str_split_i(file_path,"\\.",-1)
+    # Defining import file inputs card
+    imported_file <- import_file$server("import_file")
 
-        if (is.element(format, file_formats[["extention"]])) {
-          if (is.element(format, file_formats[file_formats$type == "text",][["extention"]])) {
-            data <- read_delim(
-              file_path, 
-              col_names = input$header, 
-              delim = input$delimiter, 
-              locale = locale(decimal_mark = input$decimal_point))
-          } else {
-            data <- read_excel(file_path, col_names = input$header)
-          }
-          data_imported(data)
-          data  
-        } else {
-          #data_imported(array(1:2,2))
-        }
-  
+    # Defining right side of the layout (size: 8)
+    # Table output card
+    data_imported <- table_output$server(
+      "table_output",
+      file = reactive(imported_file()$file),
+      header = reactive(imported_file()$header),
+      delimiter = reactive(imported_file()$delimiter),
+      decimal_point = reactive(imported_file()$decimal_point)
+    )
+
+    # Defining prev and next buttons
+    output$page_buttons <- renderReact({
+      div(
+        style = "display: flex; justify-content: space-around;",
+        div(
+          style = "display: flex;",
+          DefaultButton.shinyInput(
+            ns("prevtbutton"),
+            text = "Previous"
+          ),
+          div(
+            style = "width: 15px;",
+          ),
+          DefaultButton.shinyInput(
+            ns("nextbutton"),
+            text = "Next"
+          )
+        )
+      )
+    })
+
+    # Hidden or showing page buttons
+    hs_page_buttons <- reactiveVal("hide")
+    observeEvent(hs_page_buttons(), {
+      if (hs_page_buttons() == "hide") {
+        hide("page_buttons")
+      } else {
+        show("page_buttons")
       }
     })
 
-    # Enabling or disabling inputs depending on the imported file format
-    observeEvent(input$file, {
-      if (!is.null(input$file)) {
-        file_path <- input$file$datapath
-        format <- str_split_i(file_path,"\\.",-1)
-        
-        if (is.element(format, file_formats[["extention"]])) {
-          updateCheckbox.shinyInput(
-            inputId = "header",
-            disabled = FALSE)
-          if (is.element(format, file_formats[file_formats$type == "text",][["extention"]])) {
-            updateTextField.shinyInput(
-              inputId = "delimiter",
-              disabled = FALSE
-            )
-            updateTextField.shinyInput(
-              inputId = "decimal_point",
-              disabled = FALSE
-            )
-          } else {
-            updateTextField.shinyInput(
-              inputId = "delimiter",
-              disabled = TRUE
-            )
-            updateTextField.shinyInput(
-              inputId = "decimal_point",
-              disabled = TRUE
-            )
-          }
-
-        } else {
-          updateCheckbox.shinyInput(
-            inputId = "header",
-            disabled = TRUE)
-          updateTextField.shinyInput(
-            inputId = "delimiter",
-            disabled = TRUE
-          )
-          updateTextField.shinyInput(
-            inputId = "decimal_point",
-            disabled = TRUE
-          )
-        }
-      } 
-    })
-
     # Defining selected variables card server
-    import_variables$server(
-      "import_variables",
-      data = data_imported
+    select_variables$server(
+      "select_variables",
+      data = data_imported,
+      page_button_status = hs_page_buttons
     )
 
     # Defining modals
     # Error format modal server
     no_format_modal$server(
       "no_format_modal",
-      imported_path = reactive(input$file))
+      imported_path = reactive(imported_file()$file))
 
   })
 }
