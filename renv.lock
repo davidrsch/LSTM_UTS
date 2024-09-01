@@ -117,7 +117,7 @@
     },
     "box.linters": {
       "Package": "box.linters",
-      "Version": "0.10.2",
+      "Version": "0.10.3",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -134,7 +134,7 @@
         "xml2",
         "xmlparsedata"
       ],
-      "Hash": "806cbb9b56741a7f893c8e2c1bd42345"
+      "Hash": "14ac276281c88d7c5c2c076668d715f5"
     },
     "brio": {
       "Package": "brio",
