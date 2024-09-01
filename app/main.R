@@ -7,6 +7,7 @@ box::use(
 box::use(
   app/view/import_file,
   app/view/no_format_modal,
+  app/view/page_buttons,
   app/view/select_variables,
   app/view/table_output,
 )
@@ -36,7 +37,7 @@ ui <- function(id) {
       table_output$ui(ns("table_output"))
     ),
     # Defining prev and next buttons
-    hidden(reactOutput(ns("page_buttons"))),
+    hidden(page_buttons$ui(ns("page_buttons"))),
     # Defining modals
     # Error format modal ui
     no_format_modal$ui(ns("no_format_modal")),
@@ -65,41 +66,15 @@ server <- function(id) {
     )
 
     # Defining prev and next buttons
-    output$page_buttons <- renderReact({
-      div(
-        style = "display: flex; justify-content: space-around;",
-        div(
-          style = "display: flex;",
-          DefaultButton.shinyInput(
-            ns("prevtbutton"),
-            text = "Previous"
-          ),
-          div(
-            style = "width: 15px;",
-          ),
-          DefaultButton.shinyInput(
-            ns("nextbutton"),
-            text = "Next"
-          )
-        )
-      )
-    })
-
-    # Hidden or showing page buttons
-    hs_page_buttons <- reactiveVal("hide")
-    observeEvent(hs_page_buttons(), {
-      if (hs_page_buttons() == "hide") {
-        hide("page_buttons")
-      } else {
-        show("page_buttons")
-      }
-    })
+    pn_buttons <- page_buttons$server("page_buttons")
 
     # Defining selected variables card server
     select_variables$server(
       "select_variables",
       data = data_imported,
-      page_button_status = hs_page_buttons
+      page_button_status = pn_buttons()$hs_page_buttons,
+      de_prev_button = pn_buttons()$de_prev_button,
+      de_next_button = pn_buttons()$de_next_button
     )
 
     # Defining modals

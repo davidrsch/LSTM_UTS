@@ -17,7 +17,7 @@ ui <- function(id) {
 }
 
 #' @export
-server <- function(id, data, page_button_status) {
+server <- function(id, data, page_button_status, de_prev_button, de_next_button) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     # Defining Select Variables to render only if data is imported
@@ -85,6 +85,8 @@ server <- function(id, data, page_button_status) {
         page_button_status("hide")
       } else {
         page_button_status("show")
+        de_next_button("enable")
+        de_prev_button("disable")
       }
     })
 
