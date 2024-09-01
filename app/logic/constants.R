@@ -1,5 +1,5 @@
 box::use(
-  tibble[tribble]
+  tibble[tribble],
 )
 
 file_formats <- tribble(
