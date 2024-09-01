@@ -1,10 +1,13 @@
 box::use(
-  shiny.fluent[Modal, Stack, Text, FontIcon, IconButton.shinyInput, reactOutput,
-    renderReact],
   htmltools[div],
+  shiny.fluent[FontIcon, IconButton.shinyInput, Modal, reactOutput, renderReact, Stack, Text],
   shiny[moduleServer, NS, observeEvent],
-  ../logic/constants[status_mapping],
 )
+
+box::use(
+  app/logic/constants[status_mapping],
+)
+
 # Defining making_modla module
 #' @export
 ui <- function(id) {
@@ -21,10 +24,10 @@ server <- function(id, is_open, title, content, status, status_table = status_ma
     icon_color <- status_table[status_table$type == status, "color"][[1]]
     div_icon_style <- paste0(
       "display: flex; flex-wrap: nowrap; justify-content: center; align-items: center; color: ",
-      icon_color,";"
+      icon_color, ";"
     )
     observeEvent(input$hideModal, is_open(FALSE))
-    
+
     output$make_modal <- renderReact({
       Modal(isOpen = is_open(),
           Stack(tokens = list(padding = "15px", childrenGap = "10px"),
@@ -46,4 +49,3 @@ server <- function(id, is_open, title, content, status, status_table = status_ma
     })
   })
 }
-
