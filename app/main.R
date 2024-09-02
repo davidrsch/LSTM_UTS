@@ -1,7 +1,7 @@
 box::use(
-  shiny.fluent[DefaultButton.shinyInput, fluentPage, reactOutput, renderReact, Stack],
-  shiny[div, moduleServer, NS, observeEvent, reactive, reactiveVal, tags],
-  shinyjs[hidden, hide, show, useShinyjs],
+  shiny.fluent[fluentPage, Stack],
+  shiny[div, moduleServer, NS, observeEvent, reactive, tags],
+  shinyjs[hidden, useShinyjs],
 )
 
 box::use(
