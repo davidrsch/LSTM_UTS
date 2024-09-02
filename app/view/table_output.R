@@ -18,7 +18,8 @@ ui <- function(id) {
   make_card(
     "",
     dataTableOutput(ns("data_table")),
-    size = 8
+    is_contained = TRUE,
+    style = "background-color: white;"
   )
 }
 

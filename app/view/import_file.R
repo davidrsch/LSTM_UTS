@@ -42,7 +42,7 @@ ui <- function(id) {
           disabled = TRUE)
       )
     ),
-    style = "max-height: 320px;",
+    style = "max-height: 320px; background-color: white;",
     is_contained = TRUE
   )
 }

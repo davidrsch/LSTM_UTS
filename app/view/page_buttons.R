@@ -1,7 +1,7 @@
 box::use(
   shiny.fluent[DefaultButton.shinyInput, reactOutput, renderReact, updateDefaultButton.shinyInput],
   shiny[div, moduleServer, NS, observeEvent, reactive, reactiveVal],
-  shinyjs[hide, show],
+  shinyjs[hide, show, toggleClass],
 )
 
 box::use(
@@ -92,11 +92,17 @@ server <- function(id) {
     observeEvent(input$prevtbutton, {
       de_next_button("enable")
       de_prev_button("disable")
+      toggleClass(
+        selector = ".panelcontainer",
+        class = "turnpanel")
     })
 
     observeEvent(input$nextbutton, {
       de_next_button("disable")
       de_prev_button("enable")
+      toggleClass(
+        selector = ".panelcontainer",
+        class = "turnpanel")
     })
 
     reactive(

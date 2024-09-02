@@ -48,7 +48,7 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
               options = options
             )
           ),
-          style = "max-height: 320px;",
+          style = "max-height: 320px; background-color: white;",
           is_contained = TRUE
         )
       }

@@ -10,6 +10,8 @@ box::use(
   app/view/page_buttons,
   app/view/select_variables,
   app/view/table_output,
+  app/view/training_inputs,
+  app/view/training_pivot
 )
 
 #' @export
@@ -21,23 +23,51 @@ ui <- function(id) {
     tags$style(".card { padding: 28px; margin-bottom: 14px; }"),
     useShinyjs(),
     # Definin horizontal layout
-    Stack(
-      horizontal = TRUE,
-      tokens = list(childrenGap = 10),
+    div(
+      class = "ms-Grid-row",
+      style = "display: flex; flex-wrap: wrap;",
       # Defining left side of the layout (size: 4)
       div(
-        # Defining import file inputs card
-        import_file$ui(ns("import_file")),
-        # Defining selected variables card ui
-        select_variables$ui(ns("select_variables")),
-        class = "ms-sm-4 ms-xl-4"
+        class="ms-Grid-col ms-sm12 ms-md4",
+        div(
+          class = "panelcontainer",
+          div(
+            # Defining training inputs card
+            training_inputs$ui(ns("training_inputs")),
+            class = "backpanel"
+          ),
+          div(
+            # Defining import file inputs card
+            import_file$ui(ns("import_file")),
+            # Defining selected variables card ui
+            select_variables$ui(ns("select_variables")),
+            class = "frontpanel"
+          )          
+        )
       ),
-      # Defining right side of the layout (size: 8)
-      # Table output card
-      table_output$ui(ns("table_output"))
+      div(
+        class="ms-Grid-col ms-sm12 ms-md8",
+        div(
+          class = "panelcontainer",
+          div(
+            # Defining right side of the layout (size: 8)
+            # Training pivot card
+            training_pivot$ui(ns("training_pivot")),
+            class = "backpanel"
+          ),
+          div(
+            # Table output card
+            table_output$ui(ns("table_output")),
+            class = "frontpanel"
+          )
+        )
+      )
     ),
     # Defining prev and next buttons
-    hidden(page_buttons$ui(ns("page_buttons"))),
+    div(
+      class = "ms-Grid-row",
+      hidden(page_buttons$ui(ns("page_buttons")))
+    ),
     # Defining modals
     # Error format modal ui
     no_format_modal$ui(ns("no_format_modal")),
@@ -55,8 +85,7 @@ server <- function(id) {
     # Defining import file inputs card
     imported_file <- import_file$server("import_file")
 
-    # Defining right side of the layout (size: 8)
-    # Table output card
+    # Defininf table output card
     data_imported <- table_output$server(
       "table_output",
       file = reactive(imported_file()$file),
@@ -76,6 +105,12 @@ server <- function(id) {
       de_prev_button = pn_buttons()$de_prev_button,
       de_next_button = pn_buttons()$de_next_button
     )
+
+    # Defining training inputs card
+    training_inputs$server("training_inputs")
+
+    # Defining training pivot card
+    training_pivot$server("training_pivot")
 
     # Defining modals
     # Error format modal server
