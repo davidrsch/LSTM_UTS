@@ -19,8 +19,6 @@ ui <- function(id) {
   ns <- NS(id)
 
   fluentPage(
-    # Defining style
-    tags$style(".card { padding: 28px; margin-bottom: 14px; }"),
     useShinyjs(),
     # Definin horizontal layout
     div(
