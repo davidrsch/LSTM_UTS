@@ -5,7 +5,7 @@ box::use(
 )
 
 box::use(
-  app/logic/constants[file_formats],
+  app/logic/constants[file_formats, transformations, scales],
   app/logic/make_card[make_card],
 )
 
@@ -23,11 +23,24 @@ ui <- function(id) {
         block = TRUE),
       Dropdown.shinyInput(
         inputId = "transformation",
-        text = "Transformation"
+          label = "Transformation",
+          options = transformations,
+          multiSelect = TRUE,
+          styles = list(
+            root = list(
+              'max-width' = "45%",
+              'min-width' = "45%"))
       ),
       Dropdown.shinyInput(
         inputId = "scale",
-        text = "Scale"
+          label = "Scale",
+          options = scales,
+          multiSelect = TRUE,
+          styles = list(
+            root = list(
+              'max-width' = "45%",
+              'min-width' = "45%"))
+        )
       ),
       Text(
         variant = "xLarge",

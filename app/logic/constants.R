@@ -15,3 +15,13 @@ status_mapping <- tribble(
   "succes", "green", "CheckMark",
   "warning", "yellow", "Warning"
 )
+transformations <- list(
+  list(key = "original", text = "Original"),
+  list(key = "first", text = "First"),
+  list(key = "second", text = "Second")
+)
+scales <- list(
+  list(key = "exact", text = "Exact"),
+  list(key = "zero_one", text = "0 to 1"),
+  list(key = "minus_plus", text = "-1 to 1")
+)
