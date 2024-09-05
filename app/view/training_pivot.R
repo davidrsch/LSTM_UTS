@@ -1,6 +1,6 @@
 box::use(
   shiny.fluent[Label, Pivot, PivotItem],
-  shiny[moduleServer, NS, observeEvent, reactive],
+  shiny[div, moduleServer, NS, observeEvent, reactive],
   stringr[str_split_i],
 )
 
@@ -13,17 +13,16 @@ box::use(
 ui <- function(id) {
   ns <- NS(id)
 
-  make_card(
-    "",
+  div(
+    style = "padding: 0 28px 28px 28px; background-color: white;",
+    class = "ms-depth-8",
     Pivot(
       PivotItem(headerText = "Transformations", Label("Transformations")),
       PivotItem(headerText = "Training vectors", Label("Training vectors")),
       PivotItem(headerText = "LSTM", Label("LSTM")),
       PivotItem(headerText = "Training & Testing", Label("Training & Testing"))
-    ),
-    style = "max-height: 320px; background-color: white;",
-    is_contained = TRUE
-  )
+    )  
+  )    
 }
 
 #' @export
