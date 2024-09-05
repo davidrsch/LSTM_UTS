@@ -21,6 +21,9 @@ ui <- function(id) {
         variant = "xLarge",
         "Transformations",
         block = TRUE),
+      Stack(
+        horizontal = TRUE,
+        tokens = list(childrenGap = "10%"),
       Dropdown.shinyInput(
         inputId = "transformation",
           label = "Transformation",
