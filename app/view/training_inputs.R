@@ -24,8 +24,8 @@ ui <- function(id) {
       Stack(
         horizontal = TRUE,
         tokens = list(childrenGap = "10%"),
-      Dropdown.shinyInput(
-        inputId = "transformation",
+        Dropdown.shinyInput(
+          inputId = "transformation",
           label = "Transformation",
           options = transformations,
           multiSelect = TRUE,
@@ -33,9 +33,9 @@ ui <- function(id) {
             root = list(
               'max-width' = "45%",
               'min-width' = "45%"))
-      ),
-      Dropdown.shinyInput(
-        inputId = "scale",
+        ),
+        Dropdown.shinyInput(
+          inputId = "scale",
           label = "Scale",
           options = scales,
           multiSelect = TRUE,
