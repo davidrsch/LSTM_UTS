@@ -1,5 +1,5 @@
 box::use(
-  shiny.fluent[Dropdown.shinyInput, Stack, Text],
+  shiny.fluent[Dropdown.shinyInput, SpinButton.shinyInput, Stack, Text],
   shiny[moduleServer, NS, observeEvent, reactive],
   stringr[str_split_i],
 )
@@ -49,6 +49,11 @@ ui <- function(id) {
         variant = "xLarge",
         "Training vectors",
         block = TRUE),
+      SpinButton.shinyInput(
+        inputId = "horizon",
+        label = "Temporal horizon:",
+        labelPosition = "top"
+      ),
       Text(
         variant = "xLarge",
         "LSTM",
