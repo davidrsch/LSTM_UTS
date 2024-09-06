@@ -79,9 +79,31 @@ ui <- function(id) {
       Text(
         variant = "xLarge",
         "Training & Testing",
-        block = TRUE)
+        block = TRUE),
+      Stack(
+        horizontal = TRUE,
+        tokens = list(childrenGap = "10%"),
+        SpinButton.shinyInput(
+          inputId = "epoch",
+          label = "Epochs:",
+          labelPosition = "top",
+          styles = list(
+            root = list(
+              'max-width' = "45%",
+              'min-width' = "45%"))
+        ),
+        SpinButton.shinyInput(
+          inputId = "tests",
+          label = "Tests:",
+          labelPosition = "top",
+          styles = list(
+            root = list(
+              'max-width' = "45%",
+              'min-width' = "45%"))
+        )
+      )
     ),
-    style = "max-height: 420px; background-color: white;",
+    style = "max-height: 450px; background-color: white;",
     is_contained = TRUE
   )
 }
