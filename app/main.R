@@ -20,6 +20,7 @@ ui <- function(id) {
 
   fluentPage(
     useShinyjs(),
+    
     # Definin horizontal layout
     div(
       class = "ms-Grid-row",

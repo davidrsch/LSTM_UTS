@@ -1,12 +1,13 @@
 box::use(
-  shiny.fluent[Dropdown.shinyInput, SpinButton.shinyInput, Stack, Text, TextField.shinyInput],
-  shiny[moduleServer, NS, observeEvent, reactive],
+  shiny.fluent[Dropdown.shinyInput, SpinButton.shinyInput, Stack, Text, TextField.shinyInput, updateTextField.shinyInput],
+  shiny[moduleServer, NS, observeEvent, reactive, reactiveVal],
   stringr[str_split_i],
 )
 
 box::use(
-  app/logic/constants[file_formats, transformations, scales],
+  app/logic/constants[file_formats, scales, transformations],
   app/logic/make_card[make_card],
+  app/logic/max_min_width_input[max_min_width_input]
 )
 
 #' @export
@@ -25,24 +26,18 @@ ui <- function(id) {
         horizontal = TRUE,
         tokens = list(childrenGap = "10%"),
         Dropdown.shinyInput(
-          inputId = "transformation",
+          inputId = ns("transformation"),
           label = "Transformation",
           options = transformations,
           multiSelect = TRUE,
-          styles = list(
-            root = list(
-              'max-width' = "45%",
-              'min-width' = "45%"))
+          styles = max_min_width_input(45)
         ),
         Dropdown.shinyInput(
-          inputId = "scale",
+          inputId = ns("scale"),
           label = "Scale",
           options = scales,
           multiSelect = TRUE,
-          styles = list(
-            root = list(
-              'max-width' = "45%",
-              'min-width' = "45%"))
+          styles = max_min_width_input(45)
         )
       ),
       Text(
@@ -53,16 +48,15 @@ ui <- function(id) {
         horizontal = TRUE,
         tokens = list(childrenGap = "10%"),
         SpinButton.shinyInput(
-          inputId = "horizon",
+          inputId = ns("horizon"),
           label = "Temporal horizon:",
           labelPosition = "top",
-          styles = list(
-            root = list(
-              'max-width' = "45%",
-              'min-width' = "45%"))
+          styles = max_min_width_input(45),
+          min = 1,
+          value = 1
         ),
         TextField.shinyInput(
-          inputId = "inp_amount",
+          inputId = ns("inp_amount"),
           label = "Input amounts:",
           description = 'Separete amounts using commas: ","'
         )
@@ -72,7 +66,7 @@ ui <- function(id) {
         "LSTM",
         block = TRUE),
       TextField.shinyInput(
-        inputId = "lstm",
+        inputId = ns("lstm"),
         label = "Neurons:",
         description = 'Separete amounts using commas: ","'
       ),
@@ -84,26 +78,24 @@ ui <- function(id) {
         horizontal = TRUE,
         tokens = list(childrenGap = "10%"),
         SpinButton.shinyInput(
-          inputId = "epoch",
+          inputId = ns("epoch"),
           label = "Epochs:",
           labelPosition = "top",
-          styles = list(
-            root = list(
-              'max-width' = "45%",
-              'min-width' = "45%"))
+          styles = max_min_width_input(45),
+          min = 1,
+          value = 1
         ),
         SpinButton.shinyInput(
-          inputId = "tests",
+          inputId = ns("tests"),
           label = "Tests:",
           labelPosition = "top",
-          styles = list(
-            root = list(
-              'max-width' = "45%",
-              'min-width' = "45%"))
+          styles = max_min_width_input(45),
+          min = 1,
+          value = 1
         )
       )
     ),
-    style = "max-height: 450px; background-color: white;",
+    style = "max-height: 550px; background-color: white;",
     is_contained = TRUE
   )
 }
@@ -112,5 +104,22 @@ ui <- function(id) {
 server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
+    inp_amount_valid <- reactiveVal("")
+    observeEvent(input$inp_amount,{
+      inp_amount_valid <- gsub("[^0-9,]+", "", input$inp_amount)
+      if (inp_amount_valid != input$inp_amount) {
+        updateTextField.shinyInput(inputId = "inp_amount", value = inp_amount_valid)
+      }
+    })
+
+    lstm_valid <- reactiveVal("")
+    observeEvent(input$lstm,{
+      lstm_valid <- gsub("[^0-9,]+", "", input$lstm)
+      if (lstm_valid != input$lstm) {
+        updateTextField.shinyInput(inputId = "lstm", value = lstm_valid)
+      }
+    })
+
   })
 }
