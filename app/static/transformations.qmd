@@ -1,0 +1,16 @@
+---
+title: "Transformations"
+format:
+  html:
+    embed-resources: true
+---
+
+Long Short-Term Memory (LSTM) networks are adept at processing time series data, capturing trends and seasonality. However, to optimize their performance, it is often recommended to preprocess the data as exposed in [Time series forecasting - with deep learning](https://rpubs.com/zkajdan/279967)  and [How to use timesteps in LSTM networks for time series forecasting](https://machinelearningmastery.com/use-timesteps-lstm-networks-time-series-forecasting/). Users of this application have the option to either utilize the original time series or to apply specific transformations aimed at enhancing model accuracy:
+
+- **First transformation:** Adheres to a widely recognized principle in statistical methods, which mandates that the time series data should be stationary. To ensure this, if the initial time series is found to be non-stationary, it will undergo differencing to the degree necessary to attain stationarity.
+
+- **Second transformation**: Is consisten with the requirement for stationarity as with the first. However, it introduces an additional step before differencing: the time series data is subjected to a logarithmic transformation. This transformation can help stabilize the variance across the time series, potentially leading to more reliable statistical inference.
+
+Proper scaling of time series data is crucial for the effectiveness of LSTM models. LSTMs are sensitive to the scale of the input data, especially when using activation functions like sigmoid or tanh (being the last one, the used). Rescaling the data to a different range can significantly enhance model performance. This process ensures that all features contribute equally to the result, preventing any single feature from dominating due to its scale. Proper scaling can improve convergence during training and lead to more accurate predictions.
+
+Experimenting with various transformations of the original time series is crucial. It allows for a comparative analysis of how different preprocessing techniques affect the LSTM model's performance, leading to more reliable and accurate forecasting.

@@ -1,6 +1,6 @@
 box::use(
   shiny.fluent[Label, Pivot, PivotItem],
-  shiny[div, moduleServer, NS, observeEvent, reactive],
+  shiny[div, moduleServer, NS, observeEvent, reactive, tags],
   stringr[str_split_i],
 )
 
@@ -17,7 +17,13 @@ ui <- function(id) {
     style = "padding: 0 28px 28px 28px; background-color: white;",
     class = "ms-depth-8",
     Pivot(
-      PivotItem(headerText = "Transformations", Label("Transformations")),
+      PivotItem(
+        headerText = "Transformations",
+        tags$iframe(
+          src = "static/transformations.html",
+          width = "100%%",
+          height = "450px",
+          frameBorder = "0")),
       PivotItem(headerText = "Training vectors", Label("Training vectors")),
       PivotItem(headerText = "LSTM", Label("LSTM")),
       PivotItem(headerText = "Training & Testing", Label("Training & Testing"))
