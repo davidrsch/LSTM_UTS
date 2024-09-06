@@ -1,0 +1,26 @@
+---
+title: "Training & Testing"
+format:
+  html:
+    embed-resources: true
+---
+
+The different models build when executing will be tested sequentially, it implies that each model will undergo a complete training and testing cycle before moving on to the next step. For instance, if a user selects 5 epochs, the model will train for 5 epochs with a batch size of 1. After training, it will be tested on the next step before proceeding to train set of inputs outputs.
+
+Batch size?
+
+As explained in [Difference between a batch and an epoch in a neural network](https://machinelearningmastery.com/difference-between-a-batch-and-an-epoch/) the batch size determines how many samples are processed before the model's internal parameters are updated. It can vary depending on the gradient descent technique used:
+
+1. Batch Gradient Descent: The batch size is equal to the entire training set, meaning the model updates parameters only after running through all the samples.
+2. Stochastic Gradient Descent: The batch size is 1, so the model updates parameters after each sample.
+3. Mini-Batch Gradient Descent: The batch size is more than 1 but less than the total training set, commonly set to 32, 64, or 128 samples.
+
+Epoch?
+
+As explained in [Difference between a batch and an epoch in a neural network](https://machinelearningmastery.com/difference-between-a-batch-and-an-epoch/) epoch refers to one complete cycle through the full training dataset. During an epoch, depending on the batch size, the model may update its parameters multiple times (mini-batch or stochastic) or just once (batch gradient descent). The number of epochs is a hyperparameter that defines how many times the learning algorithm will work through the entire training dataset. It's a balance between better learning and the risk of overfitting.
+
+The sequential testing of models after each epoch ensures that the performance of the model can be evaluated and monitored at each stage of training.
+
+How many times a model must be test?
+
+The number of times a model should be tested is not fixed and can vary depending on the specific requirements of the project. However, it is crucial to test the model sufficiently to ensure that the average performance is reliable. Since the learning process of an Artificial Neural Network (ANN) is stochastic in nature, starting often with random initial values as detailed in [Learning process of a neural network](https://towardsdaatascience.com/how-do-artificial-neural-networks-learn-773e46399fc7), multiple tests are necessary. This approach helps in assessing the model's effectiveness consistently across different runs. It is advisable to conduct enough tests to achieve statistical significance, which may involve dozens or even hundreds of trials, depending on the complexity of the model and the variability of the results.

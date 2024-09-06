@@ -38,7 +38,14 @@ ui <- function(id) {
           width = "100%",
           height = "450px",
           frameBorder = "0")),
-      PivotItem(headerText = "Training & Testing", Label("Training & Testing"))
+      PivotItem(
+        headerText = "Training & Testing",
+        tags$iframe(
+          src = "static/training_test.html",
+          width = "100%",
+          height = "450px",
+          frameBorder = "0")
+      )
     )  
   )    
 }
