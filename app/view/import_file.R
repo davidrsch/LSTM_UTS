@@ -9,6 +9,7 @@ box::use(
 box::use(
   app/logic/constants[file_formats],
   app/logic/make_card[make_card],
+  app/logic/max_min_width_input[max_min_width_input]
 )
 
 #' @export
@@ -29,17 +30,20 @@ ui <- function(id) {
         disabled = TRUE),
       Stack(
         horizontal = TRUE,
-        tokens = list(childrenGap = 10),
+        tokens = list(childrenGap = "10%"),
         TextField.shinyInput(
           ns("delimiter"),
           label = "Delimiter",
           value = ",",
-          disabled = TRUE),
+          disabled = TRUE,
+          styles = max_min_width_input(45)
+        ),
         TextField.shinyInput(
           ns("decimal_point"),
           label = "Decimal point",
           value = ".",
-          disabled = TRUE)
+          disabled = TRUE,
+          styles = max_min_width_input(45))
       )
     ),
     style = "max-height: 320px; background-color: white;",
