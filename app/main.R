@@ -65,7 +65,7 @@ ui <- function(id) {
     # Defining prev and next buttons
     div(
       class = "ms-Grid-row",
-      hidden(page_buttons$ui(ns("page_buttons")))
+      page_buttons$ui(ns("page_buttons"))
     ),
     # Defining modals
     # Error format modal ui
@@ -106,7 +106,10 @@ server <- function(id) {
     )
 
     # Defining training inputs card
-    training_inputs$server("training_inputs")
+    training_inputs$server(
+      "training_inputs",
+      run_button_status = pn_buttons()$hs_run_button
+    )
 
     # Defining training pivot card
     training_pivot$server("training_pivot")

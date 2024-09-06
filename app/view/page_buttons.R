@@ -1,7 +1,7 @@
 box::use(
-  shiny.fluent[DefaultButton.shinyInput, reactOutput, renderReact, updateDefaultButton.shinyInput],
-  shiny[div, moduleServer, NS, observeEvent, reactive, reactiveVal],
-  shinyjs[hide, show, toggleClass],
+  shiny.fluent[DefaultButton.shinyInput, PrimaryButton.shinyInput, reactOutput, renderReact, Stack, updateDefaultButton.shinyInput],
+  shiny[moduleServer, NS, observeEvent, reactive, reactiveVal],
+  shinyjs[hidden, hide, show, toggleClass],
 )
 
 box::use(
@@ -16,7 +16,26 @@ ui <- function(id) {
   ns <- NS(id)
 
   # Defining prev and next buttons
-  reactOutput(ns("page_buttons"))
+  Stack(
+    horizontal = TRUE,
+    horizontalAlign = 'center',
+    tokens = list(
+      childrenGap = "15px"),
+    hidden(DefaultButton.shinyInput(
+      ns("prevtbutton"),
+      text = "Previous",
+      disabled = TRUE
+    )),
+    hidden(PrimaryButton.shinyInput(
+      ns("runbutton"),
+      text = "Run"
+    )),
+    hidden(DefaultButton.shinyInput(
+      ns("nextbutton"),
+      text = "Next",
+      disabled = FALSE
+    ))
+  )
 }
 
 #' @export
@@ -24,36 +43,26 @@ server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    # Defining prev and next buttons
-    output$page_buttons <- renderReact({
-      div(
-        style = "display: flex; justify-content: space-around;",
-        div(
-          style = "display: flex;",
-          DefaultButton.shinyInput(
-            ns("prevtbutton"),
-            text = "Previous",
-            disabled = TRUE
-          ),
-          div(
-            style = "width: 15px;",
-          ),
-          DefaultButton.shinyInput(
-            ns("nextbutton"),
-            text = "Next",
-            disabled = FALSE
-          )
-        )
-      )
-    })
-
     # Defining reactive value hidden or showing page buttons
     hs_page_buttons <- reactiveVal("hide")
     observeEvent(hs_page_buttons(), {
       if (hs_page_buttons() == "hide") {
-        hide("page_buttons")
+        hide("prevtbutton")
+        hide("nextbutton")
+        hide("runbutton")
       } else {
-        show("page_buttons")
+        show("prevtbutton")
+        show("nextbutton")
+      }
+    })
+
+    # Defining reactive value hidden or showing run button
+    hs_run_button <- reactiveVal("hide")
+    observeEvent(hs_run_button(), {
+      if (hs_run_button() == "hide") {
+        hide("runbutton")
+      } else {
+        show("runbutton")
       }
     })
 
@@ -108,6 +117,7 @@ server <- function(id) {
     reactive(
       list(
         hs_page_buttons = hs_page_buttons,
+        hs_run_button = hs_run_button,
         de_prev_button = de_prev_button,
         de_next_button = de_next_button
       )

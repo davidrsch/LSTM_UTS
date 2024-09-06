@@ -108,7 +108,7 @@ ui <- function(id) {
 }
 
 #' @export
-server <- function(id) {
+server <- function(id, run_button_status) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -126,6 +126,19 @@ server <- function(id) {
       if (lstm_valid != input$lstm) {
         updateTextField.shinyInput(inputId = "lstm", value = lstm_valid)
       }
+    })
+
+    observeEvent(
+      c(input$transformation, input$scale, input$inp_amount,
+        input$lstm), {
+          if(!any(is.null(input$transformation), input$transformation == "") &
+            !any(is.null(input$scale), input$scale == "") & 
+            !any(is.null(input$inp_amount), grepl("[A-Za-z]|^$",input$inp_amount)) &
+            !any(is.null(input$lstm), grepl("[A-Za-z]|^$",input$lstm))) {
+            run_button_status("show")
+          } else {
+            run_button_status("hide")
+          }
     })
 
   })
