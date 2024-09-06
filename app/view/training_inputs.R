@@ -1,5 +1,5 @@
 box::use(
-  shiny.fluent[Dropdown.shinyInput, SpinButton.shinyInput, Stack, Text],
+  shiny.fluent[Dropdown.shinyInput, SpinButton.shinyInput, Stack, Text, TextField.shinyInput],
   shiny[moduleServer, NS, observeEvent, reactive],
   stringr[str_split_i],
 )
@@ -49,10 +49,23 @@ ui <- function(id) {
         variant = "xLarge",
         "Training vectors",
         block = TRUE),
-      SpinButton.shinyInput(
-        inputId = "horizon",
-        label = "Temporal horizon:",
-        labelPosition = "top"
+      Stack(
+        horizontal = TRUE,
+        tokens = list(childrenGap = "10%"),
+        SpinButton.shinyInput(
+          inputId = "horizon",
+          label = "Temporal horizon:",
+          labelPosition = "top",
+          styles = list(
+            root = list(
+              'max-width' = "45%",
+              'min-width' = "45%"))
+        ),
+        TextField.shinyInput(
+          inputId = "inp_amount",
+          label = "Input amounts:",
+          description = 'Separete amounts using commas: ","'
+        )
       ),
       Text(
         variant = "xLarge",
