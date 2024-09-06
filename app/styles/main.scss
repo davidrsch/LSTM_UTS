@@ -17,6 +17,7 @@
     min-width: 0;
     backface-visibility: hidden;
     transform: rotateY(180deg);
+    pointer-events: none;
 }
 
 .frontpanel {
@@ -28,4 +29,12 @@
 
 .turnpanel {
     transform: rotateY(180deg);
+}
+
+.turnpanel > .frontpanel {
+    pointer-events: none;
+}
+
+.turnpanel > .backpanel {
+    pointer-events: auto; 
 }
