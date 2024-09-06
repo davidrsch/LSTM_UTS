@@ -71,12 +71,17 @@ ui <- function(id) {
         variant = "xLarge",
         "LSTM",
         block = TRUE),
+      TextField.shinyInput(
+        inputId = "lstm",
+        label = "Neurons:",
+        description = 'Separete amounts using commas: ","'
+      ),
       Text(
         variant = "xLarge",
         "Training & Testing",
         block = TRUE)
     ),
-    style = "max-height: 320px; background-color: white;",
+    style = "max-height: 420px; background-color: white;",
     is_contained = TRUE
   )
 }
