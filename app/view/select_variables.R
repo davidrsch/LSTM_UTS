@@ -39,13 +39,14 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
             tokens = list(childrenGap = "10px"),
             Dropdown.shinyInput(
               ns("sequence_variable"),
-              label = "Select the sequence variable",
+              label = "Sequence variable",
               options = options
             ),
             Dropdown.shinyInput(
               ns("forecast_variable"),
-              label = "Select the variable to forecast",
-              options = options
+              label = "Forecast variable",
+              options = options,
+              required = TRUE
             )
           ),
           style = "max-height: 320px; background-color: white;",

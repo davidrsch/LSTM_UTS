@@ -68,11 +68,13 @@ server <- function(id) {
           if (is.element(format, file_formats[file_formats$type == "text", ][["extention"]])) {
             updateTextField.shinyInput(
               inputId = "delimiter",
-              disabled = FALSE
+              disabled = FALSE,
+              required = TRUE
             )
             updateTextField.shinyInput(
               inputId = "decimal_point",
-              disabled = FALSE
+              disabled = FALSE,
+              required = TRUE
             )
           } else {
             updateTextField.shinyInput(

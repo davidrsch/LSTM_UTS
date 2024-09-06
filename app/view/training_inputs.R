@@ -30,14 +30,16 @@ ui <- function(id) {
           label = "Transformation",
           options = transformations,
           multiSelect = TRUE,
-          styles = max_min_width_input(45)
+          styles = max_min_width_input(45),
+          required = TRUE
         ),
         Dropdown.shinyInput(
           inputId = ns("scale"),
           label = "Scale",
           options = scales,
           multiSelect = TRUE,
-          styles = max_min_width_input(45)
+          styles = max_min_width_input(45),
+          required = TRUE
         )
       ),
       Text(
@@ -53,12 +55,14 @@ ui <- function(id) {
           labelPosition = "top",
           styles = max_min_width_input(45),
           min = 1,
-          value = 1
+          value = 1,
+          required = TRUE
         ),
         TextField.shinyInput(
           inputId = ns("inp_amount"),
           label = "Input amounts:",
-          description = 'Separete amounts using commas: ","'
+          description = 'Separete amounts using commas: ","',
+          required = TRUE
         )
       ),
       Text(
@@ -68,7 +72,8 @@ ui <- function(id) {
       TextField.shinyInput(
         inputId = ns("lstm"),
         label = "Neurons:",
-        description = 'Separete amounts using commas: ","'
+        description = 'Separete amounts using commas: ","',
+        required = TRUE
       ),
       Text(
         variant = "xLarge",
@@ -83,7 +88,8 @@ ui <- function(id) {
           labelPosition = "top",
           styles = max_min_width_input(45),
           min = 1,
-          value = 1
+          value = 1,
+          required = TRUE
         ),
         SpinButton.shinyInput(
           inputId = ns("tests"),
@@ -91,7 +97,8 @@ ui <- function(id) {
           labelPosition = "top",
           styles = max_min_width_input(45),
           min = 1,
-          value = 1
+          value = 1,
+          required = TRUE
         )
       )
     ),
