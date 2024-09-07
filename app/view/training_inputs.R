@@ -141,5 +141,17 @@ server <- function(id, run_button_status) {
           }
     })
 
+    reactive(
+      list(
+        transformations = input$transformation,
+        scales = input$scale,
+        horizon = input$horizon,
+        inp_amount = input$inp_amount,
+        lstm = input$lstm,
+        epoch = input$epoch,
+        tests = input$tests
+      )
+    )
+
   })
 }

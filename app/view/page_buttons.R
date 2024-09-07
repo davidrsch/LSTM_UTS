@@ -39,7 +39,7 @@ ui <- function(id) {
 }
 
 #' @export
-server <- function(id) {
+server <- function(id, run_modal_state) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -112,6 +112,10 @@ server <- function(id) {
       toggleClass(
         selector = ".panelcontainer",
         class = "turnpanel")
+    })
+
+    observeEvent(input$runbutton, {
+      run_modal_state(TRUE)
     })
 
     reactive(

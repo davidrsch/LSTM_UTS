@@ -8,6 +8,7 @@ box::use(
   app/view/import_file,
   app/view/no_format_modal,
   app/view/page_buttons,
+  app/view/run_modal,
   app/view/select_variables,
   app/view/table_output,
   app/view/training_inputs,
@@ -70,6 +71,8 @@ ui <- function(id) {
     # Defining modals
     # Error format modal ui
     no_format_modal$ui(ns("no_format_modal")),
+    # Run modal ui
+    run_modal$ui(ns('run_modal')),
 
     # Defining fluent page style
     style = "background-color:white"
@@ -94,7 +97,10 @@ server <- function(id) {
     )
 
     # Defining prev and next buttons
-    pn_buttons <- page_buttons$server("page_buttons")
+    pn_buttons <- page_buttons$server(
+      "page_buttons",
+      run_modal_state = run_visibility()
+    )
 
     # Defining selected variables card server
     select_variables$server(
@@ -106,7 +112,7 @@ server <- function(id) {
     )
 
     # Defining training inputs card
-    training_inputs$server(
+    inputs_training <- training_inputs$server(
       "training_inputs",
       run_button_status = pn_buttons()$hs_run_button
     )
@@ -119,6 +125,17 @@ server <- function(id) {
     no_format_modal$server(
       "no_format_modal",
       imported_path = reactive(imported_file()$file))
+    # Run modal server
+    run_visibility <- run_modal$server(
+      "run_modal",
+      transformations = inputs_training()$transformations,
+      scales = inputs_training()$scales,
+      horizon = inputs_training()$horizon,
+      inp_amount = inputs_training()$inp_amount,
+      lstm = inputs_training()$lstm,
+      epoch = inputs_training()$epoch,
+      tests = inputs_training()$tests
+    )
 
   })
 }
