@@ -49,7 +49,13 @@ server <- function(id, file, header, delimiter, decimal_point) {
           data
         }
       }
-    })
+    },
+    filter = "top",
+    options = list(
+      lengthChange = FALSE,
+      dom = "tip",
+      pageLength = 10
+    ))
 
     observeEvent(file(), {
       if (is.null(file())) {
