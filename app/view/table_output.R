@@ -11,6 +11,7 @@ box::use(
   app/logic/make_card[make_card],
 )
 
+# Defining UI of the module
 #' @export
 ui <- function(id) {
   ns <- NS(id)
@@ -23,6 +24,12 @@ ui <- function(id) {
   )
 }
 
+# Defining server side of the module. This module take extra
+# parameters like from import inputs (file, header, delimiter,
+# decimal_point).
+# - Creating reactive Value to store the imported data.
+# - Render table of imported data.
+# Return the data imported and the data filtered from tables.
 #' @export
 server <- function(id, file, header, delimiter, decimal_point) {
   moduleServer(id, function(input, output, session) {
@@ -69,7 +76,14 @@ server <- function(id, file, header, delimiter, decimal_point) {
       }
     })
 
-    reactive(data_imported())
+    reactive(
+      list(
+        data_imported = data_imported,
+        actual_data = if (!is.null(input$data_table_rows_all)) {
+          data_imported()[input$data_table_rows_all, ]
+        } else {
+          NULL 
+        } ))
 
   })
 }
