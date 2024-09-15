@@ -1,7 +1,7 @@
 box::use(
   dplyr[if_else, mutate],
   shiny.fluent[Dropdown.shinyInput, reactOutput, renderReact, Stack, updateDropdown.shinyInput],
-  shiny[moduleServer, NS, observeEvent],
+  shiny[moduleServer, NS, observeEvent, reactive],
   tibble[is_tibble, tibble],
 )
 
@@ -9,6 +9,9 @@ box::use(
   app/logic/make_card[make_card],
 )
 
+# This is the module for the select variables card.
+# The UI is render dynamically from server depending on the data
+# obtained from the imported file.
 #' @export
 ui <- function(id) {
   ns <- NS(id)
@@ -16,10 +19,24 @@ ui <- function(id) {
   reactOutput(ns("import_variables"))
 }
 
+# The server side of this module receive additional parameters as
+# data from import_file, [page_button_status, de_prev_button and
+# de_next_button] from page_buttons.
+# - Render UI based in if the data imported is a tibble. The card
+# rendered has two dropdowns one for a sequence variable and another
+# one for a variable to forecast.
+# - Set event based on sequence variable selector to disable that
+# variable in forecast variable selector.
+# - Set event based on selecting a variable in forecast selector to
+# show, enable or disable page buttons using reactive values from
+# page_buttons.
+# - Set event to hide or show page buttons based on if the data
+# imported is a tibble.
 #' @export
 server <- function(id, data, page_button_status, de_prev_button, de_next_button) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
     # Defining Select Variables to render only if data is imported
     output$import_variables <- renderReact({
       if (is_tibble(data())) {
@@ -56,7 +73,7 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
 
     })
 
-    # Disbling options in forecast variable depending in
+    # Disabling options in forecast variable depending in
     # sequence variable selected
     observeEvent(input$sequence_variable, {
       names <- names(data())
@@ -77,7 +94,7 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
       )
     })
 
-    # Showing or not page buttons deppending on if forecast variable is selected
+    # Showing or not page buttons depending on if forecast variable is selected
     # or not
     observeEvent(input$forecast_variable, {
       if (is.null(input$forecast_variable) | is.na(input$forecast_variable)) {
@@ -91,11 +108,20 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
       }
     })
 
+    # Hide or show page buttons based on if the data imported is
+    # a tibble
     observeEvent(data(), {
       if (!is_tibble(data()) | is.null(data())) {
         page_button_status("hide")
       }
     })
+
+    reactive(
+      list(
+        sequence_variable = input$sequence_variable,
+        forecast_variable = input$forecast_variable
+      )
+    )
 
   })
 }
