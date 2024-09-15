@@ -8,7 +8,7 @@ box::use(
   app/logic/constants[status_mapping],
 )
 
-# Defining making_modla module
+# Defining make_modal module
 #' @export
 ui <- function(id) {
   ns <- NS(id)
@@ -16,6 +16,12 @@ ui <- function(id) {
   reactOutput(ns("make_modal"))
 }
 
+# This module server receive as additional input:
+# - is_open: Boolean to open or close the modal dynamically
+# - title: to define title of the modal
+# - content: to define the content of the modal
+# - status & status_table: to define the status of the modal and get
+# from status_table the corresponding features as type, color and icon
 #' @export
 server <- function(id, is_open, title, content, status, status_table = status_mapping) {
   moduleServer(id, function(input, output, session) {
