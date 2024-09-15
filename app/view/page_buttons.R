@@ -1,24 +1,20 @@
 box::use(
-  shiny.fluent[DefaultButton.shinyInput, PrimaryButton.shinyInput, reactOutput, renderReact, Stack, updateDefaultButton.shinyInput],
+  shiny.fluent[DefaultButton.shinyInput, PrimaryButton.shinyInput],
+  shiny.fluent[Stack, updateDefaultButton.shinyInput],
   shiny[moduleServer, NS, observeEvent, reactive, reactiveVal],
   shinyjs[hidden, hide, show, toggleClass],
 )
 
-box::use(
-  app/view/import_file,
-  app/view/no_format_modal,
-  app/view/select_variables,
-  app/view/table_output,
-)
-
+# This module defines the buttons to pass from importing file
+# to configure run and also execute the experiment.
 #' @export
 ui <- function(id) {
   ns <- NS(id)
 
-  # Defining prev and next buttons
+  # Defining previous and next buttons
   Stack(
     horizontal = TRUE,
-    horizontalAlign = 'center',
+    horizontalAlign = "center",
     tokens = list(
       childrenGap = "15px"),
     hidden(DefaultButton.shinyInput(
@@ -38,6 +34,20 @@ ui <- function(id) {
   )
 }
 
+# The server module takes as additional parameter run_modal_state,
+# a reactive value from to modify the visibility of run_modal modal.
+# - Define reactive value with observer to show and hide previous and
+# next buttons.
+# - Define reactive value with observer to show and hide run button
+# - Define reactive value to disable or enable previous button
+# - Define reactive value to disable or enable next button
+# - Define event in previous button to enable disable page buttons
+# and turning panel by toggling class "turnpanel"
+# - Define event in next button to enable disable page buttons
+# and turning panel by toggling class "turnpanel"
+# - Define event in run button to affect visibility of run_modal
+# This server output a list of the 4 reactive values that allows
+# other modules to enable/disable or modify visibility of buttons.
 #' @export
 server <- function(id, run_modal_state) {
   moduleServer(id, function(input, output, session) {
@@ -98,6 +108,8 @@ server <- function(id, run_modal_state) {
       }
     })
 
+    # - Defining event in previous button to enable disable page buttons
+    # and turning panel by toggling class "turnpanel"
     observeEvent(input$prevtbutton, {
       de_next_button("enable")
       de_prev_button("disable")
@@ -106,6 +118,8 @@ server <- function(id, run_modal_state) {
         class = "turnpanel")
     })
 
+    # - Defining event in next button to enable disable page buttons
+    # and turning panel by toggling class "turnpanel"
     observeEvent(input$nextbutton, {
       de_next_button("disable")
       de_prev_button("enable")
@@ -114,6 +128,7 @@ server <- function(id, run_modal_state) {
         class = "turnpanel")
     })
 
+    # Defining event in run button to affect visibility of run_modal
     observeEvent(input$runbutton, {
       run_modal_state(TRUE)
     })
