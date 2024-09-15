@@ -8,7 +8,8 @@ box::use(
   app/view/make_modal,
 )
 
-# Error format modal ui
+# This module defines the modal that appears when attempting to load
+# a file with not accepted extension.
 #' @export
 ui <- function(id) {
   ns <- NS(id)
@@ -16,10 +17,16 @@ ui <- function(id) {
   make_modal$ui(ns("make_modal"))
 }
 
+# The server of this module receives as additional parameter the
+# path of the imported file.
+# - Defines the Boolean reactiveVal that defines modal visibility
+# and the observeEvent that modify it based on imported_path.
+# - Defines modal using make_modal module
 #' @export
 server <- function(id, imported_path) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
     # Stablishing condition to show the modal
     modal_visible <- reactiveVal(FALSE)
     observeEvent(imported_path(), {
@@ -31,7 +38,8 @@ server <- function(id, imported_path) {
         } else {}
       }
     })
-    # Creating modla using make_modal module
+
+    # Creating modal using make_modal module
     make_modal$server(
       "make_modal",
       is_open = modal_visible,
