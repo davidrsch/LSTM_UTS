@@ -117,7 +117,7 @@
     },
     "box.linters": {
       "Package": "box.linters",
-      "Version": "0.10.3",
+      "Version": "0.10.5",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -134,7 +134,20 @@
         "xml2",
         "xmlparsedata"
       ],
-      "Hash": "14ac276281c88d7c5c2c076668d715f5"
+      "Hash": "8e26a8f1052518f7b69c967117f918be"
+    },
+    "box.lsp": {
+      "Package": "box.lsp",
+      "Version": "0.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "box",
+        "cli",
+        "fs",
+        "rlang"
+      ],
+      "Hash": "6da91a38345df6d9abb09f907ae658de"
     },
     "brio": {
       "Package": "brio",
@@ -635,14 +648,14 @@
     },
     "ps": {
       "Package": "ps",
-      "Version": "1.7.7",
+      "Version": "1.8.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
         "utils"
       ],
-      "Hash": "878b467580097e9c383acbb16adab57a"
+      "Hash": "4b9c8485b0c7eecdf0a9ba5132a45576"
     },
     "purrr": {
       "Package": "purrr",
@@ -715,13 +728,14 @@
     },
     "rhino": {
       "Package": "rhino",
-      "Version": "1.9.0",
+      "Version": "1.10.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
         "box",
         "box.linters",
+        "box.lsp",
         "cli",
         "config",
         "fs",
@@ -739,7 +753,7 @@
         "withr",
         "yaml"
       ],
-      "Hash": "c78f7332dc588c31094daccd26513e83"
+      "Hash": "d3afa86ba4cdf4ee27d88a6397738ca0"
     },
     "rlang": {
       "Package": "rlang",
@@ -949,21 +963,20 @@
     },
     "waldo": {
       "Package": "waldo",
-      "Version": "0.5.2",
+      "Version": "0.5.3",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
         "cli",
         "diffobj",
-        "fansi",
         "glue",
         "methods",
         "rematch2",
         "rlang",
         "tibble"
       ],
-      "Hash": "c7d3fd6d29ab077cbac8f0e2751449e6"
+      "Hash": "16aa934a49658677d8041df9017329b9"
     },
     "withr": {
       "Package": "withr",
