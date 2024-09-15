@@ -10,6 +10,16 @@ box::use(
   app/logic/max_min_width_input[max_min_width_input]
 )
 
+# Defining module UI inputs:
+# - Time series
+# * Transformation select, multiple choice (original, first, second)
+# * Scales select, multiple choice (exact, 0 to 1, -1 to 1)
+# - Training vectors
+# * Temporal horizon (numeric input only one)
+# * Historical amount (numeric input, more than one)
+# - LSTM (numeric input, more than one)
+# - Training & Testing
+# * Epoch * Tests
 #' @export
 ui <- function(id) {
   ns <- NS(id)
@@ -18,6 +28,7 @@ ui <- function(id) {
     "",
     Stack(
       tokens = list(childrenGap = 10),
+      # Time series
       Text(
         variant = "xLarge",
         "Transformations",
@@ -42,6 +53,7 @@ ui <- function(id) {
           required = TRUE
         )
       ),
+      # Training vectors
       Text(
         variant = "xLarge",
         "Training vectors",
@@ -65,6 +77,7 @@ ui <- function(id) {
           required = TRUE
         )
       ),
+      # LSTM
       Text(
         variant = "xLarge",
         "LSTM",
@@ -75,6 +88,7 @@ ui <- function(id) {
         description = 'Separete amounts using commas: ","',
         required = TRUE
       ),
+      # Training & Testing
       Text(
         variant = "xLarge",
         "Training & Testing",
@@ -107,11 +121,21 @@ ui <- function(id) {
   )
 }
 
+# Defining server side of module. This server take an additional
+# parameter the status of the run button in page buttons.
+# - Define a reactive value and observer to validate that input 
+# value is numeric
+# - Define a reactive value and observer to validate that lstm 
+# value is numeric
+# - Define observe event to show or hide run button
+# Return as reactive value the value of the inputs
 #' @export
 server <- function(id, run_button_status) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    # Defining a reactive value and observer to validate that input 
+    # value is numeric
     inp_amount_valid <- reactiveVal("")
     observeEvent(input$inp_amount,{
       inp_amount_valid <- gsub("[^0-9,]+", "", input$inp_amount)
@@ -120,6 +144,8 @@ server <- function(id, run_button_status) {
       }
     })
 
+    # Defining a reactive value and observer to validate that lstm 
+    # value is numeric
     lstm_valid <- reactiveVal("")
     observeEvent(input$lstm,{
       lstm_valid <- gsub("[^0-9,]+", "", input$lstm)
@@ -128,6 +154,7 @@ server <- function(id, run_button_status) {
       }
     })
 
+    # Defining observe event to show or hide run button
     observeEvent(
       c(input$transformation, input$scale, input$inp_amount,
         input$lstm), {
