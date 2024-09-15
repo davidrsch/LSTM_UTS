@@ -9,9 +9,14 @@ box::use(
 box::use(
   app/logic/constants[file_formats],
   app/logic/make_card[make_card],
-  app/logic/max_min_width_input[max_min_width_input]
+  app/logic/max_min_width_input[max_min_width_input],
 )
 
+# Import file module with inputs for:
+# - upload file   - specify if data includes header row
+# - delimiter     - decimal point
+# The server outputs the value of the mentioned input inside a
+# reactive list
 #' @export
 ui <- function(id) {
   ns <- NS(id)
@@ -56,7 +61,8 @@ server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    # Enabling or disabling inputs depending on the imported file format
+    # Enabling or disabling inputs depending on the imported file 
+    # format
     observeEvent(input$file, {
       if (!is.null(input$file)) {
         file_path <- input$file$datapath
