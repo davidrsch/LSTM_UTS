@@ -1,10 +1,11 @@
 box::use(
-  shiny.fluent[fluentPage, Stack],
-  shiny[div, moduleServer, NS, observeEvent, reactive, tags],
-  shinyjs[hidden, useShinyjs],
+  shiny.fluent[fluentPage],
+  shiny[div, moduleServer, NS, reactive],
+  shinyjs[useShinyjs],
 )
 
 box::use(
+  app/view/download_modal,
   app/view/import_file,
   app/view/no_format_modal,
   app/view/page_buttons,
@@ -12,7 +13,7 @@ box::use(
   app/view/select_variables,
   app/view/table_output,
   app/view/training_inputs,
-  app/view/training_pivot
+  app/view/training_pivot,
 )
 
 #' @export
@@ -21,14 +22,14 @@ ui <- function(id) {
 
   fluentPage(
     useShinyjs(),
-    
+
     # Definin horizontal layout
     div(
       class = "ms-Grid-row",
       style = "display: flex; flex-wrap: wrap;",
       # Defining left side of the layout (size: 4)
       div(
-        class="ms-Grid-col ms-sm12 ms-md4",
+        class = "ms-Grid-col ms-sm12 ms-md4",
         div(
           class = "panelcontainer",
           div(
@@ -42,11 +43,11 @@ ui <- function(id) {
             # Defining selected variables card ui
             select_variables$ui(ns("select_variables")),
             class = "frontpanel"
-          )          
+          )
         )
       ),
       div(
-        class="ms-Grid-col ms-sm12 ms-md8",
+        class = "ms-Grid-col ms-sm12 ms-md8",
         div(
           class = "panelcontainer",
           div(
@@ -72,7 +73,9 @@ ui <- function(id) {
     # Error format modal ui
     no_format_modal$ui(ns("no_format_modal")),
     # Run modal ui
-    run_modal$ui(ns('run_modal')),
+    run_modal$ui(ns("run_modal")),
+    # Download modal ui
+    download_modal$ui(ns("download_modal")),
 
     # Defining fluent page style
     style = "background-color:white"
@@ -87,7 +90,7 @@ server <- function(id) {
     # Defining import file inputs card
     imported_file <- import_file$server("import_file")
 
-    # Defininf table output card
+    # Defining table output card
     data_imported <- table_output$server(
       "table_output",
       file = reactive(imported_file()$file),
@@ -99,13 +102,13 @@ server <- function(id) {
     # Defining prev and next buttons
     pn_buttons <- page_buttons$server(
       "page_buttons",
-      run_modal_state = run_visibility()
+      run_modal_state = run_visibility()$modal_visible
     )
 
     # Defining selected variables card server
-    select_variables$server(
+    selected_variables <- select_variables$server(
       "select_variables",
-      data = data_imported,
+      data = data_imported()$data_imported,
       page_button_status = pn_buttons()$hs_page_buttons,
       de_prev_button = pn_buttons()$de_prev_button,
       de_next_button = pn_buttons()$de_next_button
@@ -128,13 +131,22 @@ server <- function(id) {
     # Run modal server
     run_visibility <- run_modal$server(
       "run_modal",
+      data = data_imported()$actual_data,
+      sequence = selected_variables()$sequence_variable,
+      forecast = selected_variables()$forecast_variable,
       transformations = inputs_training()$transformations,
       scales = inputs_training()$scales,
       horizon = inputs_training()$horizon,
       inp_amount = inputs_training()$inp_amount,
       lstm = inputs_training()$lstm,
       epoch = inputs_training()$epoch,
-      tests = inputs_training()$tests
+      tests = inputs_training()$tests,
+      d_modal = download_visibility()
+    )
+    # Download modal server
+    download_visibility <- download_modal$server(
+      "download_modal",
+      results = run_visibility()$results
     )
 
   })
