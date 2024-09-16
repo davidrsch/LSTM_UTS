@@ -1,0 +1,26 @@
+---
+title: "Training vector"
+format:
+  html:
+    embed-resources: true
+---
+
+What is the temporal horizon?
+
+The temporal horizon is a critical concept in time series forecasting. It refers to the length of future time for which predictions are made. The choice of the temporal horizon is influenced by the specific requirements of the forecasting task and can vary greatly depending on the context. For instance, in stock market predictions, the temporal horizon might be just a few days ahead, while in climate modeling, it could be decades.
+
+How many observations will be needed to infer the behaviour of the selected temporal horizon?
+
+Determining the number of observations needed to infer the behaviour of the selected temporal horizon depends on the complexity of the problem, the nature of the data, and the desired accuracy of the forecast. Generally, the more observations included, the better the model can learn from the past data. However, including too many observations can lead to overfitting, where the model learns the noise in the training data rather than the underlying pattern. It's a delicate balance that requires careful consideration and often, iterative experimentation.
+
+How these affect the structure of the training vectors?
+
+In practice, the number of neurons in the output layer is typically set to match the number of steps in the temporal horizon. If the goal is to predict the next 10 days of stock prices, the output layer would have 10 neurons, each corresponding to a day's prediction. The training vectors would then need to be constructed with enough historical data to allow the model to discern the patterns that lead up to those 10 days. The exact number of past observations to include is not a one-size-fits-all answer and would need to be determined through model validation.
+
+::: {.callout-note}
+The user has the flexibility to set the temporal horizon in alignment with the specific requirements of the problem, as well as to set varying quantities of historical data.
+:::
+
+With the defined temporal horizon and the quantities of histoical data, different training vectors will be built using the strategy called rolling windows as exposed in [Rolling-Windows Analysis of Time-Series Models](https://www.mathworks.com/help/econ/rolling-windows-estimation-of-state-space-models.html)
+
+The primary objective is to determine the degree of variation in the results produced by the models, contingent upon the structural composition of the training vectors. This approach not only enhances the robustness of the predictive models but also provides insights into the stability and reliability of their outcomes across different temporal segments.

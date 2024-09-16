@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "cypress-file-upload": "^5.0.8",
+    "jquery": "^3.7.1"
+  }
+}
