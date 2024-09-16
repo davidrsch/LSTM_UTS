@@ -33,7 +33,7 @@ ui <- function(id) {
 # Return visibility reactive value and results.
 #' @export
 server <- function(id, data, sequence, forecast, transformations,
-  scales, horizon, inp_amount, lstm, epoch, tests, d_modal) {
+                   scales, horizon, inp_amount, lstm, epoch, tests, d_modal) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -52,7 +52,8 @@ server <- function(id, data, sequence, forecast, transformations,
             inp_amount = inp_amount,
             lstm = lstm,
             epoch = epoch,
-            tests = tests)
+            tests = tests
+          )
         )
       } else {
         iterations("")
@@ -82,8 +83,8 @@ server <- function(id, data, sequence, forecast, transformations,
           title = "Warning",
           content = div(
             p("You will execute ", iterations()$tests[[1]], " tests of ", dim(iterations())[1],
-            " models. Modify the previous form or filter if you whish to modify the",
-            " models to test."),
+              " models. Modify the previous form or filter if you whish to modify the",
+              " models to test."),
             tags$br(),
             dataTableOutput(ns("iterations_table")),
             tags$br(),
@@ -95,7 +96,8 @@ server <- function(id, data, sequence, forecast, transformations,
               )
             )
           ),
-          status = "warning")
+          status = "warning"
+        )
       }
     })
 
@@ -106,16 +108,14 @@ server <- function(id, data, sequence, forecast, transformations,
       showPageSpinner(
         caption = "Please wait, this can take several minutes"
       )
-      iterations_data <- iterations()[input$iterations_table_rows_all, ] |> 
+      iterations_data <- iterations()[input$iterations_table_rows_all, ] |>
         mutate(
           inp_amount = as.numeric(inp_amount),
-          lstm = as.numeric(lstm))
+          lstm = as.numeric(lstm)
+        )
       results(
-        process(
-          data,
-          sequence,
-          forecast,
-          iterations_data))
+        process(data, sequence, forecast, iterations_data)
+      )
       hidePageSpinner()
       modal_visible(FALSE)
       d_modal(TRUE)
@@ -125,7 +125,8 @@ server <- function(id, data, sequence, forecast, transformations,
       list(
         modal_visible = modal_visible,
         results = results
-      ))
+      )
+    )
 
   })
 }

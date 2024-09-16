@@ -35,22 +35,23 @@ server <- function(id, is_open, title, content, status, status_table = status_ma
 
     output$make_modal <- renderReact({
       Modal(isOpen = is_open(),
-          Stack(tokens = list(padding = "15px", childrenGap = "10px"),
-            div(style = list(display = "flex"),
-              div(
-                FontIcon(
-                  iconName = icon_name),
-                style = div_icon_style),
-              Text(title, variant = "large"),
-              div(style = list(flexGrow = 1)),
-              IconButton.shinyInput(
-                ns("hideModal"),
-                iconProps = list(iconName = "Cancel")
-              ),
+        Stack(
+          tokens = list(padding = "15px", childrenGap = "10px"),
+          div(style = list(display = "flex"),
+            div(
+              FontIcon(iconName = icon_name),
+              style = div_icon_style
             ),
-            content
-          )
+            Text(title, variant = "large"),
+            div(style = list(flexGrow = 1)),
+            IconButton.shinyInput(
+              ns("hideModal"),
+              iconProps = list(iconName = "Cancel")
+            ),
+          ),
+          content
         )
+      )
     })
   })
 }

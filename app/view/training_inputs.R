@@ -1,13 +1,13 @@
 box::use(
-  shiny.fluent[Dropdown.shinyInput, SpinButton.shinyInput, Stack, Text, TextField.shinyInput, updateTextField.shinyInput],
+  shiny.fluent[Dropdown.shinyInput, SpinButton.shinyInput, Stack],
+  shiny.fluent[Text, TextField.shinyInput, updateTextField.shinyInput],
   shiny[moduleServer, NS, observeEvent, reactive, reactiveVal],
-  stringr[str_split_i],
 )
 
 box::use(
-  app/logic/constants[file_formats, scales, transformations],
+  app/logic/constants[scales, transformations],
   app/logic/make_card[make_card],
-  app/logic/max_min_width_input[max_min_width_input]
+  app/logic/max_min_width_input[max_min_width_input],
 )
 
 # Defining module UI inputs:
@@ -18,7 +18,7 @@ box::use(
 # * Temporal horizon (numeric input only one)
 # * Historical amount (numeric input, more than one)
 # - LSTM (numeric input, more than one)
-# - Training & Testing
+# - Training and Testing
 # * Epoch * Tests
 #' @export
 ui <- function(id) {
@@ -28,11 +28,11 @@ ui <- function(id) {
     "",
     Stack(
       tokens = list(childrenGap = 10),
-      # Time series
       Text(
         variant = "xLarge",
         "Transformations",
-        block = TRUE),
+        block = TRUE
+      ),
       Stack(
         horizontal = TRUE,
         tokens = list(childrenGap = "10%"),
@@ -53,11 +53,11 @@ ui <- function(id) {
           required = TRUE
         )
       ),
-      # Training vectors
       Text(
         variant = "xLarge",
         "Training vectors",
-        block = TRUE),
+        block = TRUE
+      ),
       Stack(
         horizontal = TRUE,
         tokens = list(childrenGap = "10%"),
@@ -77,22 +77,22 @@ ui <- function(id) {
           required = TRUE
         )
       ),
-      # LSTM
       Text(
         variant = "xLarge",
         "LSTM",
-        block = TRUE),
+        block = TRUE
+      ),
       TextField.shinyInput(
         inputId = ns("lstm"),
         label = "Neurons:",
         description = 'Separete amounts using commas: ","',
         required = TRUE
       ),
-      # Training & Testing
       Text(
         variant = "xLarge",
         "Training & Testing",
-        block = TRUE),
+        block = TRUE
+      ),
       Stack(
         horizontal = TRUE,
         tokens = list(childrenGap = "10%"),
@@ -123,9 +123,9 @@ ui <- function(id) {
 
 # Defining server side of module. This server take an additional
 # parameter the status of the run button in page buttons.
-# - Define a reactive value and observer to validate that input 
+# - Define a reactive value and observer to validate that input
 # value is numeric
-# - Define a reactive value and observer to validate that lstm 
+# - Define a reactive value and observer to validate that lstm
 # value is numeric
 # - Define observe event to show or hide run button
 # Return as reactive value the value of the inputs
@@ -134,20 +134,20 @@ server <- function(id, run_button_status) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    # Defining a reactive value and observer to validate that input 
+    # Defining a reactive value and observer to validate that input
     # value is numeric
     inp_amount_valid <- reactiveVal("")
-    observeEvent(input$inp_amount,{
+    observeEvent(input$inp_amount, {
       inp_amount_valid <- gsub("[^0-9,]+", "", input$inp_amount)
       if (inp_amount_valid != input$inp_amount) {
         updateTextField.shinyInput(inputId = "inp_amount", value = inp_amount_valid)
       }
     })
 
-    # Defining a reactive value and observer to validate that lstm 
+    # Defining a reactive value and observer to validate that lstm
     # value is numeric
     lstm_valid <- reactiveVal("")
-    observeEvent(input$lstm,{
+    observeEvent(input$lstm, {
       lstm_valid <- gsub("[^0-9,]+", "", input$lstm)
       if (lstm_valid != input$lstm) {
         updateTextField.shinyInput(inputId = "lstm", value = lstm_valid)
@@ -155,17 +155,15 @@ server <- function(id, run_button_status) {
     })
 
     # Defining observe event to show or hide run button
-    observeEvent(
-      c(input$transformation, input$scale, input$inp_amount,
-        input$lstm), {
-          if(!any(is.null(input$transformation), input$transformation == "") &
-            !any(is.null(input$scale), input$scale == "") & 
-            !any(is.null(input$inp_amount), grepl("[A-Za-z]|^$",input$inp_amount)) &
-            !any(is.null(input$lstm), grepl("[A-Za-z]|^$",input$lstm))) {
-            run_button_status("show")
-          } else {
-            run_button_status("hide")
-          }
+    observeEvent(c(input$transformation, input$scale, input$inp_amount, input$lstm), {
+      if (!any(is.null(input$transformation), input$transformation == "") &
+            !any(is.null(input$scale), input$scale == "") &
+            !any(is.null(input$inp_amount), grepl("[A-Za-z]|^$", input$inp_amount)) &
+            !any(is.null(input$lstm), grepl("[A-Za-z]|^$", input$lstm))) {
+        run_button_status("show")
+      } else {
+        run_button_status("hide")
+      }
     })
 
     reactive(

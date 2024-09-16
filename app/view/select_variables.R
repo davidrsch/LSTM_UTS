@@ -42,13 +42,12 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
       if (is_tibble(data())) {
 
         names <- names(data())
-        options <- tibble(
-          key = names,
-          text = names) |>
+        options <- tibble(key = names, text = names) |>
           split(seq_along(names)) |>
           unname() |>
           lapply(function(x) {
-            as.list(x)})
+            as.list(x)
+          })
 
         make_card(
           "Select variables",
@@ -77,16 +76,15 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
     # sequence variable selected
     observeEvent(input$sequence_variable, {
       names <- names(data())
-      options <- tibble(
-        key = names,
-        text = names) |>
+      options <- tibble(key = names, text = names) |>
         mutate(
           disabled = if_else(key == input$sequence_variable, TRUE, FALSE)
         ) |>
         split(seq_along(names)) |>
         unname() |>
         lapply(function(x) {
-          as.list(x)})
+          as.list(x)
+        })
       updateDropdown.shinyInput(
         inputId = "forecast_variable",
         options = options,

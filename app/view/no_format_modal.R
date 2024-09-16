@@ -53,7 +53,8 @@ server <- function(id, imported_path) {
           tags$li("xls")
         )
       ),
-      status = "error")
+      status = "error"
+    )
 
   })
 }

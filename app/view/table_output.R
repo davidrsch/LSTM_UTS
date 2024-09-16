@@ -48,7 +48,8 @@ server <- function(id, file, header, delimiter, decimal_point) {
               file_path,
               col_names = header(),
               delim = delimiter(),
-              locale = locale(decimal_mark = decimal_point()))
+              locale = locale(decimal_mark = decimal_point())
+            )
           } else {
             data <- read_excel(file_path, col_names = header())
           }
@@ -82,8 +83,10 @@ server <- function(id, file, header, delimiter, decimal_point) {
         actual_data = if (!is.null(input$data_table_rows_all)) {
           data_imported()[input$data_table_rows_all, ]
         } else {
-          NULL 
-        } ))
+          NULL
+        }
+      )
+    )
 
   })
 }

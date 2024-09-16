@@ -1,8 +1,7 @@
 box::use(
   shiny.fluent[PrimaryButton.shinyInput, Stack],
-  shiny[div, downloadButton, downloadHandler, moduleServer, NS, observe, observeEvent, p],
-  shiny[reactive, reactiveVal, tags],
-  shinyjs[click],
+  shiny[div, moduleServer, NS, observeEvent, p],
+  shiny[reactive, reactiveVal],
 )
 
 box::use(
@@ -66,7 +65,7 @@ server <- function(id, results) {
 
     # Define download button functionality
     observeEvent(input$downloadButton, {
-      fname <- paste0('tests_results', Sys.Date(),'.RData')
+      fname <- paste0("tests_results", Sys.Date(), ".RData")
       results_test <- results()
       save(results_test, file = fname)
     })

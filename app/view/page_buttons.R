@@ -15,8 +15,7 @@ ui <- function(id) {
   Stack(
     horizontal = TRUE,
     horizontalAlign = "center",
-    tokens = list(
-      childrenGap = "15px"),
+    tokens = list(childrenGap = "15px"),
     hidden(DefaultButton.shinyInput(
       ns("prevtbutton"),
       text = "Previous",
@@ -115,7 +114,8 @@ server <- function(id, run_modal_state) {
       de_prev_button("disable")
       toggleClass(
         selector = ".panelcontainer",
-        class = "turnpanel")
+        class = "turnpanel"
+      )
     })
 
     # - Defining event in next button to enable disable page buttons
@@ -125,7 +125,8 @@ server <- function(id, run_modal_state) {
       de_prev_button("enable")
       toggleClass(
         selector = ".panelcontainer",
-        class = "turnpanel")
+        class = "turnpanel"
+      )
     })
 
     # Defining event in run button to affect visibility of run_modal

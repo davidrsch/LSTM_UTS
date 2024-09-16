@@ -1,7 +1,6 @@
 box::use(
-  shiny.fluent[
-    Checkbox.shinyInput, Stack, TextField.shinyInput,
-    updateCheckbox.shinyInput, updateTextField.shinyInput],
+  shiny.fluent[Checkbox.shinyInput, Stack, TextField.shinyInput],
+  shiny.fluent[updateCheckbox.shinyInput, updateTextField.shinyInput],
   shiny[fileInput, moduleServer, NS, observeEvent, reactive],
   stringr[str_split_i],
 )
@@ -27,12 +26,14 @@ ui <- function(id) {
       tokens = list(childrenGap = 10),
       fileInput(
         ns("file"),
-        "Upload a file"),
+        "Upload a file"
+      ),
       Checkbox.shinyInput(
         ns("header"),
         label = "Has header?",
         value = TRUE,
-        disabled = TRUE),
+        disabled = TRUE
+      ),
       Stack(
         horizontal = TRUE,
         tokens = list(childrenGap = "10%"),
@@ -48,7 +49,8 @@ ui <- function(id) {
           label = "Decimal point",
           value = ".",
           disabled = TRUE,
-          styles = max_min_width_input(45))
+          styles = max_min_width_input(45)
+        )
       )
     ),
     style = "max-height: 320px; background-color: white;",
@@ -61,7 +63,7 @@ server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    # Enabling or disabling inputs depending on the imported file 
+    # Enabling or disabling inputs depending on the imported file
     # format
     observeEvent(input$file, {
       if (!is.null(input$file)) {
@@ -70,7 +72,8 @@ server <- function(id) {
         if (is.element(format, file_formats[["extensions"]])) {
           updateCheckbox.shinyInput(
             inputId = "header",
-            disabled = FALSE)
+            disabled = FALSE
+          )
           if (is.element(format, file_formats[file_formats$type == "text", ][["extensions"]])) {
             updateTextField.shinyInput(
               inputId = "delimiter",
@@ -96,7 +99,8 @@ server <- function(id) {
         } else {
           updateCheckbox.shinyInput(
             inputId = "header",
-            disabled = TRUE)
+            disabled = TRUE
+          )
           updateTextField.shinyInput(
             inputId = "delimiter",
             disabled = TRUE
@@ -114,7 +118,8 @@ server <- function(id) {
         file = input$file,
         header = input$header,
         delimiter = input$delimiter,
-        decimal_point = input$decimal_point)
+        decimal_point = input$decimal_point
+      )
     )
 
   })
