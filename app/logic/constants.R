@@ -3,7 +3,7 @@ box::use(
 )
 
 file_formats <- tribble(
-  ~type, ~extention,
+  ~type, ~extensions,
   "text", "csv",
   "text", "tsv",
   "excel", "xlsx",

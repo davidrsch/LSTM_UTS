@@ -33,7 +33,7 @@ server <- function(id, imported_path) {
       file_path <- imported_path()
       if (!is.null(file_path)) {
         format <- str_split_i(file_path$datapath, "\\.", -1)
-        if (!is.element(format, file_formats[["extention"]])) {
+        if (!is.element(format, file_formats[["extensions"]])) {
           modal_visible(TRUE)
         } else {}
       }

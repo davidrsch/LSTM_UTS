@@ -42,8 +42,8 @@ server <- function(id, file, header, delimiter, decimal_point) {
         file_path <- file()$datapath
         format <- str_split_i(file_path, "\\.", -1)
 
-        if (is.element(format, file_formats[["extention"]])) {
-          if (is.element(format, file_formats[file_formats$type == "text", ][["extention"]])) {
+        if (is.element(format, file_formats[["extensions"]])) {
+          if (is.element(format, file_formats[file_formats$type == "text", ][["extensions"]])) {
             data <- read_delim(
               file_path,
               col_names = header(),
@@ -70,7 +70,7 @@ server <- function(id, file, header, delimiter, decimal_point) {
       } else {
         file_path <- file()$datapath
         format <- str_split_i(file_path, "\\.", -1)
-        if (!is.element(format, file_formats[["extention"]])) {
+        if (!is.element(format, file_formats[["extensions"]])) {
           data_imported(array(1:2, 2))
         }
       }

@@ -67,11 +67,11 @@ server <- function(id) {
       if (!is.null(input$file)) {
         file_path <- input$file$datapath
         format <- str_split_i(file_path, "\\.", -1)
-        if (is.element(format, file_formats[["extention"]])) {
+        if (is.element(format, file_formats[["extensions"]])) {
           updateCheckbox.shinyInput(
             inputId = "header",
             disabled = FALSE)
-          if (is.element(format, file_formats[file_formats$type == "text", ][["extention"]])) {
+          if (is.element(format, file_formats[file_formats$type == "text", ][["extensions"]])) {
             updateTextField.shinyInput(
               inputId = "delimiter",
               disabled = FALSE,
