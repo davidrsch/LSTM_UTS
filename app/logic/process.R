@@ -179,12 +179,10 @@ get_results <- function(data, original) {
 
   data <- bind_cols(data, rmse) |>
     mutate(
-      transformations = if_else(
-        str_detect(data, "value"), "Original",
-        if_else(str_detect(data, "first"), "First", "Second")),
-      scales = if_else(
-        str_detect(data, "z_o"), "0 to 1",
-        if_else(str_detect(data, "m_p"), "-1 to 1", "Exact")),
+      transformations = str_detect(data, "value") |>
+        if_else("Original", if_else(str_detect(data, "first"), "First", "Second")),
+      scales = str_detect(data, "z_o") |>
+        if_else("0 to 1", if_else(str_detect(data, "m_p"), "-1 to 1", "Exact")),
       .after = data
     ) |>
     select(-c(data, tests))

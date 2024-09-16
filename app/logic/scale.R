@@ -79,7 +79,9 @@ rescale_back <- function(data, serie, ex_min_max, fi_min_max, se_min_max) {
     mutate(
       across(
         starts_with("test_"),
-        \(x) rescale(x, from = f_min_max, to = t_min_max))) |>
+        \(x) rescale(x, from = f_min_max, to = t_min_max)
+      )
+    ) |>
     nest(tests_results = starts_with("test_")) |>
     nest(model_data = c(horizon, inp_amount, lstm, epoch, tests, tests_results))
   return(data)
@@ -94,8 +96,8 @@ get_actual_scales <- function(data, ex_min_max, fi_min_max, se_min_max) {
     pull()
   for (i in seq_along(series)) {
     if (!is.element(series[i], c("value", "first", "second"))) {
-      data[which(data[, 1] == series[i]), ] <- rescale_back(
-        data, series[i], ex_min_max, fi_min_max, se_min_max)
+      data[which(data[, 1] == series[i]), ] <- data |>
+        rescale_back(series[i], ex_min_max, fi_min_max, se_min_max)
     }
   }
   return(data)

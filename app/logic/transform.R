@@ -77,7 +77,8 @@ second_transformation <- function(data) {
   if (any(data$value <= 0)) {
     data <- list(
       data = NULL,
-      second_diff = NULL)
+      second_diff = NULL
+    )
   } else {
     data <- data |>
       mutate(value = log(value))
@@ -91,7 +92,8 @@ second_transformation <- function(data) {
       data <- list(
         data = data |>
           rename(second = value),
-        second_diff = NULL)
+        second_diff = NULL
+      )
     }
   }
   return(data)
@@ -192,11 +194,13 @@ invert_diff_series <- function(data, serie, original, first_diff, second_diff) {
       mutate(
         across(
           starts_with("test_"),
-          \(x) invert_diff(x, diff, original, inp_amount))) |>
-    nest(tests_results = starts_with("test_")) |>
-    ungroup() |>
-    select(-md) |>
-    nest(model_data = c(horizon, inp_amount, lstm, epoch, tests, tests_results))
+          \(x) invert_diff(x, diff, original, inp_amount)
+        )
+      ) |>
+      nest(tests_results = starts_with("test_")) |>
+      ungroup() |>
+      select(-md) |>
+      nest(model_data = c(horizon, inp_amount, lstm, epoch, tests, tests_results))
   }
 
   return(data)
@@ -215,8 +219,8 @@ get_actual_serie <- function(data, original, first_diff, second_diff) {
 
   for (i in seq_along(series)) {
     if (!str_detect(series[i], "value")) {
-      data[which(data[, 1] == series[i]), ] <- invert_diff_series(
-        data, series[i], original, first_diff, second_diff)
+      data[which(data[, 1] == series[i]), ] <- data |>
+        invert_diff_series(series[i], original, first_diff, second_diff)
     }
   }
   return(data)

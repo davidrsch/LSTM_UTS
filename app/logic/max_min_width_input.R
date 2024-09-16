@@ -1,7 +1,9 @@
 #' @export
-max_min_width_input <- function(x){
+max_min_width_input <- function(x) {
   list(
     root = list(
-      'max-width' = paste0(x,"%"),
-      'min-width' = paste0(x,"%")))
+      "max-width" = paste0(x, "%"),
+      "min-width" = paste0(x, "%")
+    )
+  )
 }

@@ -13,7 +13,7 @@ box::use(
 multiple_lead <- function(data, n) {
   data |>
     mutate(across(matches(names(data)), \(x) lead(x, n = n), .names = "lead_{col}_n{n}")) |>
-    mutate(index = dplyr::row_number(), .before = value) |> 
+    mutate(index = dplyr::row_number(), .before = value) |>
     select(- value)
 }
 
@@ -31,7 +31,7 @@ get_input_vector <- function(data, inp_amount, horizon) {
     inputs <- n |>
       map(\(x) multiple_lead(data = data, n = x)) |>
       reduce(left_join, "index") |>
-      select(-index) |> 
+      select(-index) |>
       na.omit()
   }
   inputs <- inputs |>
@@ -168,9 +168,8 @@ test_model_flow <- function(data, modeldata) {
   modeldata <- modeldata |> select(-tests)
 
   amount_pred <- length((inp_amount + 2):dim(data)[1])
-  pred_tests <- matrix(
-    rep(NA, (amount_pred * tests)),
-    ncol = tests) |>
+  pred_tests <- rep(NA, (amount_pred * tests)) |>
+    matrix(ncol = tests) |>
     as_tibble()
   names(pred_tests) <- gsub(pattern = "V", "test_", names(pred_tests))
 

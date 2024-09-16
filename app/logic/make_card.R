@@ -28,5 +28,5 @@ make_card <- function(title, content, size = 12, style = "", is_contained = FALS
       content
     )
   }
-  return(card)  
+  return(card)
 }
