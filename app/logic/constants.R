@@ -8,7 +8,8 @@ file_formats <- tribble(
   "text", "csv",
   "text", "tsv",
   "excel", "xlsx",
-  "excel", "xls")
+  "excel", "xls"
+)
 
 #' @export
 status_mapping <- tribble(

@@ -127,7 +127,8 @@ server <- function(id) {
     # Error format modal server
     no_format_modal$server(
       "no_format_modal",
-      imported_path = reactive(imported_file()$file))
+      imported_path = reactive(imported_file()$file)
+    )
     # Run modal server
     run_visibility <- run_modal$server(
       "run_modal",
