@@ -136,19 +136,6 @@
       ],
       "Hash": "8e26a8f1052518f7b69c967117f918be"
     },
-    "box.lsp": {
-      "Package": "box.lsp",
-      "Version": "0.1.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "box",
-        "cli",
-        "fs",
-        "rlang"
-      ],
-      "Hash": "6da91a38345df6d9abb09f907ae658de"
-    },
     "brio": {
       "Package": "brio",
       "Version": "1.1.5",
