@@ -1,8 +1,8 @@
 box::use(
+  dplyr[distinct],
   purrr[map],
   stringr[str_split],
   tibble[as_tibble],
-  dplyr[distinct],
 )
 
 #' @export

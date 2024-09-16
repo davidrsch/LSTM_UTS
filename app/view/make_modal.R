@@ -1,7 +1,6 @@
 box::use(
-  htmltools[div],
   shiny.fluent[FontIcon, IconButton.shinyInput, Modal, reactOutput, renderReact, Stack, Text],
-  shiny[moduleServer, NS, observeEvent],
+  shiny[div, moduleServer, NS, observeEvent],
 )
 
 box::use(

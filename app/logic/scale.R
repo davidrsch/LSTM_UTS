@@ -1,5 +1,5 @@
 box::use(
-  dplyr[across, bind_cols, matches, mutate, pull, select, starts_with],
+  dplyr[across, bind_cols, filter, matches, mutate, pull, select, starts_with],
   purrr[map],
   scales[rescale],
   stringr[str_detect],

@@ -1,10 +1,10 @@
 box::use(
-  dplyr[across, group_by, left_join, mutate, n, pull, rename, row_number],
-  dplyr[select, slice, slice_head, slice_tail, starts_with, ungroup],
+  dplyr[across, filter, group_by, left_join, mutate, n, pull, rename],
+  dplyr[row_number, select, slice, slice_head, slice_tail, starts_with, ungroup],
   fabletools[features],
   feasts[unitroot_ndiffs],
   purrr[map, reduce],
-  stats[na.omit],
+  stats[diffinv, na.omit],
   stringr[str_detect],
   tibble[tibble],
   tidyr[nest, unnest],
