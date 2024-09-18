@@ -102,8 +102,7 @@ ui <- function(id) {
           labelPosition = "top",
           styles = max_min_width_input(45),
           min = 1,
-          value = 1,
-          required = TRUE
+          value = 1
         ),
         SpinButton.shinyInput(
           inputId = ns("tests"),
@@ -111,8 +110,7 @@ ui <- function(id) {
           labelPosition = "top",
           styles = max_min_width_input(45),
           min = 1,
-          value = 1,
-          required = TRUE
+          value = 1
         )
       )
     ),
