@@ -23,7 +23,7 @@ ui <- function(id) {
   fluentPage(
     useShinyjs(),
 
-    # Definin horizontal layout
+    # Defining horizontal layout
     div(
       class = "ms-Grid-row",
       style = "display: flex; flex-wrap: wrap;",
@@ -64,17 +64,17 @@ ui <- function(id) {
         )
       )
     ),
-    # Defining prev and next buttons
+    # Defining previous and next buttons
     div(
       class = "ms-Grid-row",
       page_buttons$ui(ns("page_buttons"))
     ),
     # Defining modals
-    # Error format modal ui
+    # Error format modal UI
     no_format_modal$ui(ns("no_format_modal")),
-    # Run modal ui
+    # Run modal UI
     run_modal$ui(ns("run_modal")),
-    # Download modal ui
+    # Download modal UI
     download_modal$ui(ns("download_modal")),
 
     # Defining fluent page style
@@ -99,7 +99,7 @@ server <- function(id) {
       decimal_point = reactive(imported_file()$decimal_point)
     )
 
-    # Defining prev and next buttons
+    # Defining previous and next buttons
     pn_buttons <- page_buttons$server(
       "page_buttons",
       run_modal_state = run_visibility()$modal_visible
