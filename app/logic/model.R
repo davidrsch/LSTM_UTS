@@ -121,7 +121,7 @@ slide_columns <- function(data, column) {
 #' @export
 twod_predictions <- function(predictions_3d) {
   predictions <- predictions_3d[, , 1] |>
-    as_tibble()
+    as_tibble(.name_repair = 'unique')
 
   if (dim(predictions)[2] == 1) {
     names(predictions) <- "prediction"
@@ -170,7 +170,7 @@ test_model_flow <- function(data, modeldata) {
   amount_pred <- length((inp_amount + 2):dim(data)[1])
   pred_tests <- rep(NA, (amount_pred * tests)) |>
     matrix(ncol = tests) |>
-    as_tibble()
+    as_tibble(.name_repair = 'unique')
   names(pred_tests) <- gsub(pattern = "V", "test_", names(pred_tests))
 
   for (i in 1:tests) {
