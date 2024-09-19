@@ -1,7 +1,8 @@
 box::use(
   shiny.fluent[PrimaryButton.shinyInput, Stack],
-  shiny[div, moduleServer, NS, observeEvent, p],
+  shiny[div, downloadButton, downloadHandler, moduleServer, NS, observeEvent, p],
   shiny[reactive, reactiveVal],
+  shinyjs[click, hidden],
 )
 
 box::use(
@@ -14,7 +15,10 @@ box::use(
 ui <- function(id) {
   ns <- NS(id)
 
-  make_modal$ui(ns("make_modal"))
+  div(
+    make_modal$ui(ns("make_modal")),
+    hidden(downloadButton(ns("download"), label = ""))
+  )
 }
 
 # The server of this module receives as additional parameter the
@@ -69,10 +73,23 @@ server <- function(id) {
 
     # Define download button functionality
     observeEvent(input$downloadButton, {
-      fname <- paste0("tests_results", Sys.Date(), ".RData")
-      results_test <- results()
-      save(results_test, file = fname)
+      click("download")
     })
+    
+    output$download <- downloadHandler(
+      filename = function() {
+        paste0("test_results", Sys.Date(), ".RData")
+      },
+      content = function(file) {
+        save(results(), file = file)
+      }
+    )
+
+    # observeEvent(input$downloadButton, {
+    #   fname <- paste0("tests_results", Sys.Date(), ".RData")
+    #   results_test <- results()
+    #   save(results_test, file = fname)
+    # })
 
     reactive(
       list(
