@@ -39,12 +39,12 @@ server <- function(id, data, sequence, forecast, transformations,
     ns <- session$ns
 
     # Stablishing condition to show the modal
-    modal_visible <- reactiveVal(FALSE)
+    m_run_visible <- reactiveVal(FALSE)
 
     # Getting iterations properties
     iterations <- reactiveVal("")
-    observeEvent(modal_visible(), {
-      if (modal_visible()) {
+    observeEvent(m_run_visible(), {
+      if (m_run_visible()) {
         iterations(
           determine_iterations(
             transformations = transformations,
@@ -112,6 +112,8 @@ server <- function(id, data, sequence, forecast, transformations,
       results(
         process(data, sequence, forecast, iterations_data)
       )
+        m_run_visible(FALSE)
+        d_modal(TRUE)
       hidePageSpinner()
       modal_visible(FALSE)
       d_modal(TRUE)
@@ -119,7 +121,7 @@ server <- function(id, data, sequence, forecast, transformations,
 
     reactive(
       list(
-        modal_visible = modal_visible
+        m_run_visible = m_run_visible
       )
     )
 

@@ -102,7 +102,7 @@ server <- function(id) {
     # Defining previous and next buttons
     pn_buttons <- page_buttons$server(
       "page_buttons",
-      run_modal_state = run_visibility()$modal_visible
+      run_modal_state = run_visibility()$m_run_visible
     )
 
     # Defining selected variables card server
