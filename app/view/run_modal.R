@@ -42,7 +42,7 @@ server <- function(id, data, sequence, forecast, transformations,
     m_run_visible <- reactiveVal(FALSE)
 
     # Getting iterations properties
-    iterations <- reactiveVal(list("",""))
+    iterations <- reactiveVal(list("", ""))
     observeEvent(m_run_visible(), {
       if (m_run_visible()) {
         iterations(
@@ -57,7 +57,7 @@ server <- function(id, data, sequence, forecast, transformations,
           )
         )
       } else {
-        iterations(list("",""))
+        iterations(list("", ""))
       }
     })
 
@@ -99,7 +99,7 @@ server <- function(id, data, sequence, forecast, transformations,
     )
 
     # Define observer event to trigger computation and store them in
-    # results    
+    # results
     observeEvent(input$startbutton, {
       if (all(iterations() != "")) {
         showPageSpinner(

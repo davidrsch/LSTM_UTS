@@ -35,11 +35,11 @@ server <- function(id) {
 
     # Stablishing condition to show the modal
     m_download_visible <- reactiveVal(FALSE)
-    
+
     # Define reactive value to store results of computations and observer
     # event to trigger visibility of modal
     results <- reactiveVal("")
-    
+
     observeEvent(results(), {
       if (all(results() != "")) {
         m_download_visible(TRUE)
@@ -75,7 +75,7 @@ server <- function(id) {
     observeEvent(input$downloadButton, {
       click("download")
     })
-    
+
     output$download <- downloadHandler(
       filename = function() {
         paste0("test_results", Sys.Date(), ".RData")
@@ -94,8 +94,9 @@ server <- function(id) {
     reactive(
       list(
         results = results,
-        visibility = m_download_visible)
+        visibility = m_download_visible
       )
+    )
 
   })
 }
