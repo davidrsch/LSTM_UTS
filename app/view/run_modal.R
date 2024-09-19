@@ -42,22 +42,22 @@ server <- function(id, data, sequence, forecast, transformations,
     m_run_visible <- reactiveVal(FALSE)
 
     # Getting iterations properties
-    iterations <- reactiveVal("")
+    iterations <- reactiveVal(list("",""))
     observeEvent(m_run_visible(), {
       if (m_run_visible()) {
         iterations(
           determine_iterations(
-            transformations = transformations,
-            scales = scales,
-            horizon = horizon,
-            inp_amount = inp_amount,
-            lstm = lstm,
-            epoch = epoch,
-            tests = tests
+            transformations = transformations(),
+            scales = scales(),
+            horizon = horizon(),
+            inp_amount = inp_amount(),
+            lstm = lstm(),
+            epoch = epoch(),
+            tests = tests()
           )
         )
       } else {
-        iterations("")
+        iterations(list("",""))
       }
     })
 
@@ -101,22 +101,22 @@ server <- function(id, data, sequence, forecast, transformations,
     # Define observer event to trigger computation and store them in
     # results    
     observeEvent(input$startbutton, {
-      showPageSpinner(
-        caption = "Please wait, this can take several minutes"
-      )
-      iterations_data <- iterations()[input$iterations_table_rows_all, ] |>
-        mutate(
-          inp_amount = as.numeric(inp_amount),
-          lstm = as.numeric(lstm)
+      if (all(iterations() != "")) {
+        showPageSpinner(
+          caption = "Please wait, this can take several minutes"
         )
-      results(
-        process(data, sequence, forecast, iterations_data)
-      )
+        iterations_data <- iterations()[input$iterations_table_rows_all, ] |>
+          mutate(
+            inp_amount = as.numeric(inp_amount),
+            lstm = as.numeric(lstm)
+          )
+        results(
+          process(data(), sequence(), forecast(), iterations_data)
+        )
         m_run_visible(FALSE)
         d_modal(TRUE)
-      hidePageSpinner()
-      modal_visible(FALSE)
-      d_modal(TRUE)
+        hidePageSpinner()
+      }
     })
 
     reactive(
