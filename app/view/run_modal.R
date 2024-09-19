@@ -75,31 +75,27 @@ server <- function(id, data, sequence, forecast, transformations,
     ))
 
     # Creating modal using make_modal module
-    observeEvent(modal_visible(), {
-      if (modal_visible()) {
-        make_modal$server(
-          "make_modal",
-          is_open = modal_visible,
-          title = "Warning",
-          content = div(
-            p("You will execute ", iterations()$tests[[1]], " tests of ", dim(iterations())[1],
-              " models. Modify the previous form or filter if you whish to modify the",
-              " models to test."),
-            tags$br(),
-            dataTableOutput(ns("iterations_table")),
-            tags$br(),
-            div(
-              style = "display: flex; justify-content: center;",
-              PrimaryButton.shinyInput(
-                ns("startbutton"),
-                text = "Start"
-              )
-            )
-          ),
-          status = "warning"
+    make_modal$server(
+      "make_modal",
+      is_open = m_run_visible,
+      title = "Warning",
+      content = div(
+        p("You will execute ", iterations()$tests[[1]], " tests of ", dim(iterations())[1],
+          " models. Modify the previous form or filter if you whish to modify the",
+          " models to test."),
+        tags$br(),
+        dataTableOutput(ns("iterations_table")),
+        tags$br(),
+        div(
+          style = "display: flex; justify-content: center;",
+          PrimaryButton.shinyInput(
+            ns("startbutton"),
+            text = "Start"
+          )
         )
-      }
-    })
+      ),
+      status = "warning"
+    )
 
     # Define reactive value to store results of computations and observer
     # event to trigger computation
