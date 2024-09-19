@@ -206,7 +206,7 @@ process <- function(data, sequence, forecast, iterations) {
   transformations <- unique(iterations$transformations)
   scales <- unique(iterations$scales)
   new_data <- get_all_series(data, transformations, scales)
-
+  
   first_diff <- new_data$first_diff
   second_diff <- new_data$second_diff
   ex_min_max <- new_data$ex_min_max
@@ -216,15 +216,15 @@ process <- function(data, sequence, forecast, iterations) {
   iterations <- iterations |>
     select(-c(transformations, scales)) |>
     distinct()
-
+  
   names_nd <- names(new_data)
   predictions <- names_nd |>
     map(\(x) get_predict(name = x, new_data, iterations)) |>
     bind_rows()
-
+  
   predictions <- get_actual_scales(predictions, ex_min_max, fi_min_max, se_min_max)
   predictions <- get_actual_serie(predictions, data, first_diff, second_diff)
-
+  
   predictions <- get_results(predictions, data)
   return(predictions)
 }
