@@ -123,7 +123,7 @@ ui <- function(id) {
 # parameter the status of the run button in page buttons.
 # - Define a reactive value and observer to validate that input
 # value is numeric
-# - Define a reactive value and observer to validate that lstm
+# - Define a reactive value and observer to validate that LSTM
 # value is numeric
 # - Define observe event to show or hide run button
 # Return as reactive value the value of the inputs
@@ -142,7 +142,7 @@ server <- function(id, run_button_status) {
       }
     })
 
-    # Defining a reactive value and observer to validate that lstm
+    # Defining a reactive value and observer to validate that LSTM
     # value is numeric
     lstm_valid <- reactiveVal("")
     observeEvent(input$lstm, {
