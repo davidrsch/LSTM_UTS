@@ -41,7 +41,7 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
     output$import_variables <- renderReact({
       if (is_tibble(data())) {
 
-        names <- names(data())
+        names <- c("", names(data()))
         options <- tibble(key = names, text = names) |>
           split(seq_along(names)) |>
           unname() |>
@@ -56,12 +56,14 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
             Dropdown.shinyInput(
               ns("sequence_variable"),
               label = "Sequence variable",
-              options = options
+              options = options,
+              value = ""
             ),
             Dropdown.shinyInput(
               ns("forecast_variable"),
               label = "Forecast variable",
               options = options,
+              value = "",
               required = TRUE
             )
           ),
@@ -74,22 +76,24 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
 
     # Disabling options in forecast variable depending in
     # sequence variable selected
-    observeEvent(input$sequence_variable, {
-      names <- names(data())
-      options <- tibble(key = names, text = names) |>
-        mutate(
-          disabled = if_else(key == input$sequence_variable, TRUE, FALSE)
-        ) |>
-        split(seq_along(names)) |>
-        unname() |>
-        lapply(function(x) {
-          as.list(x)
-        })
-      updateDropdown.shinyInput(
-        inputId = "forecast_variable",
-        options = options,
-        value = ""
-      )
+    observeEvent(c(input$sequence_variable, data()), {
+      if (is_tibble(data()) & !is.null(input$sequence_variable)) {
+        names <- c("", names(data()))
+        options <- tibble(key = names, text = names) |>
+          mutate(
+            disabled = if_else(key == input$sequence_variable, TRUE, FALSE)
+          ) |>
+          split(seq_along(names)) |>
+          unname() |>
+          lapply(function(x) {
+            as.list(x)
+          })
+        updateDropdown.shinyInput(
+          inputId = "forecast_variable",
+          options = options,
+          value = ""
+        )
+      }
     })
 
     # Showing or not page buttons depending on if forecast variable is selected
