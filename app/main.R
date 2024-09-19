@@ -132,16 +132,16 @@ server <- function(id) {
     # Run modal server
     run_visibility <- run_modal$server(
       "run_modal",
-      data = data_imported()$actual_data,
-      sequence = selected_variables()$sequence_variable,
-      forecast = selected_variables()$forecast_variable,
-      transformations = inputs_training()$transformations,
-      scales = inputs_training()$scales,
-      horizon = inputs_training()$horizon,
-      inp_amount = inputs_training()$inp_amount,
-      lstm = inputs_training()$lstm,
-      epoch = inputs_training()$epoch,
-      tests = inputs_training()$tests,
+      data = reactive(data_imported()$actual_data),
+      sequence = reactive(selected_variables()$sequence_variable),
+      forecast = reactive(selected_variables()$forecast_variable),
+      transformations = reactive(inputs_training()$transformations),
+      scales = reactive(inputs_training()$scales),
+      horizon = reactive(inputs_training()$horizon),
+      inp_amount = reactive(inputs_training()$inp_amount),
+      lstm = reactive(inputs_training()$lstm),
+      epoch = reactive(inputs_training()$epoch),
+      tests = reactive(inputs_training()$tests),
       d_modal = download_visibility()$visibility,
       results = download_visibility()$results
     )
