@@ -28,13 +28,13 @@ server <- function(id, imported_path) {
     ns <- session$ns
 
     # Stablishing condition to show the modal
-    modal_visible <- reactiveVal(FALSE)
+    m_format_visible <- reactiveVal(FALSE)
     observeEvent(imported_path(), {
       file_path <- imported_path()
       if (!is.null(file_path)) {
         format <- str_split_i(file_path$datapath, "\\.", -1)
         if (!is.element(format, file_formats[["extensions"]])) {
-          modal_visible(TRUE)
+          m_format_visible(TRUE)
         } else {}
       }
     })
@@ -42,7 +42,7 @@ server <- function(id, imported_path) {
     # Creating modal using make_modal module
     make_modal$server(
       "make_modal",
-      is_open = modal_visible,
+      is_open = m_format_visible,
       title = "Error",
       content = div(
         p("The allowed file formats are:"),
