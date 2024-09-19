@@ -25,12 +25,16 @@ ui <- function(id) {
 # - Defines the download buttons functionality.
 # Returns modal visibility
 #' @export
-server <- function(id, results) {
+server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     # Stablishing condition to show the modal
     modal_visible <- reactiveVal(FALSE)
+    
+    # Define reactive value to store results of computations and observer
+    # event to trigger visibility of modal
+    results <- reactiveVal("")
 
     observeEvent(results(), {
       if (results() != "") {
@@ -70,7 +74,11 @@ server <- function(id, results) {
       save(results_test, file = fname)
     })
 
-    reactive(modal_visible)
+    reactive(
+      list(
+        results = results,
+        visibility = modal_visible)
+      )
 
   })
 }

@@ -33,7 +33,8 @@ ui <- function(id) {
 # Return visibility reactive value and results.
 #' @export
 server <- function(id, data, sequence, forecast, transformations,
-                   scales, horizon, inp_amount, lstm, epoch, tests, d_modal) {
+                   scales, horizon, inp_amount, lstm, epoch, tests, d_modal,
+                   results) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -97,9 +98,8 @@ server <- function(id, data, sequence, forecast, transformations,
       status = "warning"
     )
 
-    # Define reactive value to store results of computations and observer
-    # event to trigger computation
-    results <- reactiveVal("")
+    # Define observer event to trigger computation and store them in
+    # results    
     observeEvent(input$startbutton, {
       showPageSpinner(
         caption = "Please wait, this can take several minutes"
@@ -119,8 +119,7 @@ server <- function(id, data, sequence, forecast, transformations,
 
     reactive(
       list(
-        modal_visible = modal_visible,
-        results = results
+        modal_visible = modal_visible
       )
     )
 

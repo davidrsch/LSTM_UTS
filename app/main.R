@@ -142,12 +142,12 @@ server <- function(id) {
       lstm = inputs_training()$lstm,
       epoch = inputs_training()$epoch,
       tests = inputs_training()$tests,
-      d_modal = download_visibility()
+      d_modal = download_visibility()$visibility,
+      results = download_visibility()$results
     )
     # Download modal server
     download_visibility <- download_modal$server(
-      "download_modal",
-      results = run_visibility()$results
+      "download_modal"
     )
 
   })
