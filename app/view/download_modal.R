@@ -30,24 +30,24 @@ server <- function(id) {
     ns <- session$ns
 
     # Stablishing condition to show the modal
-    modal_visible <- reactiveVal(FALSE)
+    m_download_visible <- reactiveVal(FALSE)
     
     # Define reactive value to store results of computations and observer
     # event to trigger visibility of modal
     results <- reactiveVal("")
-
+    
     observeEvent(results(), {
-      if (results() != "") {
-        modal_visible(TRUE)
+      if (all(results() != "")) {
+        m_download_visible(TRUE)
       } else {
-        modal_visible(FALSE)
+        m_download_visible(FALSE)
       }
     })
 
     # Creating modal using make_modal module
     make_modal$server(
       "make_modal",
-      is_open = modal_visible,
+      is_open = m_download_visible,
       title = "Success",
       content = div(
         p(
@@ -77,7 +77,7 @@ server <- function(id) {
     reactive(
       list(
         results = results,
-        visibility = modal_visible)
+        visibility = m_download_visible)
       )
 
   })
