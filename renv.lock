@@ -8,6 +8,11 @@
       }
     ]
   },
+  "Python": {
+    "Version": "3.11.9",
+    "Type": "virtualenv",
+    "Name": "./renv/python/virtualenvs/renv-python-3.11"
+  },
   "Packages": {
     "BH": {
       "Package": "BH",
