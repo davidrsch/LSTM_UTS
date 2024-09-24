@@ -61,7 +61,7 @@ tensorboard==2.17.1
 tensorboard-data-server==0.7.2
 tensorflow==2.17.0
 tensorflow-datasets==4.9.6
-tensorflow-intel==2.17.0
+tensorflow-intel==2.17.0; platform_system == "Windows"
 tensorflow-io-gcs-filesystem==0.31.0
 tensorflow-metadata==1.15.0
 termcolor==2.4.0
