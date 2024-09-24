@@ -42,7 +42,7 @@ parso==0.8.4
 pillow==10.4.0
 promise==2.3
 prompt_toolkit==3.0.47
-protobuf==4.25.5
+protobuf
 psutil==6.0.0
 pure_eval==0.2.3
 pyarrow==17.0.0
