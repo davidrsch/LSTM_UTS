@@ -2,7 +2,9 @@ describe("Header", () => {
   it("'Header' csv", () => {
     cy.visit("/");
     cy.get("#app-import_file-file").should('be.visible');
-    cy.get('#app-import_file-file').selectFile('cypress/fixtures/csv_example.csv');
+    cy.get('#app-import_file-upload_file')
+      .should('not.be.visible')
+      .selectFile('cypress/fixtures/csv_example.csv', {force: true});
     cy.get('#app-table_output-data_table').wait(5000);
     cy.fixture('data_table_text').then((expectedData) => {
       cy.getDataFromDatatable('app-table_output-data_table').then((currentData) => {

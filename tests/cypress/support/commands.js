@@ -30,7 +30,9 @@ Cypress.Commands.add('getDataFromDatatable', (datatableId) => {
 
 Cypress.Commands.add('importing_data_flow', () => {
   cy.get("#app-import_file-file").should('be.visible');
-  cy.get('#app-import_file-file').selectFile('cypress/fixtures/csv_example.csv');
+  cy.get('#app-import_file-upload_file')
+      .should('not.be.visible')
+      .selectFile('cypress/fixtures/csv_example.csv', {force: true});
   cy.get('#app-table_output-data_table').wait(5000);
   cy.get('#app-select_variables-sequence_variable').should('be.visible');
   cy.get('#app-select_variables-sequence_variable').click();

@@ -4,7 +4,9 @@ describe("Imported table", () => {
   });
   it("'Imported table' filter", () => {
     cy.get("#app-import_file-file").should('be.visible');
-    cy.get('#app-import_file-file').selectFile('cypress/fixtures/csv_example.csv');
+    cy.get('#app-import_file-upload_file')
+      .should('not.be.visible')
+      .selectFile('cypress/fixtures/csv_example.csv', {force: true});
     cy.get('#app-table_output-data_table').wait(5000);
     cy.get('#app-table_output-data_table thead tr:nth-child(2) td:nth-child(2) input[type="search"]').type('2023-01-02 ... 2023-01-11').type('{enter}');
     cy.wait(5000);
@@ -16,7 +18,9 @@ describe("Imported table", () => {
   });
   it("'Imported table' page", () => {
     cy.get("#app-import_file-file").should('be.visible');
-    cy.get('#app-import_file-file').selectFile('cypress/fixtures/xlsx_example.xlsx');
+    cy.get('#app-import_file-upload_file')
+      .should('not.be.visible')
+      .selectFile('cypress/fixtures/xlsx_example.xlsx', {force: true});
     cy.get('#app-table_output-data_table').wait(5000);
     cy.fixture('data_table_excel').then((expectedData) => {
       cy.getDataFromDatatable('app-table_output-data_table').then((currentData) => {

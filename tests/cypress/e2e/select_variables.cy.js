@@ -2,7 +2,9 @@ describe("Select variables", () => {
   it("'Select variables'", () => {
     cy.visit("/");
     cy.get("#app-import_file-file").should('be.visible');
-    cy.get('#app-import_file-file').selectFile('cypress/fixtures/csv_example.csv');
+    cy.get('#app-import_file-upload_file')
+      .should('not.be.visible')
+      .selectFile('cypress/fixtures/csv_example.csv', {force: true});
     cy.get('#app-table_output-data_table').wait(5000);
     cy.get('#app-select_variables-forecast_variable').click();
     cy.get('#app-select_variables-forecast_variable-list0').should('be.visible');
