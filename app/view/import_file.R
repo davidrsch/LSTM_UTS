@@ -1,7 +1,8 @@
 box::use(
-  shiny.fluent[Checkbox.shinyInput, Stack, TextField.shinyInput],
+  shiny.fluent[Checkbox.shinyInput, PrimaryButton.shinyInput, Stack, TextField.shinyInput],
   shiny.fluent[updateCheckbox.shinyInput, updateTextField.shinyInput],
-  shiny[fileInput, moduleServer, NS, observeEvent, reactive],
+  shiny[div, fileInput, moduleServer, NS, observeEvent, reactive],
+  shinyjs[click, hidden],
   stringr[str_split_i],
 )
 
@@ -20,41 +21,50 @@ box::use(
 ui <- function(id) {
   ns <- NS(id)
 
-  make_card(
-    "Import file",
-    Stack(
-      tokens = list(childrenGap = 10),
-      fileInput(
-        ns("file"),
-        "Upload a file"
-      ),
-      Checkbox.shinyInput(
-        ns("header"),
-        label = "Has header?",
-        value = TRUE,
-        disabled = TRUE
-      ),
+  div(
+    make_card(
+      "Import file",
       Stack(
-        horizontal = TRUE,
-        tokens = list(childrenGap = "10%"),
-        TextField.shinyInput(
-          ns("delimiter"),
-          label = "Delimiter",
-          value = ",",
-          disabled = TRUE,
-          styles = max_min_width_input(45)
+        tokens = list(childrenGap = 10),
+        PrimaryButton.shinyInput(
+          ns("file"),
+          text = "Upload a file",
+          iconProps = list(iconName = "Upload")
         ),
-        TextField.shinyInput(
-          ns("decimal_point"),
-          label = "Decimal point",
-          value = ".",
-          disabled = TRUE,
-          styles = max_min_width_input(45)
+        Checkbox.shinyInput(
+          ns("header"),
+          label = "Has header?",
+          value = TRUE,
+          disabled = TRUE
+        ),
+        Stack(
+          horizontal = TRUE,
+          tokens = list(childrenGap = "10%"),
+          TextField.shinyInput(
+            ns("delimiter"),
+            label = "Delimiter",
+            value = ",",
+            disabled = TRUE,
+            styles = max_min_width_input(45)
+          ),
+          TextField.shinyInput(
+            ns("decimal_point"),
+            label = "Decimal point",
+            value = ".",
+            disabled = TRUE,
+            styles = max_min_width_input(45)
+          )
         )
-      )
+      ),
+      style = "max-height: 320px; background-color: white;",
+      is_contained = TRUE
     ),
-    style = "max-height: 320px; background-color: white;",
-    is_contained = TRUE
+    hidden(
+      fileInput(
+        ns("upload_file"),
+        "Upload a file"
+      )
+    )
   )
 }
 
@@ -63,11 +73,15 @@ server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    observeEvent(input$file, {
+      click("upload_file")
+    })
+
     # Enabling or disabling inputs depending on the imported file
     # format
-    observeEvent(input$file, {
-      if (!is.null(input$file)) {
-        file_path <- input$file$datapath
+    observeEvent(input$upload_file, {
+      if (!is.null(input$upload_file)) {
+        file_path <- input$upload_file$datapath
         format <- str_split_i(file_path, "\\.", -1)
         if (is.element(format, file_formats[["extensions"]])) {
           updateCheckbox.shinyInput(
@@ -115,7 +129,7 @@ server <- function(id) {
 
     reactive(
       list(
-        file = input$file,
+        file = input$upload_file,
         header = input$header,
         delimiter = input$delimiter,
         decimal_point = input$decimal_point
