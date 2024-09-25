@@ -29,6 +29,7 @@ remove                  Remove packages
 renv-package            Project-local Environments for R
 repair                  Repair a project
 restore                 Restore project library from a lockfile
+retrieve                Retrieve packages
 run                     Run a script
 sandbox                 The default library sandbox
 scaffold                Generate project infrastructure

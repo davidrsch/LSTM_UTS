@@ -1,4 +1,106 @@
 
+# renv 1.0.9
+
+* Fixed an issue where repository URLs were inappropriately transformed into
+  binary repository URLs on Linux. (#1991)
+
+* Fixed an issue where code following `source("renv/activate.R")` in the project
+  `.Rprofile` was not invoked for projects using RStudio. (#1990)
+
+
+# renv 1.0.8
+
+* `renv` now infers a dependency on the `ragg` package when the `ragg_png` device
+  is used in R Markdown / Quarto documents, for documents using the code
+  `knitr::opts_chunk$set(dev = "ragg_png")`. (#1985)
+  
+* `renv` now automatically generates a lockfile when loading a project containing
+  a `manifest.json` file (typical for application bundles published to Posit Connect).
+  (#1980, @toph-allen)
+
+* `renv::install()` now errs if an incompatible `type` argument is provided.
+
+* `renv::checkout()` now also checks out the version of `renv` available
+  and associated with the requested snapshot date. (#1966)
+
+* Fixed an issue where `renv::hydrate()` did not hydrate packages which
+  were also listed as dependencies within a project's `DESCRIPTION` file.
+  (#1970)
+  
+* Fixed an issue where `renv::checkout()` omitted some fields from lockfile
+  records when using `actions = c("snapshot", "restore")`. (#1969)
+
+* `renv` gains the function `renv::retrieve()`, which can be used to download
+  packages without installing them. This is primarily useful in CI / CD scenarios,
+  where you might want to download packages in a single stage before attempting
+  to install / restore them. (#1965)
+
+* `renv` now preserves `Remote` fields present on packages installed from
+  public package repositories (e.g. <https://r-universe.dev/>). (#1961)
+
+* Fixed an issue where `renv::load()` could fail to load an alternate project
+  when `options(renv.config.autoloader.enabled = FALSE)` was set. (#1959)
+
+* `renv` now emits clickable hyperlinks for runnable code snippets and help,
+  for front-ends which support the `ide:run` and `ide:help` ANSI escapes.
+
+* `renv::init(bioc = "<version>")` now prompts the user in interactive sessions
+  when requesting a version of Bioconductor which is not compatible with the
+  current version of R. (#1943)
+
+* `renv::restore()` gains the `transactional` argument, which can be
+  used to control whether `renv` will allow successfully-installed
+  packages remain in the project library even if a package fails
+  to install during a later step. (#1109)
+
+* `renv` now infers a dependency on the `xml2` package for projects
+  using the `testthat::JunitReporter` for tests. (#1936)
+
+* Fixed an issue where `renv::dependencies()` could emit a warning
+  when attempting to parse chunks using chunk options like
+  `#| eval: c(1, 2)`. (#1906)
+
+* `renv::install()` now properly delegates the `type` and `rebuild`
+  arguments to `pak` when `options(renv.config.pak.enabled = TRUE)`
+  is set. (#1924)
+
+* `renv` now infers a dependency on the `svglite` package if it detects
+  calls of the form `ggsave(filename = "path.svg")`. (#1930)
+
+* `renv` now supports setting of GitHub authentication credentials via
+  any of `GITHUB_TOKEN`, `GITHUB_PAT`, and `GH_TOKEN`. (#1937)
+
+* `renv` now also passes any custom headers available to
+  `utils::available.packages()` during bootstrap. (#1942)
+
+* Fixed an issue where `renv` could fail during installation of packages
+  stored within repository sub-directories, if that repository also
+  contained a top-level DESCRIPTION file. (#1941)
+
+* `renv` now normalizes lockfile entries for Bioconductor packages installed
+  via `pak::pkg_install()`, to help prevent spurious diffs being produced
+  via `renv::status()`. (#1920)
+
+* `renv::install()` now respects the `prompt` parameter when `pak` is enabled,
+  as via `options(renv.config.pak.enabled = TRUE)`. (#1907)
+
+* Fixed an issue with `renv`'s `pak` integration where `renv` could install the
+  wrong version of a GitHub package during restore if
+  `options(renv.config.pak.enabled = TRUE)` was set. (#1883)
+
+* `renv` no longer interacts with the user during autoloading, which coincides
+  with R startup. If the IDE offers a session init hook (RStudio does),
+  loading is deferred until startup is complete and interaction is possible.
+  Otherwise, any suggested renv actions, such as `renv::restore()`, are emitted
+  as a message for the user to act on. (#1879, #1915).
+
+* Fixed an issue where installation of packages from local sources, as via 
+  `install("<package>", repos = NULL, type = "source")`, could fail. (#1880)
+
+* A new function, `renv::lockfile_validate()`, can be used to validate your `renv.lock`
+  against a default or custom schema. (#1889)
+
+
 # renv 1.0.7
 
 * Fixed an issue where `renv`'s activate script failed to report version

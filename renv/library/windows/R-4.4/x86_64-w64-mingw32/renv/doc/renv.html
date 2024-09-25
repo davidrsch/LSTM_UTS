@@ -382,11 +382,11 @@ see which packages are available in each library with
 <p>A <strong>repository</strong> is a source of packages;
 <code>install.packages()</code> gets a package from a repository
 (usually somewhere on the Internet) and puts it in a library (a
-directory on your computer). The most important repository is CRAN which
-is available to install packages from in just about every R session.
-Other freely available repositories include <a href="https://bioconductor.org">Bioconductor</a>, the <a href="https://packagemanager.posit.co">Posit Public Package Manager</a>,
-and <a href="https://r-universe.dev/search/">R Universe</a> (which turns
-GitHub organisations into repositories).</p>
+directory on your computer). The most important repository is CRAN; you
+can install packages from CRAN in just about every R session. Other
+freely available repositories include <a href="https://bioconductor.org">Bioconductor</a>, the <a href="https://packagemanager.posit.co">Posit Public Package Manager</a>,
+and <a href="https://r-universe.dev/">R Universe</a> (which turns GitHub
+organisations into repositories).</p>
 <p>You can see which repositories are currently set up in your session
 with <code>getOption(&quot;repos&quot;)</code>; when you call
 <code>install.packages(&quot;{pkgname}&quot;)</code>, R will look for
@@ -415,8 +415,8 @@ to configure your R session to use the project library. This ensures
 that once you turn on renv for a project, it stays on, until you
 deliberately turn it off.</li>
 </ul>
-<p>The next important pair of tools are <code>renv::snapshot()</code>
-and <code>renv::restore()</code>. <code>snapshot()</code> updates the
+<p>The next important pair of tools is <code>renv::snapshot()</code> and
+<code>renv::restore()</code>. <code>snapshot()</code> updates the
 lockfile with metadata about the currently-used packages in the project
 library. This is useful because you can then share the lockfile and
 other people or other computers can easily reproduce your current
@@ -426,7 +426,7 @@ This pair of functions gives you the benefits of
 <strong>reproducibility</strong> and <strong>portability</strong>: you
 are now tracking exactly which package versions you have installed so
 you can recreate them on other machines.</p>
-<p>Now that you’ve got the a high-level lay of the land, we’ll show a
+<p>Now that you’ve got the high-level lay of the land, we’ll show a
 couple of specific workflows before discussing some of the
 reproducibility challenges that renv doesn’t currently help with.</p>
 <div id="collaboration" class="section level3">
@@ -507,7 +507,7 @@ the future. Here’s an example lockfile, with the markdown package
 installed from CRAN and the mime package installed from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="dt">&quot;R&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    <span class="dt">&quot;Version&quot;</span><span class="fu">:</span> <span class="st">&quot;4.3.3&quot;</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    <span class="dt">&quot;Version&quot;</span><span class="fu">:</span> <span class="st">&quot;4.4.1&quot;</span><span class="fu">,</span></span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>    <span class="dt">&quot;Repositories&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      <span class="fu">{</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>        <span class="dt">&quot;Name&quot;</span><span class="fu">:</span> <span class="st">&quot;CRAN&quot;</span><span class="fu">,</span></span>
@@ -561,7 +561,7 @@ packages. There are a number of other pieces that renv doesn’t currently
 provide much help with:</p>
 <ul>
 <li><strong>R version</strong>: renv tracks, but doesn’t help with, the
-version of R used with the package. renv can’t easily help with this
+version of R used with the project. renv can’t easily help with this
 because it’s run inside of R, but you might find tools like <a href="https://github.com/r-lib/rig">rig</a> helpful, as they make it
 easier to switch between multiple version of R on one computer.</li>
 <li><strong>Pandoc</strong>: The rmarkdown package relies heavily on <a href="https://pandoc.org/">pandoc</a>, but pandoc is not bundled with
@@ -627,7 +627,7 @@ directories in <code>renv/</code>.<a href="#fnref3" class="footnote-back">↩︎
 <code>remove.packages()</code> to call the renv equivalents. Learn more
 in <code>?renv::load.</code><a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 <li id="fn5"><p>You can also use <code>update.packages()</code>, but
-<code>renv::update()</code> works the same sources that
+<code>renv::update()</code> works with the same sources that
 <code>renv::install()</code> supports.<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
 <li id="fn6"><p>If you’ve customized any of renv’s infrastructure paths
 as described in <code>?renv::paths</code>, then you’ll need to find and
