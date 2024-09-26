@@ -3,27 +3,29 @@ describe("Imported table", () => {
     cy.visit("/");
   });
   it("'Imported table' filter", () => {
-    cy.get("#app-import_file-file").should('be.visible');
-    cy.get('#app-import_file-upload_file')
+    cy.get('[data-testid="file"]').should('be.visible');
+    cy.get('[data-testid="upload_file"] [type="file"]')
       .should('not.be.visible')
       .selectFile('cypress/fixtures/csv_example.csv', {force: true});
-    cy.get('#app-table_output-data_table').wait(5000);
-    cy.get('#app-table_output-data_table thead tr:nth-child(2) td:nth-child(2) input[type="search"]').type('2023-01-02 ... 2023-01-11').type('{enter}');
+    cy.get('[data-testid="data_table"]').wait(5000);
+    cy.get('[data-testid="dtfilter-1"]')
+      .type('2023-01-02 ... 2023-01-11')
+      .type('{enter}');
     cy.wait(5000);
     cy.fixture('data_table_text_fil').then((expectedData) => {
-      cy.getDataFromDatatable('app-table_output-data_table').then((currentData) => {
+      cy.getDataFromDatatable('data_table').then((currentData) => {
         expect(currentData).to.deep.equal(JSON.stringify(expectedData));
       });
     });
   });
   it("'Imported table' page", () => {
-    cy.get("#app-import_file-file").should('be.visible');
-    cy.get('#app-import_file-upload_file')
+    cy.get('[data-testid="file"]').should('be.visible');
+    cy.get('[data-testid="upload_file"] [type="file"]')
       .should('not.be.visible')
-      .selectFile('cypress/fixtures/xlsx_example.xlsx', {force: true});
-    cy.get('#app-table_output-data_table').wait(5000);
-    cy.fixture('data_table_excel').then((expectedData) => {
-      cy.getDataFromDatatable('app-table_output-data_table').then((currentData) => {
+      .selectFile('cypress/fixtures/csv_example.csv', {force: true});
+    cy.get('[data-testid="data_table"]').wait(5000);
+    cy.fixture('data_table_text').then((expectedData) => {
+      cy.getDataFromDatatable('data_table').then((currentData) => {
         expect(currentData).to.deep.equal(JSON.stringify(expectedData));
       });
     });
@@ -32,9 +34,9 @@ describe("Imported table", () => {
     cy.get('#app-table_output-data_table #DataTables_Table_0_next').click();
     cy.get('#app-table_output-data_table #DataTables_Table_0_next').should('have.class', 'disabled');
     cy.get('#app-table_output-data_table #DataTables_Table_0_previous').should('not.have.class', 'disabled');
-    cy.get('#app-table_output-data_table').wait(5000);
-    cy.fixture('data_table_excel_next').then((expectedData) => {
-      cy.getDataFromDatatable('app-table_output-data_table').then((currentData) => {
+    cy.get('[data-testid="data_table"]').wait(5000);
+    cy.fixture('data_table_csv_next').then((expectedData) => {
+      cy.getDataFromDatatable('data_table').then((currentData) => {
         expect(currentData).to.deep.equal(JSON.stringify(expectedData));
       });
     });
