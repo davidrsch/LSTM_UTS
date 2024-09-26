@@ -19,7 +19,10 @@ ui <- function(id) {
 
   make_card(
     "",
-    dataTableOutput(ns("data_table")),
+    div(
+      DTOutput(ns("data_table")),
+      `data-testid` = "data_table"
+    ),
     is_contained = TRUE,
     style = "background-color: white;"
   )
