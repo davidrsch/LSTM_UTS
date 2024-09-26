@@ -1,14 +1,15 @@
 box::use(
-  DT[dataTableOutput, renderDataTable],
+  DT[DTOutput, renderDT],
   readr[locale, read_delim],
   readxl[read_excel],
-  shiny[moduleServer, NS, observeEvent, reactive, reactiveVal],
+  shiny[div, moduleServer, NS, observeEvent, reactive, reactiveVal],
   stringr[str_split_i],
 )
 
 box::use(
   app/logic/constants[file_formats],
   app/logic/make_card[make_card],
+  app/logic/test_id_dt_filter[test_id_dt_filter],
 )
 
 # Defining UI of the module
@@ -37,7 +38,7 @@ server <- function(id, file, header, delimiter, decimal_point) {
 
     data_imported <- reactiveVal(array(1:2, 2))
     # Creating table output when importing file with proper format
-    output$data_table <- renderDataTable({
+    output$data_table <- renderDT({
       if (!is.null(file())) {
         file_path <- file()$datapath
         format <- str_split_i(file_path, "\\.", -1)
@@ -62,7 +63,8 @@ server <- function(id, file, header, delimiter, decimal_point) {
     options = list(
       lengthChange = FALSE,
       dom = "tip",
-      pageLength = 10
+      pageLength = 10,
+      initComplete = test_id_dt_filter("dt")
     ))
 
     observeEvent(file(), {
