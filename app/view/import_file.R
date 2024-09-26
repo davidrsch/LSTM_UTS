@@ -38,7 +38,7 @@ ui <- function(id) {
           value = TRUE,
           disabled = TRUE,
           inputProps = list(
-            `data-testid` = "header" 
+            `data-testid` = "header"
           )
         ),
         Stack(
