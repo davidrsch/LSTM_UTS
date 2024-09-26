@@ -1,8 +1,8 @@
 describe("Decimal point", () => {
   it("'Decimal point'", () => {
     cy.visit("/");
-    cy.get("#app-import_file-file").should('be.visible');
-    cy.get('#app-import_file-upload_file')
+    cy.get('[data-testid="file"]').should('be.visible');
+    cy.get('[data-testid="upload_file"] [type="file"]')
       .should('not.be.visible')
       .selectFile('cypress/fixtures/csv_example.csv', {force: true});
     cy.get('#app-table_output-data_table').wait(5000);
