@@ -2,8 +2,8 @@ import 'cypress-file-upload';
 import $ from 'jquery';
 import _ from 'lodash';
 
-Cypress.Commands.add('getDataFromDatatable', (datatableId) => {
-  cy.get(`#${datatableId}`).then(($datatable) => {
+Cypress.Commands.add('getDataFromDatatable', (datatable_testid) => {
+  cy.get(`[data-testid="${datatable_testid}"]`).then(($datatable) => {
     const data = [];
 
     // Extract header data (excluding the first `th`)
