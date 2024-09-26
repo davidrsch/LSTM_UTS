@@ -1,7 +1,7 @@
 box::use(
   shiny.fluent[Checkbox.shinyInput, PrimaryButton.shinyInput, Stack, TextField.shinyInput],
   shiny.fluent[updateCheckbox.shinyInput, updateTextField.shinyInput],
-  shiny[div, fileInput, moduleServer, NS, observeEvent, reactive],
+  shiny[div, fileInput, moduleServer, NS, observeEvent, reactive, tagAppendAttributes],
   shinyjs[click, hidden],
   stringr[str_split_i],
 )
@@ -29,13 +29,17 @@ ui <- function(id) {
         PrimaryButton.shinyInput(
           ns("file"),
           text = "Upload a file",
-          iconProps = list(iconName = "Upload")
+          iconProps = list(iconName = "Upload"),
+          `data-testid` = "file"
         ),
         Checkbox.shinyInput(
           ns("header"),
           label = "Has header?",
           value = TRUE,
-          disabled = TRUE
+          disabled = TRUE,
+          inputProps = list(
+            `data-testid` = "header" 
+          )
         ),
         Stack(
           horizontal = TRUE,
@@ -45,14 +49,16 @@ ui <- function(id) {
             label = "Delimiter",
             value = ",",
             disabled = TRUE,
-            styles = max_min_width_input(45)
+            styles = max_min_width_input(45),
+            `data-testid` = "delimiter"
           ),
           TextField.shinyInput(
             ns("decimal_point"),
             label = "Decimal point",
             value = ".",
             disabled = TRUE,
-            styles = max_min_width_input(45)
+            styles = max_min_width_input(45),
+            `data-testid` = "decimal_point"
           )
         )
       ),
@@ -60,10 +66,8 @@ ui <- function(id) {
       is_contained = TRUE
     ),
     hidden(
-      fileInput(
-        ns("upload_file"),
-        "Upload a file"
-      )
+      fileInput(ns("upload_file"), "") |>
+        tagAppendAttributes(`data-testid` = "upload_file")
     )
   )
 }
