@@ -22,7 +22,7 @@ ui <- function(id) {
       downloadButton(
         ns("download"),
         label = ""
-      ) |> 
+      ) |>
         tagAppendAttributes(
           `data-testid` = "download"
         )
