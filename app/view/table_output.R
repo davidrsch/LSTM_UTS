@@ -9,7 +9,7 @@ box::use(
 box::use(
   app/logic/constants[file_formats],
   app/logic/make_card[make_card],
-  app/logic/test_id_dt_filter[test_id_dt_filter],
+  app/logic/test_id_datatables[test_id_datatables],
 )
 
 # Defining UI of the module
@@ -67,7 +67,7 @@ server <- function(id, file, header, delimiter, decimal_point) {
       lengthChange = FALSE,
       dom = "tip",
       pageLength = 10,
-      initComplete = test_id_dt_filter("dt")
+      initComplete = test_id_datatables("dt")
     ))
 
     observeEvent(file(), {
