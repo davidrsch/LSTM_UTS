@@ -3,65 +3,31 @@ describe("Import file", () => {
     cy.visit("/");
   });
   it("'Import file' csv", () => {
-    cy.get('[data-testid="file"]').should('be.visible');
-    cy.get('[data-testid="upload_file"] [type="file"]')
-      .should('not.be.visible')
-      .selectFile('cypress/fixtures/csv_example.csv', {force: true});
-    cy.get('[data-testid="data_table"]').wait(5000);
-    cy.fixture('data_table_text').then((expectedData) => {
-      cy.getDataFromDatatable('data_table').then((currentData) => {
-        expect(currentData).to.deep.equal(JSON.stringify(expectedData));
-      });
-    });
+    cy.importing_data_flow("csv");
+    cy.compare_table_fixture('data_table', 'data_table_text');
   });
   
   it("'Import file' tsv", () => {
-    cy.get('[data-testid="file"]').should('be.visible');
-    cy.get('[data-testid="upload_file"] [type="file"]')
-      .should('not.be.visible')
-      .selectFile('cypress/fixtures/tsv_example.tsv', {force: true});
-      cy.get('[data-testid="data_table"]').wait(5000);
-    cy.fixture('data_table_tsv').then((expectedData) => {
-      cy.getDataFromDatatable('data_table').then((currentData) => {
-        expect(currentData).to.deep.equal(JSON.stringify(expectedData));
-      });
-    });
+    cy.importing_data_flow("tsv");
+    cy.compare_table_fixture('data_table', 'data_table_tsv');
   });
   
   it("'Import file' xls", () => {
-    cy.get('[data-testid="file"]').should('be.visible');
-    cy.get('[data-testid="upload_file"] [type="file"]')
-      .should('not.be.visible')
-      .selectFile('cypress/fixtures/xls_example.xls', {force: true});
-    cy.get('[data-testid="data_table"]').wait(5000);
-    cy.fixture('data_table_excel.json').then((expectedData) => {
-      cy.getDataFromDatatable('data_table').then((currentData) => {
-        expect(currentData).to.deep.equal(JSON.stringify(expectedData));
-      });
-    });
+    cy.importing_data_flow("xls");
+    cy.compare_table_fixture('data_table', 'data_table_excel');
   });
   
   it("'Import file' xlsx", () => {
-    cy.get('[data-testid="file"]').should('be.visible');
-    cy.get('[data-testid="upload_file"] [type="file"]')
-      .should('not.be.visible')
-      .selectFile('cypress/fixtures/xlsx_example.xlsx', {force: true});
-    cy.get('[data-testid="data_table"]').wait(5000);
-    cy.fixture('data_table_excel.json').then((expectedData) => {
-      cy.getDataFromDatatable('data_table').then((currentData) => {
-        expect(currentData).to.deep.equal(JSON.stringify(expectedData));
-      });
-    });
+    cy.importing_data_flow("xlsx");
+    cy.compare_table_fixture('data_table', 'data_table_excel');
   });
   
   it("'Import file' incorrect extension", () => {
-    cy.get('[data-testid="file"]').should('be.visible');
-    cy.get('[data-testid="upload_file"] [type="file"]')
-      .should('not.be.visible')
-      .selectFile('cypress/fixtures/LSTM_UTS-ss.png', {force: true});
-    cy.get("#app-no_format_modal-make_modal-hideModal").should('be.visible');
-    cy.get("#app-no_format_modal-make_modal-hideModal").click();
-    cy.get("#app-no_format_modal-make_modal-hideModal").should('not.be.visible');
+    cy.importing_data_flow("png");
+    cy.get('[data-testid="close_no_format"]')
+      .should('be.visible')
+      .click()
+      .should('not.be.visible');
   });
   
 });
