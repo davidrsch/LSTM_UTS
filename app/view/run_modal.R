@@ -78,6 +78,7 @@ server <- function(id, data, sequence, forecast, transformations,
     # Creating modal using make_modal module
     make_modal$server(
       "make_modal",
+      name = "run_modal",
       is_open = m_run_visible,
       title = "Warning",
       content = div(

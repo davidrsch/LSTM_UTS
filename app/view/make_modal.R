@@ -22,7 +22,7 @@ ui <- function(id) {
 # - status & status_table: to define the status of the modal and get
 # from status_table the corresponding features as type, color and icon
 #' @export
-server <- function(id, is_open, title, content, status, status_table = status_mapping) {
+server <- function(id, name, is_open, title, content, status, status_table = status_mapping) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     icon_name <- status_table[status_table$type == status, "icon"][[1]]
@@ -46,7 +46,8 @@ server <- function(id, is_open, title, content, status, status_table = status_ma
             div(style = list(flexGrow = 1)),
             IconButton.shinyInput(
               ns("hideModal"),
-              iconProps = list(iconName = "Cancel")
+              iconProps = list(iconName = "Cancel"),
+              `data-testid` = paste0("close_", name)
             ),
           ),
           content

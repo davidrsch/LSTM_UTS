@@ -42,6 +42,7 @@ server <- function(id, imported_path) {
     # Creating modal using make_modal module
     make_modal$server(
       "make_modal",
+      name = "no_format",
       is_open = m_format_visible,
       title = "Error",
       content = div(

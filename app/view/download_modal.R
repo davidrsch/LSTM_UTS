@@ -1,7 +1,7 @@
 box::use(
   shiny.fluent[PrimaryButton.shinyInput, Stack],
   shiny[div, downloadButton, downloadHandler, moduleServer, NS, observeEvent],
-  shiny[outputOptions, p],
+  shiny[outputOptions, p, tagAppendAttributes],
   shiny[reactive, reactiveVal],
   shinyjs[click, hidden],
 )
@@ -18,7 +18,15 @@ ui <- function(id) {
 
   div(
     make_modal$ui(ns("make_modal")),
-    hidden(downloadButton(ns("download"), label = ""))
+    hidden(
+      downloadButton(
+        ns("download"),
+        label = ""
+      ) |> 
+        tagAppendAttributes(
+          `data-testid` = "download"
+        )
+    )
   )
 }
 
@@ -52,6 +60,7 @@ server <- function(id) {
     # Creating modal using make_modal module
     make_modal$server(
       "make_modal",
+      name = "download_modal",
       is_open = m_download_visible,
       title = "Success",
       content = div(
@@ -63,9 +72,10 @@ server <- function(id) {
           horizontal = TRUE,
           horizontalAlign = "center",
           PrimaryButton.shinyInput(
-            ns("downloadButton"),
+            ns("download_button"),
             text = "Download",
-            iconProps = list(iconName = "Download")
+            iconProps = list(iconName = "Download"),
+            `data-testid` = "download_button"
           )
         )
       ),
@@ -73,7 +83,7 @@ server <- function(id) {
     )
 
     # Define download button functionality
-    observeEvent(input$downloadButton, {
+    observeEvent(input$download_button, {
       click("download")
     })
 
