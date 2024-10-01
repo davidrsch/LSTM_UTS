@@ -49,13 +49,10 @@ Cypress.Commands.add('importing_data_flow', (test_data) => {
   cy.get('[data-testid="data_table"]').wait(5000);
 });
 
-Cypress.Commands.add('select_variable_flow', () => {
-  cy.get('#app-select_variables-sequence_variable').should('be.visible');
-  cy.get('#app-select_variables-sequence_variable').click();
-  cy.get('#app-select_variables-sequence_variable-list0').click();
-  cy.get('#app-select_variables-forecast_variable').should('be.visible');
-  cy.get('#app-select_variables-forecast_variable').click();
-  cy.get('#app-select_variables-forecast_variable-list1').click();
+Cypress.Commands.add('select_flow', (input, index) => {
+  cy.get(`[data-testid="${input}"]`).click();
+  const select_inp = cy.get(`[data-testid="${input}-callout"]`)
+  select_inp.find(`[data-index="${index}"]`).click();
 });
 
 Cypress.Commands.add('turn_panel', () => {
