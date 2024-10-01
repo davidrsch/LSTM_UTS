@@ -1,2 +1,2 @@
-# Rhino / shinyApp entrypoint. Do not edit.
+# Rhino / shiny app entrypoint. Do not edit.
 rhino::app()
