@@ -1,8 +1,7 @@
 box::use(
-  dplyr[if_else, mutate],
   shiny.fluent[Dropdown.shinyInput, reactOutput, renderReact, Stack, updateDropdown.shinyInput],
   shiny[moduleServer, NS, observeEvent, reactive],
-  tibble[is_tibble, tibble],
+  tibble[is_tibble],
 )
 
 box::use(
@@ -56,7 +55,7 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
               value = "",
               `data-testid` = "sequence_variable",
               calloutProps = list(
-                `data-testid` = 'sequence_variable-callout'
+                `data-testid` = "sequence_variable-callout"
               )
             ),
             Dropdown.shinyInput(
@@ -67,7 +66,7 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
               required = TRUE,
               `data-testid` = "forecast_variable",
               calloutProps = list(
-                `data-testid` = 'forecast_variable-callout'
+                `data-testid` = "forecast_variable-callout"
               )
             )
           ),
