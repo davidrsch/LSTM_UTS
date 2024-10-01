@@ -1,46 +1,101 @@
 describe("Select variables", () => {
-  it("'Select variables'", () => {
+  beforeEach(() => {
     cy.visit("/");
-    cy.get("#app-import_file-file").should('be.visible');
-    cy.get('#app-import_file-upload_file')
-      .should('not.be.visible')
-      .selectFile('cypress/fixtures/csv_example.csv', {force: true});
-    cy.get('#app-table_output-data_table').wait(5000);
-    cy.get('#app-select_variables-forecast_variable').click();
-    cy.get('#app-select_variables-forecast_variable-list0').should('be.visible');
-    cy.get("#app-select_variables-forecast_variable-list0").should("have.text", "");
-    cy.get('#app-select_variables-forecast_variable-list1').should('be.visible');
-    cy.get("#app-select_variables-forecast_variable-list1").should("have.text", "Date");
-    cy.get('#app-select_variables-forecast_variable-list2').should('be.visible');
-    cy.get("#app-select_variables-forecast_variable-list2").should("have.text", "Value1");
-    cy.get('#app-select_variables-forecast_variable-list3').should('be.visible');
-    cy.get("#app-select_variables-forecast_variable-list3").should("have.text", "Value2");
-    cy.get("#app-select_variables-forecast_variable-list2").click();
-    
-    cy.log('Testing page buttons visibility');
-    cy.get('#app-page_buttons-prevtbutton').should('be.visible');
-    cy.get('#app-page_buttons-prevtbutton').should('be.disabled');
-    cy.get('#app-page_buttons-nextbutton').should('be.visible');
-    cy.get('#app-page_buttons-nextbutton').should('not.be.disabled');
-      
-    cy.log('Continue select variables test');
-    cy.get("#app-select_variables-sequence_variable").click();
-    cy.get('#app-select_variables-sequence_variable-list0').should('be.visible');
-    cy.get("#app-select_variables-sequence_variable-list0").should("have.text", "");
-    cy.get('#app-select_variables-sequence_variable-list1').should('be.visible');
-    cy.get("#app-select_variables-sequence_variable-list1").should("have.text", "Date");
-    cy.get('#app-select_variables-sequence_variable-list2').should('be.visible');
-    cy.get("#app-select_variables-sequence_variable-list2").should("have.text", "Value1");
-    cy.get('#app-select_variables-sequence_variable-list3').should('be.visible');
-    cy.get("#app-select_variables-sequence_variable-list3").should("have.text", "Value2");
-    cy.get("#app-select_variables-sequence_variable-list1").click();
-    
-    cy.log('Testing page buttons visibility');
-    cy.get('#app-page_buttons-prevtbutton').should('not.be.visible');
-    cy.get('#app-page_buttons-nextbutton').should('not.be.visible');
-    
-    cy.log('Continue select variables test');
-    cy.get('#app-select_variables-forecast_variable').click();
-    cy.get('#app-select_variables-forecast_variable-list1').should('be.disabled');
+    //Importing a data to test
+    cy.importing_data_flow("csv");
+  });
+
+  it("'Select variables' sequence visibility", () => {
+    cy.get('[data-testid="sequence_variable"]').click();
+    cy.get('[data-testid="sequence_variable-callout"]')
+      .should('be.visible')
+      .find('[data-index="0"]')
+      .should('be.visible')
+      .should("have.text", "");
+    cy.get('[data-testid="sequence_variable-callout"]')
+      .should('be.visible')
+      .find('[data-index="1"]')
+      .should('be.visible')
+      .should("have.text", "Date");
+    cy.get('[data-testid="sequence_variable-callout"]')
+      .should('be.visible')
+      .find('[data-index="2"]')
+      .should('be.visible')
+      .should("have.text", "Value1");
+    cy.get('[data-testid="sequence_variable-callout"]')
+      .should('be.visible')
+      .find('[data-index="3"]')
+      .should('be.visible')
+      .should("have.text", "Value2");
+  });
+
+  it("'Select variables' sequence selecting", () => {
+    cy.select_flow('sequence_variable', '0');
+    cy.get('[data-testid="sequence_variable"]')
+      .should("have.text", "");
+    cy.select_flow('sequence_variable', '1');
+    cy.get('[data-testid="sequence_variable"]')
+      .should("have.text", "Date");
+    cy.select_flow('sequence_variable', '2');
+    cy.get('[data-testid="sequence_variable"]')
+      .should("have.text", "Value1");
+    cy.select_flow('sequence_variable', '3');
+    cy.get('[data-testid="sequence_variable"]')
+        .should("have.text", "Value2");
+  });
+
+  it("'Select variables' forecast", () => {
+    cy.get('[data-testid="forecast_variable"]').click();
+    cy.get('[data-testid="forecast_variable-callout"]')
+      .should('be.visible')
+      .find('[data-index="0"]')
+      .should('be.visible')
+      .should("have.text", "");
+    cy.get('[data-testid="forecast_variable-callout"]')
+      .should('be.visible')
+      .find('[data-index="1"]')
+      .should('be.visible')
+      .should("have.text", "Date");
+    cy.get('[data-testid="forecast_variable-callout"]')
+      .should('be.visible')
+      .find('[data-index="2"]')
+      .should('be.visible')
+      .should("have.text", "Value1");
+    cy.get('[data-testid="forecast_variable-callout"]')
+      .should('be.visible')
+      .find('[data-index="3"]')
+      .should('be.visible')
+      .should("have.text", "Value2");
+  });
+
+  it("'Select variables' forecast selecting", () => {
+    cy.select_flow('forecast_variable', '0');
+    cy.get('[data-testid="forecast_variable"]')
+      .should("have.text", "");
+    cy.select_flow('forecast_variable', '1');
+    cy.get('[data-testid="forecast_variable"]')
+      .should("have.text", "Date");
+    cy.select_flow('forecast_variable', '2');
+    cy.get('[data-testid="forecast_variable"]')
+      .should("have.text", "Value1");
+    cy.select_flow('forecast_variable', '3');
+    cy.get('[data-testid="forecast_variable"]')
+        .should("have.text", "Value2");
+  });
+
+  it("'Select variables' sequences over forecast - reseting", () => {
+    cy.select_flow('forecast_variable', '2');
+    cy.select_flow('sequence_variable', '1');
+    cy.get('[data-testid="forecast_variable"]')
+      .should("have.text", "");
+  });
+
+  it("'Select variables' sequences over forecast - disabling", () => {
+    cy.select_flow('sequence_variable', '1');
+    cy.get('[data-testid="forecast_variable"]').click();
+    cy.get('[data-testid="forecast_variable-callout"]')
+      .should('be.visible')
+      .find('[data-index="1"]')
+      .should('be.disabled');
   });
 });
