@@ -16,20 +16,29 @@ ui <- function(id) {
     horizontal = TRUE,
     horizontalAlign = "center",
     tokens = list(childrenGap = "15px"),
-    hidden(DefaultButton.shinyInput(
-      ns("prevtbutton"),
-      text = "Previous",
-      disabled = TRUE
-    )),
-    hidden(PrimaryButton.shinyInput(
-      ns("runbutton"),
-      text = "Run"
-    )),
-    hidden(DefaultButton.shinyInput(
-      ns("nextbutton"),
-      text = "Next",
-      disabled = FALSE
-    ))
+    hidden(
+      DefaultButton.shinyInput(
+        ns("prevtbutton"),
+        text = "Previous",
+        disabled = TRUE,
+        `data-testid` = "prevtbutton",
+      )
+    ),
+    hidden(
+      PrimaryButton.shinyInput(
+        ns("runbutton"),
+        text = "Run",
+        `data-testid` = "runbutton",
+      )
+    ),
+    hidden(
+      DefaultButton.shinyInput(
+        ns("nextbutton"),
+        text = "Next",
+        disabled = FALSE,
+        `data-testid` = "nextbutton",
+      )
+    )
   )
 }
 
