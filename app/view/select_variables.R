@@ -6,6 +6,7 @@ box::use(
 )
 
 box::use(
+  app/logic/get_options[get_options],
   app/logic/make_card[make_card],
 )
 
@@ -42,12 +43,7 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
       if (is_tibble(data())) {
 
         names <- c("", names(data()))
-        options <- tibble(key = names, text = names) |>
-          split(seq_along(names)) |>
-          unname() |>
-          lapply(function(x) {
-            as.list(x)
-          })
+        options <- get_options(names)
 
         make_card(
           "Select variables",
@@ -79,15 +75,7 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
     observeEvent(c(input$sequence_variable, data()), {
       if (is_tibble(data()) & !is.null(input$sequence_variable)) {
         names <- c("", names(data()))
-        options <- tibble(key = names, text = names) |>
-          mutate(
-            disabled = if_else(key == input$sequence_variable, TRUE, FALSE)
-          ) |>
-          split(seq_along(names)) |>
-          unname() |>
-          lapply(function(x) {
-            as.list(x)
-          })
+        options <- get_options(names, input$sequence_variable)
         updateDropdown.shinyInput(
           inputId = "forecast_variable",
           options = options,
