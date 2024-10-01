@@ -53,14 +53,22 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
               ns("sequence_variable"),
               label = "Sequence variable",
               options = options,
-              value = ""
+              value = "",
+              `data-testid` = "sequence_variable",
+              calloutProps = list(
+                `data-testid` = 'sequence_variable-callout'
+              )
             ),
             Dropdown.shinyInput(
               ns("forecast_variable"),
               label = "Forecast variable",
               options = options,
               value = "",
-              required = TRUE
+              required = TRUE,
+              `data-testid` = "forecast_variable",
+              calloutProps = list(
+                `data-testid` = 'forecast_variable-callout'
+              )
             )
           ),
           style = "max-height: 320px; background-color: white;",
