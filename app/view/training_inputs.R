@@ -42,7 +42,11 @@ ui <- function(id) {
           options = transformations,
           multiSelect = TRUE,
           styles = max_min_width_input(45),
-          required = TRUE
+          required = TRUE,
+          `data-testid` = "transformation",
+          calloutProps = list(
+            `data-testid` = "transformation-callout"
+          )
         ),
         Dropdown.shinyInput(
           inputId = ns("scale"),
@@ -50,7 +54,11 @@ ui <- function(id) {
           options = scales,
           multiSelect = TRUE,
           styles = max_min_width_input(45),
-          required = TRUE
+          required = TRUE,
+          `data-testid` = "scale",
+          calloutProps = list(
+            `data-testid` = "scale-callout"
+          )
         )
       ),
       Text(
@@ -68,13 +76,15 @@ ui <- function(id) {
           styles = max_min_width_input(45),
           min = 1,
           value = 1,
-          required = TRUE
+          required = TRUE,
+          `data-testid` = "horizon"
         ),
         TextField.shinyInput(
           inputId = ns("inp_amount"),
           label = "Input amounts:",
           description = 'Separete amounts using commas: ","',
-          required = TRUE
+          required = TRUE,
+          `data-testid` = "inp_amount"
         )
       ),
       Text(
@@ -86,7 +96,8 @@ ui <- function(id) {
         inputId = ns("lstm"),
         label = "Neurons:",
         description = 'Separete amounts using commas: ","',
-        required = TRUE
+        required = TRUE,
+        `data-testid` = "lstm"
       ),
       Text(
         variant = "xLarge",
@@ -102,7 +113,8 @@ ui <- function(id) {
           labelPosition = "top",
           styles = max_min_width_input(45),
           min = 1,
-          value = 1
+          value = 1,
+          `data-testid` = "epoch"
         ),
         SpinButton.shinyInput(
           inputId = ns("tests"),
@@ -110,7 +122,8 @@ ui <- function(id) {
           labelPosition = "top",
           styles = max_min_width_input(45),
           min = 1,
-          value = 1
+          value = 1,
+          `data-testid` = "tests"
         )
       )
     ),
