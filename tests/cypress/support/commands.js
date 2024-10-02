@@ -49,13 +49,23 @@ Cypress.Commands.add('importing_data_flow', (test_data) => {
   cy.get('[data-testid="data_table"]').wait(5000);
 });
 
-Cypress.Commands.add('select_flow', (input, index) => {
-  cy.get(`[data-testid="${input}"]`).click();
-  const select_inp = cy.get(`[data-testid="${input}-callout"]`)
-  select_inp.find(`[data-index="${index}"]`).click();
+Cypress.Commands.add('select_flow', (input, indices) => {
+  cy.get(`[data-testid="${input}"]`).click({force: true});
+  if (Array.isArray(indices)) {
+    indices.forEach((index) => {
+      cy.get(`[data-testid="${input}-callout"]`)
+        .find(`[data-index="${index}"]`)
+        .click({ force: true });
+    });
+  } else {
+    cy.get(`[data-testid="${input}-callout"]`)
+      .find(`[data-index="${indices}"]`)
+      .click({ force: true });
+  }
 });
 
 Cypress.Commands.add('turn_panel', () => {
-  cy.get('#app-page_buttons-nextbutton').should('be.visible');
-  cy.get('#app-page_buttons-nextbutton').click();
+  cy.get('[data-testid="nextbutton"]')
+    .should('be.visible')
+    .click();
 });
