@@ -32,4 +32,14 @@ describe("Page buttons", () => {
         .should('be.visible')
         .should('be.disabled');
     });
+
+    it("'Page buttons' run", () => {
+      cy.select_flow('sequence_variable', '1');
+      cy.select_flow('forecast_variable', '2');
+      cy.turn_panel();
+      cy.trainin_test_inputs_flow();
+      cy.get('[data-testid="runbutton"')
+        .should('be.visible');
+    })
+
 });
