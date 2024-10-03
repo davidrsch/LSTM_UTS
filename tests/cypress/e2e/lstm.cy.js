@@ -1,4 +1,4 @@
-describe("Pivot inputs", () => {
+describe("LSTM", () => {
     beforeEach(() => {
       cy.visit("/");
       //Importing a data to test
@@ -11,13 +11,13 @@ describe("Pivot inputs", () => {
       
     });
     
-    it("'Pivot inputs' visibility - LSTM", () => {
+    it("'LSTM' visibility", () => {
       cy.get('[data-testid="lstm"]')
         .should('not.be.visible')
         .should('have.text', '');
     });
   
-    it("'Pivot inputs' funtionality - LSTM", () => {
+    it("'LSTM' functionality", () => {
       cy.get('[data-testid="lstm"]')
         .type('ab16,+-32', {force: true})
         .should('have.value', '16,32');

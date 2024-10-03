@@ -1,4 +1,4 @@
-describe("Pivot inputs", () => {
+describe("Training and Testing", () => {
   beforeEach(() => {
     cy.visit("/");
     //Importing a data to test
@@ -11,14 +11,14 @@ describe("Pivot inputs", () => {
     
   });
 
-  it("'Pivot inputs' visibility - Epoch", () => {
+  it("'Training and Testing' Epoch visibility", () => {
     cy.get('[data-testid="epoch"]')
       .should('not.be.visible');
     cy.get('[data-testid="epoch"] > input')
       .should('have.value', '1');
   });
 
-  it("'Pivot inputs' funtionality - Epoch", () => {
+  it("'Training and Testing' Epoch functionality", () => {
     cy.get('[data-testid="epoch"] button:nth-child(1)')
       .click({force: true});
     cy.get('[data-testid="epoch"] > input')
@@ -29,14 +29,14 @@ describe("Pivot inputs", () => {
       .should('have.value', '1');
   });
 
-  it("'Pivot inputs' visibility - Tests", () => {
+  it("'Training and Testing' Tests visibility", () => {
     cy.get('[data-testid="tests"]')
       .should('not.be.visible');
     cy.get('[data-testid="tests"] > input')
       .should('have.value', '1');
   });
   
-  it("'Pivot inputs' funtionality - Tests", () => {
+  it("'Training and Testing' Tests functionality", () => {
     cy.get('[data-testid="tests"] button:nth-child(1)')
       .click({force: true});
     cy.get('[data-testid="tests"] > input')

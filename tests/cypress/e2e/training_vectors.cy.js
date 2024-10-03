@@ -1,4 +1,4 @@
-describe("Pivot inputs", () => {
+describe("Training Vectors", () => {
     beforeEach(() => {
       cy.visit("/");
       //Importing a data to test
@@ -11,14 +11,14 @@ describe("Pivot inputs", () => {
       
     });
     
-    it("'Pivot inputs' visibility - Horizontal", () => {
+    it("'Training Vectors' Horizon visibility", () => {
       cy.get('[data-testid="horizon"]')
         .should('not.be.visible');
       cy.get('[data-testid="horizon"] > input')
         .should('have.value', '1');
     });
   
-    it("'Pivot inputs' funtionality - Horizon", () => {
+    it("'Training Vectors' Horizon functionality", () => {
       cy.get('[data-testid="horizon"] button:nth-child(1)')
         .click({force: true});
       cy.get('[data-testid="horizon"] > input')
@@ -29,13 +29,13 @@ describe("Pivot inputs", () => {
         .should('have.value', '1');
     });
   
-    it("'Pivot inputs' visibility - Input amount", () => {
+    it("'Training Vectors' Input amount visibility", () => {
       cy.get('[data-testid="inp_amount"]')
         .should('not.be.visible')
         .should('have.text', '');
     });
   
-    it("'Pivot inputs' funtionality - Input amount", () => {
+    it("'Training Vectors' Input amount functionality", () => {
       cy.get('[data-testid="inp_amount"]')
         .type('ab1,+-2', {force: true})
         .should('have.value', '1,2');
