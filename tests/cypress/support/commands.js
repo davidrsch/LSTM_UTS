@@ -69,3 +69,16 @@ Cypress.Commands.add('turn_panel', () => {
     .should('be.visible')
     .click();
 });
+
+Cypress.Commands.add('trainin_test_inputs_flow', () => {
+  cy.select_flow('transformation', [0, 1, 2]);
+  cy.select_flow('scale', [0, 1, 2]);
+  cy.get('[data-testid="inp_amount"]')
+    .type('1,2', {force: true});
+  cy.get('[data-testid="lstm"]')
+    .type('16,32', {force: true});
+  for(let n = 0; n < 4; n ++){
+    cy.get('[data-testid="tests"] button:nth-child(1)')
+      .click({force: true});
+  };
+});
