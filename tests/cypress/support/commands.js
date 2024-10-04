@@ -87,3 +87,9 @@ Cypress.Commands.add('run_flow', () => {
   cy.get('[data-testid="runbutton"').click();
 });
 
+Cypress.Commands.add('get_filter_option', (filter, option) => {
+  cy.get(`[data-testid="${filter}"]`)
+        .parent()
+        .parent()
+        .find(`.option:nth-child(${option})`);
+});
