@@ -19,4 +19,9 @@ describe("Run modal", () => {
       .should('not.be.visible');
     });
 
+    it("'Run modal' table", () => {
+      cy.wait(5000);
+      cy.compare_table_fixture('iterations_table', 'iterations');
+    });
+
 });
