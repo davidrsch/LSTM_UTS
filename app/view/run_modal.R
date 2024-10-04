@@ -1,6 +1,6 @@
 box::use(
   dplyr[mutate, select],
-  DT[dataTableOutput, renderDataTable],
+  DT[DTOutput, renderDT],
   shiny.fluent[PrimaryButton.shinyInput],
   shiny[div, moduleServer, NS, observeEvent, p, reactive, reactiveVal, tags],
   shinycssloaders[hidePageSpinner, showPageSpinner],
@@ -62,7 +62,7 @@ server <- function(id, data, sequence, forecast, transformations,
     })
 
     # Creating table of all possible combinations
-    output$iterations_table <- renderDataTable({
+    output$iterations_table <- renderDT({
       if (all(iterations() != "")) {
         iterations()  |>
           select(-tests)
@@ -86,7 +86,7 @@ server <- function(id, data, sequence, forecast, transformations,
           " models. Modify the previous form or filter if you whish to modify the",
           " models to test."),
         tags$br(),
-        dataTableOutput(ns("iterations_table")),
+        DTOutput(ns("iterations_table")),
         tags$br(),
         div(
           style = "display: flex; justify-content: center;",
