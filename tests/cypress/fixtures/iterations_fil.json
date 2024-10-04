@@ -1,0 +1,5 @@
+[
+    [" ","transformations","scales","horizon","inp_amount","lstm","epoch"],
+    ["1","original","exact","1","1","16","1"],
+    ["7","original","minus_plus","1","1","16","1"]
+]
