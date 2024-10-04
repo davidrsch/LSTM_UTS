@@ -82,3 +82,8 @@ Cypress.Commands.add('trainin_test_inputs_flow', () => {
       .click({force: true});
   };
 });
+
+Cypress.Commands.add('run_flow', () => {
+  cy.get('[data-testid="runbutton"').click();
+});
+
