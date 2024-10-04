@@ -9,6 +9,7 @@ box::use(
 box::use(
   app/logic/determine_iterations[determine_iterations],
   app/logic/process[process],
+  app/logic/test_id_datatables[test_id_datatables],
   app/view/make_modal,
 )
 
@@ -72,7 +73,8 @@ server <- function(id, data, sequence, forecast, transformations,
     options = list(
       lengthChange = FALSE,
       pageLength = 5,
-      dom = "tip"
+      dom = "tip",
+      initComplete = test_id_datatables("iterations")
     ))
 
     # Creating modal using make_modal module
@@ -86,13 +88,17 @@ server <- function(id, data, sequence, forecast, transformations,
           " models. Modify the previous form or filter if you whish to modify the",
           " models to test."),
         tags$br(),
-        DTOutput(ns("iterations_table")),
+        div(
+          DTOutput(ns("iterations_table")),
+          `data-testid` = "iterations_table"
+        ),
         tags$br(),
         div(
           style = "display: flex; justify-content: center;",
           PrimaryButton.shinyInput(
             ns("startbutton"),
-            text = "Start"
+            text = "Start",
+            `data-testid` = "startbutton"
           )
         )
       ),
