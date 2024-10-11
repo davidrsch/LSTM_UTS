@@ -78,7 +78,7 @@ ui <- function(id) {
     download_modal$ui(ns("download_modal")),
 
     # Defining fluent page style
-    style = "background-color:white"
+    style = "background-color:rgb(183, 217, 255)"
   )
 }
 
