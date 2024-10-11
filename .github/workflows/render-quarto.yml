@@ -24,17 +24,20 @@ jobs:
         run: |
           # Check if there are changes in .qmd files between the last two commits
           if git diff --quiet HEAD^ HEAD -- app/static/*.qmd; then
-            echo "No changes detected"
-            echo "::set-output name=changes-detected::false"
+            echo "changes_detected=false" >> $GITHUB_ENV
           else
-            echo "Changes detected"
-            echo "::set-output name=changes-detected::true"
+            echo "changes_detected=true" >> $GITHUB_ENV
           fi
 
       - name: Render Quarto docs
         if: steps.changes.outputs.changes-detected == 'true'
         run: |
-          quarto render app/static/
+          # Loop through all .qmd files and render them individually
+          for file in app/static/*.qmd; do
+            if [ -f "$file" ]; then
+              quarto render "$file"
+            fi
+          done
 
       - name: Commit and push rendered Quarto docs
         if: steps.changes.outputs.changes-detected == 'true'
