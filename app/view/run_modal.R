@@ -115,7 +115,8 @@ server <- function(id, data, sequence, forecast, transformations,
         iterations_data <- iterations()[input$iterations_table_rows_all, ] |>
           mutate(
             inp_amount = as.numeric(inp_amount),
-            lstm = as.numeric(lstm)
+            lstm = as.numeric(lstm),
+            tests = tests()
           )
         results(
           process(data(), sequence(), forecast(), iterations_data)
