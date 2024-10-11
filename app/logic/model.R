@@ -171,7 +171,7 @@ test_model_flow <- function(data, modeldata) {
   pred_tests <- rep(NA, (amount_pred * tests)) |>
     matrix(ncol = tests) |>
     as_tibble(.name_repair = "unique")
-  names(pred_tests) <- gsub(pattern = "V", "test_", names(pred_tests))
+  names(pred_tests) <- gsub(pattern = "...", "test_", names(pred_tests))
 
   for (i in 1:tests) {
     pred_tests[, i] <- model_flow(data, modeldata)

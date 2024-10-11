@@ -159,16 +159,18 @@ get_results <- function(data, original) {
       rowMeans()
 
     if (is.element("sequence", names(original))) {
-      tests_results <- bind_cols(
-        original |>
-          slice_tail(n = length_test_results)
-      )
+      tests_results <- tests_results |>
+        bind_cols(
+          original |>
+            slice_tail(n = length_test_results)
+        )
     } else {
-      tests_results <- bind_cols(
-        original |>
-          slice_tail(n = length_test_results) |>
-          mutate(sequence = seq_len(length_test_results), .before = value)
-      )
+      tests_results <- tests_results |>
+        bind_cols(
+          original |>
+            slice_tail(n = length_test_results) |>
+            mutate(sequence = seq_len(length_test_results), .before = value)
+        )
     }
 
     tests_results <- tests_results |>
@@ -221,10 +223,9 @@ process <- function(data, sequence, forecast, iterations) {
   predictions <- names_nd |>
     map(\(x) get_predict(name = x, new_data, iterations)) |>
     bind_rows()
-
+  
   predictions <- get_actual_scales(predictions, ex_min_max, fi_min_max, se_min_max)
   predictions <- get_actual_serie(predictions, data, first_diff, second_diff)
-
   predictions <- get_results(predictions, data)
   return(predictions)
 }
