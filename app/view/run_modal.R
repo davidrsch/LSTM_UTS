@@ -28,7 +28,7 @@ ui <- function(id) {
         ns("startbutton_test"),
         text = "Start",
         `data-testid` = "startbutton_test"
-      ) 
+      )
     )
   )
 }

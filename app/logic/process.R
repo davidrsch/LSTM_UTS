@@ -223,7 +223,7 @@ process <- function(data, sequence, forecast, iterations) {
   predictions <- names_nd |>
     map(\(x) get_predict(name = x, new_data, iterations)) |>
     bind_rows()
-  
+
   predictions <- get_actual_scales(predictions, ex_min_max, fi_min_max, se_min_max)
   predictions <- get_actual_serie(predictions, data, first_diff, second_diff)
   predictions <- get_results(predictions, data)
