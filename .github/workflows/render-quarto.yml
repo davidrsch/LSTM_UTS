@@ -30,7 +30,7 @@ jobs:
           fi
 
       - name: Render Quarto docs
-        if: steps.changes.outputs.changes-detected == 'true'
+        if: env.changes_detected == 'true'
         run: |
           # Loop through all .qmd files and render them individually
           for file in app/static/*.qmd; do
@@ -40,7 +40,7 @@ jobs:
           done
 
       - name: Commit and push rendered Quarto docs
-        if: steps.changes.outputs.changes-detected == 'true'
+        if: env.changes_detected == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
