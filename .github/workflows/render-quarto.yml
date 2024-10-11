@@ -18,8 +18,6 @@ jobs:
 
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          version: latest
 
       - name: Check for changes in Quarto source files
         id: changes
