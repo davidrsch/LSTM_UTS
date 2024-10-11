@@ -110,5 +110,5 @@ Cypress.Commands.add('start_flow', () => {
   cy.get('[data-testid="iterationsfilter-5"]').click({force: true});
   cy.get_filter_option('iterationsfilter-5', '1')
     .click({force: true});
-  cy.get('[data-testid="startbutton"]').click({force: true});
+  cy.get('[data-testid="startbutton_test"]').click({force: true});
 });
