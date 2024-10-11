@@ -1,9 +1,11 @@
 box::use(
   dplyr[mutate, select],
   DT[DTOutput, renderDT],
+  keras3[set_random_seed],
   shiny.fluent[PrimaryButton.shinyInput],
   shiny[div, moduleServer, NS, observeEvent, p, reactive, reactiveVal, tags],
   shinycssloaders[hidePageSpinner, showPageSpinner],
+  shinyjs[click, hidden],
 )
 
 box::use(
@@ -18,7 +20,17 @@ box::use(
 ui <- function(id) {
   ns <- NS(id)
 
-  make_modal$ui(ns("make_modal"))
+  div(
+    make_modal$ui(ns("make_modal")),
+    # Button only for tests
+    hidden(
+      PrimaryButton.shinyInput(
+        ns("startbutton_test"),
+        text = "Start",
+        `data-testid` = "startbutton_test"
+      ) 
+    )
+  )
 }
 
 # The server of this module takes as additional inputs the data imported,
@@ -125,6 +137,14 @@ server <- function(id, data, sequence, forecast, transformations,
         d_modal(TRUE)
         hidePageSpinner()
       }
+    })
+
+    # Setting seed so computations in test are reproducible
+    observeEvent(input$startbutton_test, {
+      seed_value <- 42
+      print(seed_value)
+      set_random_seed(seed_value)
+      click("startbutton")
     })
 
     reactive(
