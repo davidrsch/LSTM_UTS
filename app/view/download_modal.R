@@ -66,7 +66,7 @@ server <- function(id) {
       content = div(
         p(
           "Tests have ended. Results are going to be download as a",
-          " .RData file that you can analyze using the tool available here."
+          " .json file that you can analyze using the tool available here."
         ),
         Stack(
           horizontal = TRUE,
