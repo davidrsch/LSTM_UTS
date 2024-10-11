@@ -1,0 +1,43 @@
+name: Render Quarto Docs
+on:
+  push:
+    paths:
+      - 'app/static/**/*.qmd'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  render:
+    name: Render and Commit Quarto Docs
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: latest
+
+      - name: Check for changes in Quarto source files
+        id: changes
+        run: |
+          git diff --quiet HEAD^ HEAD -- app/static/*.qmd || echo "Changes detected"
+
+      - name: Render Quarto docs
+        if: steps.changes.outputs == 'Changes detected'
+        run: |
+          quarto render app/static/
+
+      - name: Commit and push rendered Quarto docs
+        if: steps.changes.outputs == 'Changes detected'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add app/static/
+          git commit -m "Auto-update rendered Quarto docs"
+          git push origin HEAD:${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
