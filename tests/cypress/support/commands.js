@@ -93,3 +93,22 @@ Cypress.Commands.add('get_filter_option', (filter, option) => {
         .parent()
         .find(`.option:nth-child(${option})`);
 });
+
+Cypress.Commands.add('start_flow', () => {
+  cy.wait(5000);
+  cy.get('[data-testid="iterationsfilter-1"]').click({force: true});
+  cy.get_filter_option('iterationsfilter-1', '1')
+    .click({force: true});
+  cy.get('[data-testid="iterationsfilter-2"]').click({force: true});
+  cy.get_filter_option('iterationsfilter-2', '1')
+    .click({force: true});
+  cy.get_filter_option('iterationsfilter-2', '2')
+    .click({force: true});
+  cy.get('[data-testid="iterationsfilter-4"]').click({force: true});
+  cy.get_filter_option('iterationsfilter-4', '1')
+    .click({force: true});
+  cy.get('[data-testid="iterationsfilter-5"]').click({force: true});
+  cy.get_filter_option('iterationsfilter-5', '1')
+    .click({force: true});
+  cy.get('[data-testid="startbutton"]').click({force: true});
+});
