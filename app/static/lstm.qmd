@@ -5,6 +5,8 @@ format:
     embed-resources: true
 ---
 
+Testing change
+
 How many neurons most have the LSTM layer?
 
 Determining the optimal number of neurons in an LSTM layer is crucial for the performance of an Artificial Neural Network (ANN). The structure of an ANN significantly influences the model's results. In the context of an application with a unique structure comprising one LSTM layer followed by an output layer, various configurations for the number of neurons in the LSTM layer can be considered.
