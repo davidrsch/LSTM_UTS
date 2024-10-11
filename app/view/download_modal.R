@@ -1,4 +1,5 @@
 box::use(
+  jsonlite[toJSON],
   shiny.fluent[PrimaryButton.shinyInput, Stack],
   shiny[div, downloadButton, downloadHandler, moduleServer, NS, observeEvent],
   shiny[outputOptions, p, tagAppendAttributes],
@@ -89,11 +90,11 @@ server <- function(id) {
 
     output$download <- downloadHandler(
       filename = function() {
-        paste0("test_results_", Sys.Date(), ".RData")
+        paste0("test_results_", Sys.Date(), ".json")
       },
       content = function(file) {
         results_tests <- results()
-        save(results_tests, file = file)
+        write(toJSON(results_tests, auto_unbox = TRUE, pretty = TRUE), file = file)
       }
     )
 
