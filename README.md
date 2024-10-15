@@ -32,7 +32,7 @@ This new version as the one before is powered by the **R programming language** 
 5. Once in configuration options you can adjust the experiment to your necessities. Each configuration option has a detailed explanation on how the different configurations affects the experiment that will be executed.
 6. After setting up your experiment a **Run** button will be displayed between the page buttons, click it.
 
-![Second steps](app/static/second-steps)
+![Second steps](app/static/second-steps.png)
 
 7. After clicking the **Run** button a modal will appear, informing you of the amount of model and test that will be executed. The table on the modal can be use to filter the configuration options. Once you have the desired options click the **Start** button.
 
