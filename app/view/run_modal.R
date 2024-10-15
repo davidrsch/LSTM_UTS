@@ -3,7 +3,7 @@ box::use(
   DT[DTOutput, renderDT],
   keras3[set_random_seed],
   shiny.fluent[PrimaryButton.shinyInput],
-  shiny[div, moduleServer, NS, observeEvent, p, reactive, reactiveVal, renderText],
+  shiny[div, moduleServer, NS, observeEvent, reactive, reactiveVal, renderText],
   shiny[tags, textOutput],
   shinycssloaders[hidePageSpinner, showPageSpinner],
   shinyjs[click, hidden],
@@ -96,7 +96,8 @@ server <- function(id, data, sequence, forecast, transformations,
           "You will execute ", tests(), " tests of ",
           dim(iterations()[input$iterations_table_rows_all, ])[1],
           " models. Modify the previous form or filter if you whish to modify the",
-          " models to test.")
+          " models to test."
+        )
       }
     })
 

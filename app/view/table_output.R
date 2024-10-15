@@ -2,8 +2,8 @@ box::use(
   DT[DTOutput, renderDT],
   readr[locale, read_delim],
   readxl[read_excel],
-  shinyjs[hide, show],
   shiny[div, moduleServer, NS, observeEvent, reactive, reactiveVal, tags],
+  shinyjs[hide, show],
   stringr[str_split_i],
 )
 
