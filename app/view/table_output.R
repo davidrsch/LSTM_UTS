@@ -2,7 +2,8 @@ box::use(
   DT[DTOutput, renderDT],
   readr[locale, read_delim],
   readxl[read_excel],
-  shiny[div, moduleServer, NS, observeEvent, reactive, reactiveVal],
+  shinyjs[hide, show],
+  shiny[div, moduleServer, NS, observeEvent, reactive, reactiveVal, tags],
   stringr[str_split_i],
 )
 
@@ -20,8 +21,19 @@ ui <- function(id) {
   make_card(
     "",
     div(
-      DTOutput(ns("data_table")),
-      `data-testid` = "data_table"
+      div(
+        id = ns("starting_message"),
+        tags$iframe(
+          src = "static/starting.html",
+          width = "100%%",
+          height = "450px",
+          frameBorder = "0"
+        )
+      ),
+      div(
+        DTOutput(ns("data_table")),
+        `data-testid` = "data_table"
+      )
     ),
     is_contained = TRUE,
     style = "background-color: white;"
@@ -73,11 +85,15 @@ server <- function(id, file, header, delimiter, decimal_point) {
     observeEvent(file(), {
       if (is.null(file())) {
         data_imported(array(1:2, 2))
+        show("starting_message")
       } else {
         file_path <- file()$datapath
         format <- str_split_i(file_path, "\\.", -1)
         if (!is.element(format, file_formats[["extensions"]])) {
           data_imported(array(1:2, 2))
+          show("starting_message")
+        } else {
+          hide("starting_message")
         }
       }
     })
