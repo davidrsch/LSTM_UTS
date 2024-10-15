@@ -3,7 +3,8 @@ box::use(
   DT[DTOutput, renderDT],
   keras3[set_random_seed],
   shiny.fluent[PrimaryButton.shinyInput],
-  shiny[div, moduleServer, NS, observeEvent, p, reactive, reactiveVal, tags],
+  shiny[div, moduleServer, NS, observeEvent, p, reactive, reactiveVal, renderText],
+  shiny[tags, textOutput],
   shinycssloaders[hidePageSpinner, showPageSpinner],
   shinyjs[click, hidden],
 )
@@ -89,6 +90,16 @@ server <- function(id, data, sequence, forecast, transformations,
       initComplete = test_id_datatables("iterations")
     ))
 
+    output$warning_message <- renderText({
+      if (all(iterations() != "")) {
+        paste0(
+          "You will execute ", tests(), " tests of ",
+          dim(iterations()[input$iterations_table_rows_all, ])[1],
+          " models. Modify the previous form or filter if you whish to modify the",
+          " models to test.")
+      }
+    })
+
     # Creating modal using make_modal module
     make_modal$server(
       "make_modal",
@@ -96,9 +107,7 @@ server <- function(id, data, sequence, forecast, transformations,
       is_open = m_run_visible,
       title = "Warning",
       content = div(
-        p("You will execute ", iterations()$tests[[1]], " tests of ", dim(iterations())[1],
-          " models. Modify the previous form or filter if you whish to modify the",
-          " models to test."),
+        textOutput(ns("warning_message")),
         tags$br(),
         div(
           DTOutput(ns("iterations_table")),
