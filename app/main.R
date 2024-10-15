@@ -29,7 +29,7 @@ ui <- function(id) {
       style = "display: flex; flex-wrap: wrap;",
       # Defining left side of the layout (size: 4)
       div(
-        class = "ms-Grid-col ms-sm12 ms-md4",
+        class = "ms-Grid-col ms-lg12 ms-xl4",
         div(
           class = "panelcontainer",
           div(
@@ -47,7 +47,7 @@ ui <- function(id) {
         )
       ),
       div(
-        class = "ms-Grid-col ms-sm12 ms-md8",
+        class = "ms-Grid-col ms-lg12 ms-xl8",
         div(
           class = "panelcontainer",
           div(
