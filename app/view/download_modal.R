@@ -1,7 +1,7 @@
 box::use(
   jsonlite[toJSON],
   shiny.fluent[PrimaryButton.shinyInput, Stack],
-  shiny[div, downloadButton, downloadHandler, moduleServer, NS, observeEvent],
+  shiny[a, div, downloadButton, downloadHandler, moduleServer, NS, observeEvent],
   shiny[outputOptions, p, tagAppendAttributes],
   shiny[reactive, reactiveVal],
   shinyjs[click, hidden],
@@ -67,7 +67,13 @@ server <- function(id) {
       content = div(
         p(
           "Tests have ended. Results are going to be download as a",
-          " .json file that you can analyze using the tool available here."
+          " .json file that you can analyze using the tool available ",
+          a(
+            href = "https://davidrsch.github.io/lstm_uts_dashboard/",
+            target = "_blank",
+            "here"
+          ) ,
+          "."
         ),
         Stack(
           horizontal = TRUE,
