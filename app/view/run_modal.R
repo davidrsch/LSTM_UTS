@@ -141,7 +141,6 @@ server <- function(id, data, sequence, forecast, transformations,
             epoch = epoch(),
             tests = tests()
           )
-        print(iterations_data)
         results(
           process(data(), sequence(), forecast(), iterations_data)
         )
