@@ -37,3 +37,7 @@
 .turnpanel > .backpanel {
   pointer-events: auto;
 }
+
+[data-testid = "data_table"] td {
+  white-space: nowrap;
+}
