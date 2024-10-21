@@ -79,7 +79,8 @@ server <- function(id, file, header, delimiter, decimal_point) {
       lengthChange = FALSE,
       dom = "tip",
       pageLength = 10,
-      initComplete = test_id_datatables("dt")
+      initComplete = test_id_datatables("dt"),
+      scrollX = TRUE
     ))
 
     observeEvent(file(), {
