@@ -10,7 +10,7 @@ Launch application:
 shiny::runGitHub(repo = "davidrsch/simple-LSTM-networks-for-univariateTS", ref = "main")
 ```
 
-or try it at [connect.posit.cloud](https://0192def5-e80b-f2a8-66e3-12e608a87111.share.connect.posit.cloud/).
+or try it at [connect.posit.cloud](https://davidrsch-lstm-uts.share.connect.posit.cloud).
 
 You're seing an updated version of the application **Simple implementation of LSTM networks for univariate time series forecasting** that was previously available at [this link](https://daviddrsch.shinyapps.io/Simple_LSTM_for_univariate_TS_forecasting/) in [shinyapps.io](https://www.shinyapps.io/).
 
