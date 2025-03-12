@@ -24,7 +24,7 @@ ipython==8.27.0
 jax==0.4.33
 jaxlib==0.4.33
 jedi==0.19.1
-keras==3.5.0
+keras==3.9.0
 libclang==18.1.1
 Markdown==3.7
 markdown-it-py==3.0.0
