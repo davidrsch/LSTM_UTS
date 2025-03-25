@@ -1,6 +1,24 @@
 box::use(
-  dplyr[across, all_of, arrange, bind_cols, bind_rows, distinct, if_else, left_join],
-  dplyr[mutate, rename, row_number, select, slice, slice_tail, starts_with, summarize_all],
+  dplyr[
+    across,
+    all_of,
+    arrange,
+    bind_cols,
+    bind_rows,
+    distinct,
+    if_else,
+    left_join
+  ],
+  dplyr[
+    mutate,
+    rename,
+    row_number,
+    select,
+    slice,
+    slice_tail,
+    starts_with,
+    summarize_all
+  ],
   purrr[map],
   stats[na.omit],
   stringr[str_detect],
@@ -9,9 +27,9 @@ box::use(
 )
 
 box::use(
-  app/logic/model[test_model_flow],
-  app/logic/scale[get_actual_scales, get_all_scales],
-  app/logic/transform[get_actual_serie, get_all_transformations],
+  app / logic / model[test_model_flow],
+  app / logic / scale[get_actual_scales, get_all_scales],
+  app / logic / transform[get_actual_serie, get_all_transformations],
 )
 
 # Get data to work with by using the specified sequence and forecast
@@ -22,7 +40,6 @@ box::use(
 # "value"
 #' @export
 get_process_data <- function(data, sequence, forecast) {
-
   if (!any(is.null(sequence), sequence == "")) {
     new_data <- data[, c(sequence, forecast)]
     names(new_data) <- c("sequence", "value")
@@ -33,8 +50,8 @@ get_process_data <- function(data, sequence, forecast) {
     names(new_data) <- "value"
   }
 
-  new_data <- na.omit(new_data)
-  return(new_data)
+  # new_data
+  na.omit(new_data)
 }
 
 # Function to returns min and max value of a column if column exist
@@ -73,7 +90,8 @@ get_all_series <- function(data, transformations, scales) {
   se_min_max <- extract_mi_ma(data, "second")
 
   data <- get_all_scales(data, scales)
-  data <- list(
+  # data
+  list(
     data = data,
     first_diff = first_diff,
     second_diff = second_diff,
@@ -81,7 +99,6 @@ get_all_series <- function(data, transformations, scales) {
     fi_min_max = fi_min_max,
     se_min_max = se_min_max
   )
-  return(data)
 }
 
 # Obtain all the tests for all the model configuration (modeldata) for
@@ -97,7 +114,10 @@ get_predict <- function(name, data, modeldata) {
   predictions <- tibble(tests_results = rep(NA, dim(modeldata)[1]))
 
   for (i in seq_len(dim(modeldata)[1])) {
-    predictions[i, ] <- test_model_flow(data |> select(all_of(name)), modeldata[i, ])
+    predictions[i, ] <- test_model_flow(
+      data |> select(all_of(name)),
+      modeldata[i, ]
+    )
   }
 
   predictions <- predictions |>
@@ -105,20 +125,19 @@ get_predict <- function(name, data, modeldata) {
     select(index, tests_results)
   modeldata <- modeldata |>
     mutate(index = row_number())
-  predictions <- left_join(modeldata, predictions, by = "index") |>
+  # predictions
+  left_join(modeldata, predictions, by = "index") |>
     select(-index) |>
     nest() |>
     rename(model_data = data) |>
     mutate(data = name) |>
     select(data, model_data)
-  return(predictions)
 }
 
 # Function to compute squared error
 #' @export
 squared_error <- function(x, y) {
-  z <- (y - x)^2
-  return(z)
+  (y - x)^2
 }
 
 # Function to get RMSE from test results and give proper format for
@@ -153,7 +172,7 @@ get_results <- function(data, original) {
 
     rmse[i, ] <- bind_cols(tests_results, pred_original) |>
       mutate(across(starts_with("test_"), \(x) squared_error(x, value))) |>
-      select(- value) |>
+      select(-value) |>
       summarize_all(mean) |>
       mutate(across(starts_with("test_"), \(x) sqrt(x))) |>
       rowMeans()
@@ -179,16 +198,19 @@ get_results <- function(data, original) {
     data[i, "tests_results"] <- tests_results
   }
 
-  data <- bind_cols(data, rmse) |>
+  # data
+  bind_cols(data, rmse) |>
     mutate(
       transformations = str_detect(data, "value") |>
-        if_else("Original", if_else(str_detect(data, "first"), "First", "Second")),
+        if_else(
+          "Original",
+          if_else(str_detect(data, "first"), "First", "Second")
+        ),
       scales = str_detect(data, "z_o") |>
         if_else("0 to 1", if_else(str_detect(data, "m_p"), "-1 to 1", "Exact")),
       .after = data
     ) |>
     select(-c(data, tests))
-  return(data)
 }
 
 # Execute the process using the previously defined functions. Receive as
@@ -224,8 +246,13 @@ process <- function(data, sequence, forecast, iterations) {
     map(\(x) get_predict(name = x, new_data, iterations)) |>
     bind_rows()
 
-  predictions <- get_actual_scales(predictions, ex_min_max, fi_min_max, se_min_max)
+  predictions <- get_actual_scales(
+    predictions,
+    ex_min_max,
+    fi_min_max,
+    se_min_max
+  )
   predictions <- get_actual_serie(predictions, data, first_diff, second_diff)
-  predictions <- get_results(predictions, data)
-  return(predictions)
+  # predictions
+  get_results(predictions, data)
 }

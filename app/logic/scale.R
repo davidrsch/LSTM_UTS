@@ -9,14 +9,12 @@ box::use(
 # Get scaled series
 #' @export
 zero_to_one <- function(x) {
-  y <- rescale(x = x, to = c(0, 1), from = c(min(x), max(x)))
-  return(y)
+  rescale(x = x, to = c(0, 1), from = c(min(x), max(x)))
 }
 
 #' @export
 minus_to_plus <- function(x) {
-  y <- rescale(x = x, to = c(-1, 1), from = c(min(x), max(x)))
-  return(y)
+  rescale(x = x, to = c(-1, 1), from = c(min(x), max(x)))
 }
 
 # Apply specified scales to data.
@@ -44,9 +42,9 @@ get_all_scales <- function(data, scales) {
   }
   scaled <- list(exact, zero_one, minus_plus)
   no_null <- !unlist(map(scaled, is.null))
-  scaled <- scaled[no_null] |>
+  # scaled
+  scaled[no_null] |>
     bind_cols()
-  return(scaled)
 }
 
 # Rescale tests results to original scale. Receive as input the output
@@ -72,7 +70,8 @@ rescale_back <- function(data, serie, ex_min_max, fi_min_max, se_min_max) {
     t_min_max <- se_min_max
   }
 
-  data <- data |>
+  # data
+  data |>
     filter(data == serie) |>
     unnest(model_data) |>
     unnest(tests_results) |>
@@ -84,7 +83,6 @@ rescale_back <- function(data, serie, ex_min_max, fi_min_max, se_min_max) {
     ) |>
     nest(tests_results = starts_with("test_")) |>
     nest(model_data = c(horizon, inp_amount, lstm, epoch, tests, tests_results))
-  return(data)
 }
 
 # Execute the previous define function only on those tests results that need to

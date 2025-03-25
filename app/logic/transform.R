@@ -1,6 +1,14 @@
 box::use(
   dplyr[across, filter, group_by, left_join, mutate, n, pull, rename],
-  dplyr[row_number, select, slice, slice_head, slice_tail, starts_with, ungroup],
+  dplyr[
+    row_number,
+    select,
+    slice,
+    slice_head,
+    slice_tail,
+    starts_with,
+    ungroup
+  ],
   fabletools[features],
   feasts[unitroot_ndiffs],
   purrr[map, reduce],
@@ -19,13 +27,13 @@ diff_test <- function(x) {
 
 #' @export
 get_necessary_diff <- function(data) {
-  diffs <- data |>
+  # diffs
+  data |>
     mutate(sequence = as.Date(sequence)) |>
     as_tsibble(index = sequence) |>
     features(value, diff_test) |>
     select(ndiffs) |>
     pull()
-  return(diffs)
 }
 
 # Get stationary data by applying difference if necessary:
@@ -39,7 +47,7 @@ stationary_data <- function(data) {
   } else {
     sequence <- data |>
       select(sequence) |>
-      slice((diffs + 1) : n()) |>
+      slice((diffs + 1):n()) |>
       pull()
     stationary <- data |>
       pull(value) |>
@@ -142,12 +150,12 @@ get_all_transformations <- function(data, transformations) {
   transformed <- transformed[no_null] |>
     reduce(left_join, by = "sequence") |>
     na.omit()
-  transformed <- list(
+  # transformed
+  list(
     data = transformed,
     first_diff = first_diff,
     second_diff = second_diff
   )
-  return(transformed)
 }
 
 # Function to invert differentiations. Takes as input a numeric vector,
@@ -165,8 +173,8 @@ invert_diff <- function(x, diff, original, inp_amount) {
     select(value) |>
     pull()
   x <- diffinv(x, differences = diff, xi = original)
-  x <- x[-seq_len(diff)]
-  return(x)
+  # x
+  x[-seq_len(diff)]
 }
 
 # Run the previous function for each series ensuring the correct differentiation is use.
@@ -188,7 +196,10 @@ invert_diff_series <- function(data, serie, original, first_diff, second_diff) {
     data <- data |>
       filter(data == serie) |>
       unnest(model_data) |>
-      mutate(md = paste0(horizon, inp_amount, lstm, epoch, tests), .before = tests_results) |>
+      mutate(
+        md = paste0(horizon, inp_amount, lstm, epoch, tests),
+        .before = tests_results
+      ) |>
       group_by(md) |>
       unnest(tests_results) |>
       mutate(
@@ -200,7 +211,9 @@ invert_diff_series <- function(data, serie, original, first_diff, second_diff) {
       nest(tests_results = starts_with("test_")) |>
       ungroup() |>
       select(-md) |>
-      nest(model_data = c(horizon, inp_amount, lstm, epoch, tests, tests_results))
+      nest(
+        model_data = c(horizon, inp_amount, lstm, epoch, tests, tests_results)
+      )
   }
 
   return(data)

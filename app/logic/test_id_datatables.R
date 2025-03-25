@@ -6,7 +6,8 @@ box::use(
 # input the table name that should be pass to the testid
 #' @export
 test_id_datatables <- function(name) {
-  jsfunction <- paste0(
+  # jsfunction
+  paste0(
     "function(settings, json) {",
     # Add 'data-testid' to filters
     "$(this.api().table().header()).find('tr:eq(1) td').slice(1).each(function(index) {",
@@ -35,5 +36,4 @@ test_id_datatables <- function(name) {
     "}"
   ) |>
     JS()
-  return(jsfunction)
 }

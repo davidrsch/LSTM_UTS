@@ -1,7 +1,15 @@
 box::use(
   dplyr[across, bind_cols, contains, lead, left_join, matches, mutate, n],
   dplyr[pull, rename, select, slice],
-  keras3[compile, fit, keras_input, keras_model, layer_dense, layer_lstm, layer_reshape],
+  keras3[
+    compile,
+    fit,
+    keras_input,
+    keras_model,
+    layer_dense,
+    layer_lstm,
+    layer_reshape
+  ],
   purrr[map, reduce],
   stats[na.omit, predict],
   tibble[as_tibble, tibble],
@@ -12,9 +20,13 @@ box::use(
 #' @export
 multiple_lead <- function(data, n) {
   data |>
-    mutate(across(matches(names(data)), \(x) lead(x, n = n), .names = "lead_{col}_n{n}")) |>
+    mutate(across(
+      matches(names(data)),
+      \(x) lead(x, n = n),
+      .names = "lead_{col}_n{n}"
+    )) |>
     mutate(index = dplyr::row_number(), .before = value) |>
-    select(- value)
+    select(-value)
 }
 
 # - Inputs. Gets the data, the amount of historical data to use,
@@ -34,10 +46,10 @@ get_input_vector <- function(data, inp_amount, horizon) {
       select(-index) |>
       na.omit()
   }
-  inputs <- inputs |>
+  # inputs
+  inputs |>
     as.matrix() |>
     array(c(dim(inputs), 1))
-  return(inputs)
 }
 
 # - Outputs. Gets the data, the amount of historical data to use,
@@ -57,10 +69,10 @@ get_output_vector <- function(data, inp_amount, horizon) {
       select(-index) |>
       na.omit()
   }
-  outputs <- outputs |>
+  # outputs
+  outputs |>
     as.matrix() |>
     array(c(dim(outputs), 1))
-  return(outputs)
 }
 
 # Getting model. Receive the historical data, the temporal horizon and
@@ -85,7 +97,6 @@ get_model <- function(inp_amount, horizon, lstm) {
 # - Iterate along the samples to train and obtain predictions.
 #' @export
 fit_predict <- function(model, input_vec, output_vec, epoch) {
-
   predictions <- rep(NA, ((dim(output_vec)[1] - 1) * dim(output_vec)[2])) |>
     matrix(ncol = dim(output_vec)[2]) |>
     array(c((dim(output_vec)[1] - 1), dim(output_vec)[2], dim(output_vec)[3]))
@@ -112,7 +123,8 @@ slide_columns <- function(data, column) {
   c(
     rep(NA, column - 1),
     pull(data, column),
-    rep(NA, dim(data)[2] - column))
+    rep(NA, dim(data)[2] - column)
+  )
 }
 
 # Extract predictions as a tibble,
@@ -120,7 +132,7 @@ slide_columns <- function(data, column) {
 # - Else find mean value of each time point along the predictions
 #' @export
 twod_predictions <- function(predictions_3d) {
-  predictions <- predictions_3d[, , 1] |>
+  predictions <- predictions_3d[,, 1] |>
     as_tibble(.name_repair = "unique")
 
   if (dim(predictions)[2] == 1) {
@@ -150,8 +162,8 @@ model_flow <- function(data, modeldata) {
   outputs <- get_output_vector(data, inp_amount, horizon)
   model <- get_model(inp_amount, horizon, lstm)
   predictions <- fit_predict(model, inputs, outputs, epoch)
-  predictions <- twod_predictions(predictions)
-  return(predictions)
+  # predictions
+  twod_predictions(predictions)
 }
 
 # Test the process of creating and obtaining predictions by the number
@@ -177,8 +189,8 @@ test_model_flow <- function(data, modeldata) {
     pred_tests[, i] <- model_flow(data, modeldata)
   }
 
-  pred_tests <- pred_tests |>
+  # pred_tests
+  pred_tests |>
     nest() |>
     rename(tests = data)
-  return(pred_tests)
 }
