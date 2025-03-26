@@ -98,5 +98,5 @@ get_actual_scales <- function(data, ex_min_max, fi_min_max, se_min_max) {
         rescale_back(series[i], ex_min_max, fi_min_max, se_min_max)
     }
   }
-  return(data)
+  data
 }

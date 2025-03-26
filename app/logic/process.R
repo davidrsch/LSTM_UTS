@@ -64,7 +64,7 @@ extract_mi_ma <- function(data, variable) {
   } else {
     min_max <- NULL
   }
-  return(min_max)
+  min_max
 }
 
 # Function to obtain all the specified series to train on as base

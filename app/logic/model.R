@@ -88,7 +88,8 @@ get_model <- function(inp_amount, horizon, lstm) {
   model <- keras_model(inputs = input, outputs = output)
   model |>
     compile(loss = "mse", optimizer = "adam")
-  return(model)
+  # model
+  model
 }
 
 # Fit the model in each time step by the specified epoch amount and
@@ -114,7 +115,7 @@ fit_predict <- function(model, input_vec, output_vec, epoch) {
         predict(input_vec[(i + 1), , , drop = FALSE])
     }
   }
-  return(predictions)
+  predictions
 }
 
 # Get two d predictions
@@ -132,7 +133,7 @@ slide_columns <- function(data, column) {
 # - Else find mean value of each time point along the predictions
 #' @export
 twod_predictions <- function(predictions_3d) {
-  predictions <- predictions_3d[,, 1] |>
+  predictions <- predictions_3d[, , 1] |>
     as_tibble(.name_repair = "unique")
 
   if (dim(predictions)[2] == 1) {
@@ -146,7 +147,7 @@ twod_predictions <- function(predictions_3d) {
       tibble() |>
       rename(prediction = contains("rowMeans"))
   }
-  return(predictions)
+  predictions
 }
 
 # Aggregate the process of previous functions. Receiving a one column

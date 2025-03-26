@@ -58,7 +58,7 @@ stationary_data <- function(data) {
     )
     data <- list(data = data, diff = diffs)
   }
-  return(data)
+  data
 }
 
 # Apply the first transformation
@@ -71,7 +71,7 @@ first_transformation <- function(data) {
       rename(first = stationary)
     names(data) <- c("data", "first_diff")
   }
-  return(data)
+  data
 }
 
 # Apply the second transformation
@@ -104,7 +104,7 @@ second_transformation <- function(data) {
       )
     }
   }
-  return(data)
+  data
 }
 
 # Apply specified transformations to a data.
@@ -215,8 +215,7 @@ invert_diff_series <- function(data, serie, original, first_diff, second_diff) {
         model_data = c(horizon, inp_amount, lstm, epoch, tests, tests_results)
       )
   }
-
-  return(data)
+  data
 }
 
 # Run the previous function for each corresponding series.
@@ -236,5 +235,5 @@ get_actual_serie <- function(data, original, first_diff, second_diff) {
         invert_diff_series(series[i], original, first_diff, second_diff)
     }
   }
-  return(data)
+  data
 }
