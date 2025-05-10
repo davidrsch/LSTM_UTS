@@ -1,15 +1,17 @@
 box::use(
-  shiny.fluent[Checkbox.shinyInput, PrimaryButton.shinyInput, Stack, TextField.shinyInput],
+  shiny.fluent[Checkbox.shinyInput, PrimaryButton.shinyInput, Stack],
+  shiny.fluent[TextField.shinyInput],
   shiny.fluent[updateCheckbox.shinyInput, updateTextField.shinyInput],
-  shiny[div, fileInput, moduleServer, NS, observeEvent, reactive, tagAppendAttributes],
+  shiny[div, fileInput, moduleServer, NS, observeEvent, reactive],
+  shiny[tagAppendAttributes],
   shinyjs[click, hidden],
   stringr[str_split_i],
 )
 
 box::use(
-  app/logic/constants[file_formats],
-  app/logic/make_card[make_card],
-  app/logic/max_min_width_input[max_min_width_input],
+  app / logic / constants[file_formats],
+  app / logic / make_card[make_card],
+  app / logic / max_min_width_input[max_min_width_input],
 )
 
 # Import file module with inputs for:
@@ -92,7 +94,12 @@ server <- function(id) {
             inputId = "header",
             disabled = FALSE
           )
-          if (is.element(format, file_formats[file_formats$type == "text", ][["extensions"]])) {
+          if (
+            is.element(
+              format,
+              file_formats[file_formats$type == "text", ][["extensions"]]
+            )
+          ) {
             updateTextField.shinyInput(
               inputId = "delimiter",
               disabled = FALSE,
@@ -113,7 +120,6 @@ server <- function(id) {
               disabled = TRUE
             )
           }
-
         } else {
           updateCheckbox.shinyInput(
             inputId = "header",
@@ -139,6 +145,5 @@ server <- function(id) {
         decimal_point = input$decimal_point
       )
     )
-
   })
 }

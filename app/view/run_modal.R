@@ -3,17 +3,17 @@ box::use(
   DT[DTOutput, renderDT],
   keras3[set_random_seed],
   shiny.fluent[PrimaryButton.shinyInput],
-  shiny[div, moduleServer, NS, observeEvent, reactive, reactiveVal, renderText],
-  shiny[tags, textOutput],
+  shiny[div, moduleServer, NS, observeEvent, reactive, reactiveVal],
+  shiny[renderText, tags, textOutput],
   shinycssloaders[hidePageSpinner, showPageSpinner],
   shinyjs[click, hidden],
 )
 
 box::use(
-  app/logic/determine_iterations[determine_iterations],
-  app/logic/process[process],
-  app/logic/test_id_datatables[test_id_datatables],
-  app/view/make_modal,
+  app / logic / determine_iterations[determine_iterations],
+  app / logic / process[process],
+  app / logic / test_id_datatables[test_id_datatables],
+  app / view / make_modal,
 )
 
 # Run modal UI
@@ -46,9 +46,21 @@ ui <- function(id) {
 # to do the computations, and display a spinner.
 # Return visibility reactive value and results.
 #' @export
-server <- function(id, data, sequence, forecast, transformations,
-                   scales, horizon, inp_amount, lstm, epoch, tests, d_modal,
-                   results) {
+server <- function(
+  id,
+  data,
+  sequence,
+  forecast,
+  transformations,
+  scales,
+  horizon,
+  inp_amount,
+  lstm,
+  epoch,
+  tests,
+  d_modal,
+  results
+) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -76,24 +88,28 @@ server <- function(id, data, sequence, forecast, transformations,
     })
 
     # Creating table of all possible combinations
-    output$iterations_table <- renderDT({
-      if (all(iterations() != "")) {
-        iterations()  |>
-          select(-tests)
-      }
-    },
-    filter = "top",
-    options = list(
-      lengthChange = FALSE,
-      pageLength = 5,
-      dom = "tip",
-      initComplete = test_id_datatables("iterations")
-    ))
+    output$iterations_table <- renderDT(
+      {
+        if (all(iterations() != "")) {
+          iterations() |>
+            select(-tests)
+        }
+      },
+      filter = "top",
+      options = list(
+        lengthChange = FALSE,
+        pageLength = 5,
+        dom = "tip",
+        initComplete = test_id_datatables("iterations")
+      )
+    )
 
     output$warning_message <- renderText({
       if (all(iterations() != "")) {
         paste0(
-          "You will execute ", tests(), " tests of ",
+          "You will execute ",
+          tests(),
+          " tests of ",
           dim(iterations()[input$iterations_table_rows_all, ])[1],
           " models. Modify the previous form or filter if you whish to modify the",
           " models to test."
@@ -163,6 +179,5 @@ server <- function(id, data, sequence, forecast, transformations,
         m_run_visible = m_run_visible
       )
     )
-
   })
 }

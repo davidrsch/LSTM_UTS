@@ -1,12 +1,13 @@
 box::use(
-  shiny.fluent[Dropdown.shinyInput, reactOutput, renderReact, Stack, updateDropdown.shinyInput],
+  shiny.fluent[Dropdown.shinyInput, reactOutput, renderReact, Stack],
+  shiny.fluent[updateDropdown.shinyInput],
   shiny[moduleServer, NS, observeEvent, reactive],
   tibble[is_tibble],
 )
 
 box::use(
-  app/logic/get_options[get_options],
-  app/logic/make_card[make_card],
+  app / logic / get_options[get_options],
+  app / logic / make_card[make_card],
 )
 
 # This is the module for the select variables card.
@@ -33,14 +34,19 @@ ui <- function(id) {
 # - Set event to hide or show page buttons based on if the data
 # imported is a tibble.
 #' @export
-server <- function(id, data, page_button_status, de_prev_button, de_next_button) {
+server <- function(
+  id,
+  data,
+  page_button_status,
+  de_prev_button,
+  de_next_button
+) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     # Defining Select Variables to render only if data is imported
     output$import_variables <- renderReact({
       if (is_tibble(data())) {
-
         names <- c("", names(data()))
         options <- get_options(names)
 
@@ -74,7 +80,6 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
           is_contained = TRUE
         )
       }
-
     })
 
     # Disabling options in forecast variable depending in
@@ -119,6 +124,5 @@ server <- function(id, data, page_button_status, de_prev_button, de_next_button)
         forecast_variable = input$forecast_variable
       )
     )
-
   })
 }

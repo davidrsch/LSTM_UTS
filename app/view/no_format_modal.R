@@ -4,8 +4,8 @@ box::use(
 )
 
 box::use(
-  app/logic/constants[file_formats],
-  app/view/make_modal,
+  app / logic / constants[file_formats],
+  app / view / make_modal,
 )
 
 # This module defines the modal that appears when attempting to load
@@ -35,7 +35,8 @@ server <- function(id, imported_path) {
         format <- str_split_i(file_path$datapath, "\\.", -1)
         if (!is.element(format, file_formats[["extensions"]])) {
           m_format_visible(TRUE)
-        } else {}
+        } else {
+        }
       }
     })
 
@@ -56,6 +57,5 @@ server <- function(id, imported_path) {
       ),
       status = "error"
     )
-
   })
 }

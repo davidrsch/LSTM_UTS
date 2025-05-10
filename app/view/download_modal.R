@@ -1,14 +1,14 @@
 box::use(
   jsonlite[toJSON],
   shiny.fluent[PrimaryButton.shinyInput, Stack],
-  shiny[a, div, downloadButton, downloadHandler, moduleServer, NS, observeEvent],
-  shiny[outputOptions, p, tagAppendAttributes],
-  shiny[reactive, reactiveVal],
+  shiny[a, div, downloadButton, downloadHandler, moduleServer, NS],
+  shiny[observeEvent, outputOptions, p, reactive, reactiveVal],
+  shiny[tagAppendAttributes],
   shinyjs[click, hidden],
 )
 
 box::use(
-  app/view/make_modal,
+  app / view / make_modal,
 )
 
 # This module defines the modal that appears when successfully finishing
@@ -72,7 +72,7 @@ server <- function(id) {
             href = "https://davidrsch.github.io/lstm_uts_dashboard/",
             target = "_blank",
             "here"
-          ) ,
+          ),
           "."
         ),
         Stack(
@@ -100,7 +100,10 @@ server <- function(id) {
       },
       content = function(file) {
         results_tests <- results()
-        write(toJSON(results_tests, auto_unbox = TRUE, pretty = TRUE), file = file)
+        write(
+          toJSON(results_tests, auto_unbox = TRUE, pretty = TRUE),
+          file = file
+        )
       }
     )
 
@@ -112,6 +115,5 @@ server <- function(id) {
         visibility = m_download_visible
       )
     )
-
   })
 }

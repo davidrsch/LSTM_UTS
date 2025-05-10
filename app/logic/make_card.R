@@ -5,7 +5,14 @@ box::use(
 )
 
 #' @export
-make_card <- function(title, content, size = 12, style = "", is_contained = FALSE, stacked = TRUE) {
+make_card <- function(
+  title,
+  content,
+  size = 12,
+  style = "",
+  is_contained = FALSE,
+  stacked = TRUE
+) {
   if (is_contained) {
     card_class <- "card ms-depth-8"
   } else {

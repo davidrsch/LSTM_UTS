@@ -4,20 +4,35 @@ box::use(
 
 #' @export
 file_formats <- tribble(
-  ~type, ~extensions,
-  "text", "csv",
-  "text", "tsv",
-  "excel", "xlsx",
-  "excel", "xls"
+  ~type,
+  ~extensions,
+  "text",
+  "csv",
+  "text",
+  "tsv",
+  "excel",
+  "xlsx",
+  "excel",
+  "xls"
 )
 
 #' @export
 status_mapping <- tribble(
-  ~type, ~color, ~icon,
-  "error", "red", "Error",
-  "info", "blue", "Info",
-  "success", "green", "CheckMark",
-  "warning", "yellow", "Warning"
+  ~type,
+  ~color,
+  ~icon,
+  "error",
+  "red",
+  "Error",
+  "info",
+  "blue",
+  "Info",
+  "success",
+  "green",
+  "CheckMark",
+  "warning",
+  "yellow",
+  "Warning"
 )
 
 #' @export

@@ -5,9 +5,9 @@ box::use(
 )
 
 box::use(
-  app/logic/constants[scales, transformations],
-  app/logic/make_card[make_card],
-  app/logic/max_min_width_input[max_min_width_input],
+  app / logic / constants[scales, transformations],
+  app / logic / make_card[make_card],
+  app / logic / max_min_width_input[max_min_width_input],
 )
 
 # Defining module UI inputs:
@@ -151,7 +151,10 @@ server <- function(id, run_button_status) {
     observeEvent(input$inp_amount, {
       inp_amount_valid <- gsub("[^0-9,]+", "", input$inp_amount)
       if (inp_amount_valid != input$inp_amount) {
-        updateTextField.shinyInput(inputId = "inp_amount", value = inp_amount_valid)
+        updateTextField.shinyInput(
+          inputId = "inp_amount",
+          value = inp_amount_valid
+        )
       }
     })
 
@@ -166,16 +169,24 @@ server <- function(id, run_button_status) {
     })
 
     # Defining observe event to show or hide run button
-    observeEvent(c(input$transformation, input$scale, input$inp_amount, input$lstm), {
-      if (!any(is.null(input$transformation), input$transformation == "") &
+    observeEvent(
+      c(input$transformation, input$scale, input$inp_amount, input$lstm),
+      {
+        if (
+          !any(is.null(input$transformation), input$transformation == "") &
             !any(is.null(input$scale), input$scale == "") &
-            !any(is.null(input$inp_amount), grepl("[A-Za-z]|^$", input$inp_amount)) &
-            !any(is.null(input$lstm), grepl("[A-Za-z]|^$", input$lstm))) {
-        run_button_status("show")
-      } else {
-        run_button_status("hide")
+            !any(
+              is.null(input$inp_amount),
+              grepl("[A-Za-z]|^$", input$inp_amount)
+            ) &
+            !any(is.null(input$lstm), grepl("[A-Za-z]|^$", input$lstm))
+        ) {
+          run_button_status("show")
+        } else {
+          run_button_status("hide")
+        }
       }
-    })
+    )
 
     reactive(
       list(
@@ -188,6 +199,5 @@ server <- function(id, run_button_status) {
         tests = input$tests
       )
     )
-
   })
 }

@@ -8,9 +8,9 @@ box::use(
 )
 
 box::use(
-  app/logic/constants[file_formats],
-  app/logic/make_card[make_card],
-  app/logic/test_id_datatables[test_id_datatables],
+  app / logic / constants[file_formats],
+  app / logic / make_card[make_card],
+  app / logic / test_id_datatables[test_id_datatables],
 )
 
 # Defining UI of the module
@@ -53,35 +53,42 @@ server <- function(id, file, header, delimiter, decimal_point) {
 
     data_imported <- reactiveVal(array(1:2, 2))
     # Creating table output when importing file with proper format
-    output$data_table <- renderDT({
-      if (!is.null(file())) {
-        file_path <- file()$datapath
-        format <- str_split_i(file_path, "\\.", -1)
+    output$data_table <- renderDT(
+      {
+        if (!is.null(file())) {
+          file_path <- file()$datapath
+          format <- str_split_i(file_path, "\\.", -1)
 
-        if (is.element(format, file_formats[["extensions"]])) {
-          if (is.element(format, file_formats[file_formats$type == "text", ][["extensions"]])) {
-            data <- read_delim(
-              file_path,
-              col_names = header(),
-              delim = delimiter(),
-              locale = locale(decimal_mark = decimal_point())
-            )
-          } else {
-            data <- read_excel(file_path, col_names = header())
+          if (is.element(format, file_formats[["extensions"]])) {
+            if (
+              is.element(
+                format,
+                file_formats[file_formats$type == "text", ][["extensions"]]
+              )
+            ) {
+              data <- read_delim(
+                file_path,
+                col_names = header(),
+                delim = delimiter(),
+                locale = locale(decimal_mark = decimal_point())
+              )
+            } else {
+              data <- read_excel(file_path, col_names = header())
+            }
+            data_imported(data)
+            data
           }
-          data_imported(data)
-          data
         }
-      }
-    },
-    filter = "top",
-    options = list(
-      lengthChange = FALSE,
-      dom = "tip",
-      pageLength = 10,
-      initComplete = test_id_datatables("dt"),
-      scrollX = TRUE
-    ))
+      },
+      filter = "top",
+      options = list(
+        lengthChange = FALSE,
+        dom = "tip",
+        pageLength = 10,
+        initComplete = test_id_datatables("dt"),
+        scrollX = TRUE
+      )
+    )
 
     observeEvent(file(), {
       if (is.null(file())) {
@@ -109,6 +116,5 @@ server <- function(id, file, header, delimiter, decimal_point) {
         }
       )
     )
-
   })
 }

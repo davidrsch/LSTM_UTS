@@ -151,6 +151,5 @@ server <- function(id, run_modal_state) {
         de_next_button = de_next_button
       )
     )
-
   })
 }
