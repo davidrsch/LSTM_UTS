@@ -51,7 +51,7 @@ Pygments==2.18.0
 pyparsing==3.1.4
 python-dateutil==2.9.0.post0
 pytz==2024.2
-requests==2.32.3
+requests>=2.32.4
 rich==13.8.1
 scipy==1.14.1
 simple-parsing==0.1.6
@@ -70,7 +70,7 @@ tqdm==4.66.5
 traitlets==5.14.3
 typing_extensions==4.12.2
 tzdata==2024.1
-urllib3==2.2.3
+urllib3>=2.5.0
 wcwidth==0.2.13
 Werkzeug==3.0.6
 wrapt==1.16.0
