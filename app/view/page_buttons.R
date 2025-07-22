@@ -1,7 +1,7 @@
 box::use(
   shiny.fluent[DefaultButton.shinyInput, PrimaryButton.shinyInput],
   shiny.fluent[Stack, updateDefaultButton.shinyInput],
-  shiny[moduleServer, NS, observeEvent, reactive, reactiveVal],
+  shiny[NS, moduleServer, observeEvent, reactive, reactiveVal],
   shinyjs[hidden, hide, show, toggleClass],
 )
 

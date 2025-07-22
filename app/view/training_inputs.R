@@ -1,7 +1,7 @@
 box::use(
   shiny.fluent[Dropdown.shinyInput, SpinButton.shinyInput, Stack],
   shiny.fluent[Text, TextField.shinyInput, updateTextField.shinyInput],
-  shiny[moduleServer, NS, observeEvent, reactive, reactiveVal],
+  shiny[NS, moduleServer, observeEvent, reactive, reactiveVal],
 )
 
 box::use(

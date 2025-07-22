@@ -53,6 +53,5 @@ ui <- function(id) {
 
 #' @export
 server <- function(id) {
-  moduleServer(id, function(input, output, session) {
-  })
+  moduleServer(id, function(input, output, session) {})
 }

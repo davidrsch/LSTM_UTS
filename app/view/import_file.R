@@ -2,7 +2,7 @@ box::use(
   shiny.fluent[Checkbox.shinyInput, PrimaryButton.shinyInput, Stack],
   shiny.fluent[TextField.shinyInput],
   shiny.fluent[updateCheckbox.shinyInput, updateTextField.shinyInput],
-  shiny[div, fileInput, moduleServer, NS, observeEvent, reactive],
+  shiny[NS, div, fileInput, moduleServer, observeEvent, reactive],
   shiny[tagAppendAttributes],
   shinyjs[click, hidden],
   stringr[str_split_i],

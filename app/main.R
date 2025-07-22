@@ -1,19 +1,19 @@
 box::use(
   shiny.fluent[fluentPage],
-  shiny[div, moduleServer, NS, reactive],
+  shiny[NS, div, moduleServer, reactive],
   shinyjs[useShinyjs],
 )
 
 box::use(
-  app/view/download_modal,
-  app/view/import_file,
-  app/view/no_format_modal,
-  app/view/page_buttons,
-  app/view/run_modal,
-  app/view/select_variables,
-  app/view/table_output,
-  app/view/training_inputs,
-  app/view/training_pivot,
+  app / view / download_modal,
+  app / view / import_file,
+  app / view / no_format_modal,
+  app / view / page_buttons,
+  app / view / run_modal,
+  app / view / select_variables,
+  app / view / table_output,
+  app / view / training_inputs,
+  app / view / training_pivot,
 )
 
 #' @export
@@ -149,6 +149,5 @@ server <- function(id) {
     download_visibility <- download_modal$server(
       "download_modal"
     )
-
   })
 }

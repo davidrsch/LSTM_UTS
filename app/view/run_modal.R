@@ -1,9 +1,9 @@
 box::use(
-  dplyr[mutate, select],
   DT[DTOutput, renderDT],
+  dplyr[mutate, select],
   keras3[set_random_seed],
   shiny.fluent[PrimaryButton.shinyInput],
-  shiny[div, moduleServer, NS, observeEvent, reactive, reactiveVal],
+  shiny[NS, div, moduleServer, observeEvent, reactive, reactiveVal],
   shiny[renderText, tags, textOutput],
   shinycssloaders[hidePageSpinner, showPageSpinner],
   shinyjs[click, hidden],

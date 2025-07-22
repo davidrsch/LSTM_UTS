@@ -1,7 +1,7 @@
 box::use(
-  shiny.fluent[Dropdown.shinyInput, reactOutput, renderReact, Stack],
+  shiny.fluent[Dropdown.shinyInput, Stack, reactOutput, renderReact],
   shiny.fluent[updateDropdown.shinyInput],
-  shiny[moduleServer, NS, observeEvent, reactive],
+  shiny[NS, moduleServer, observeEvent, reactive],
   tibble[is_tibble],
 )
 

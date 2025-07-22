@@ -1,7 +1,7 @@
 box::use(
   jsonlite[toJSON],
   shiny.fluent[PrimaryButton.shinyInput, Stack],
-  shiny[a, div, downloadButton, downloadHandler, moduleServer, NS],
+  shiny[NS, a, div, downloadButton, downloadHandler, moduleServer],
   shiny[observeEvent, outputOptions, p, reactive, reactiveVal],
   shiny[tagAppendAttributes],
   shinyjs[click, hidden],
